@@ -1,0 +1,1284 @@
+Datacenter,Rack,Elevation,Hostname,Domain,Model,Host Serial Num,Chassis Serial Num,Service Tag,UW,CSL,Morgridge,Notes
+CS2360,10S-110,24-25,ap2007,chtc.wisc.edu,Dell PowerEdge C6525,43MCPK3,,43MCPK3,U044335,,,AKA ap40; Part of PATh Facility (WISCB/osg) fabrication. UW PO MSN0089792
+CS2360,10S-113,21-24,voyles2000,chtc.wisc.edu,Dell PowerEdge XE8545,264D6S3,,264D6S3,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-112,1-2,coba2000,chtc.wisc.edu,Super Micro AS -2124GQ-NART,S430390X0C11405,,S430390X0C11405,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,8S-205,9-10,deepdive2000,chtc.wisc.edu,Dell PowerEdge R515,FVWTPQ1,,FVWTPQ1,U015707,,,
+CS2360,10N-112,5-8,dmorgan2000,chtc.wisc.edu,King Star SYS-7049GP-TRT,52671011216193W+S291427X9A13534,,52671011216193W+S291427X9A13534,U039561,,,Two Serial #s on host
+CS2360,10N-112,13-14,dmorgan2001,chtc.wisc.edu,Dell PowerEdge R740,7DY1RJ3,,7DY1RJ3,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,37,hypervisor2006,chtc.wisc.edu,Dell PowerEdge R640,D57TZV2,,D57TZV2,U035966,C040830,,Was e2007
+CS2360,10N-104,36,e2008,chtc.wisc.edu,Dell PowerEdge R640,D59RZV2,,D59RZV2,U035965,C040815,,
+CS2360,10N-104,35,e2009,chtc.wisc.edu,Dell PowerEdge R640,D57SZV2,,D57SZV2,U035864,C040829,,
+CS2360,10N-104,34,e2010,chtc.wisc.edu,Dell PowerEdge R640,D58VZV2,,D58VZV2,U035963,C040821,,
+CS2360,10N-104,33,e2011,chtc.wisc.edu,Dell PowerEdge R640,D59TZV2,,D59TZV2,none,C040818,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,32,e2012,chtc.wisc.edu,Dell PowerEdge R640,D59WZV2,,D59WZV2,U035962,C040822,,
+CS2360,10N-104,31,e2013,chtc.wisc.edu,Dell PowerEdge R640,D59QZV2,,D59QZV2,none,C040820,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,30,e2014,chtc.wisc.edu,Dell PowerEdge R640,D59XZV2,,D59XZV2,U035961,C040819,,
+CS2360,10N-104,29,e2015,chtc.wisc.edu,Dell PowerEdge R640,D57RZV2,,D57RZV2,U035976,C040825,,
+CS2360,10N-104,28,e2016,chtc.wisc.edu,Dell PowerEdge R640,D57VZV2,,D57VZV2,U035975,C040828,,
+CS2360,10N-104,27,e2017,chtc.wisc.edu,Dell PowerEdge R640,D57QZV2,,D57QZV2,U035974,C040826,,
+CS2360,10N-104,26,e2018,chtc.wisc.edu,Dell PowerEdge R640,D57WZV2,,D57WZV2,U035793,C040827,,
+CS2360,8S-208,7,e2266,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V25N,,FCH1819V25N,U011113,,,"so we do have fairly up-to-date information but not all chassis have asset tags so it's | Device is on, can't log in. - Ryan"
+CS2360,8S-208,13,e2272,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1JR,,FCH1818V1JR,U011119,,,"""great reboot victims"" - Joe"
+CS2360,8S-205,15,e2282,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1Z1,,FCH1819V1Z1,U011129,,,"""removal of wall of red"" - Joe"
+CS2360,8S-208,24,e2283,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1UZ,,FCH1819V1UZ,U011130,,,Can't find e2283 in icinga. Investigate physical location. - Ryan
+CS2360,8S-208,25,e2284,chtc.wisc.edu,Cisco UCS C220 M3,FCH1808V0H8,,FCH1808V0H8,U011131,,,Can't find e2284 in icinga. Investigate physical location. - Ryan
+CS2360,8S-208,26,e2285,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1WP,,FCH1819V1WP,U011132,,,Host is down. Investigate further. - Ryan
+CS2360,8S-208,27,e2286,chtc.wisc.edu,Cisco UCS C220 M3,FCH1803V31L,,FCH1803V31L,U011133,,,
+CS2360,8S-208,28,e2287,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1UG,,FCH1819V1UG,U011133,,,
+CS2360,8S-208,29,e2288,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1MK,,FCH1818V1MK,U011135,,,Host is down. Investigate further. - Ryan
+CS2360,8S-208,31,e2290,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1EM,,FCH1818V1EM,U011137,,,Host is down. Investigate further. - Ryan
+CS2360,8S-208,32,e2291,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V28T,,FCH1818V28T,U011138,,,Host is down. Investigate further. - Ryan
+CS2360,8S-208,33,e2292,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V01H,,FCH1819V01H,U011139,,,Host is down. Investigate further. - Ryan
+CS2360,8S-208,34,e2293,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2LC,,FCH1819V2LC,U011140,,,Host is down. Investigate further. - Ryan
+CS2360,8S-208,35,e2294,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V09H,,FCH1819V09H,U011141,,,
+CS2360,8S-208,36,e2295,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V05Y,,FCH1820V05Y,U011142,,,
+CS2360,8S-208,39,e2298,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V083,,FCH1820V083,U011145,,,Host is up but flashing orange. Hard drive is green.
+CS2360,8S-208,40,e2299,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V03C,,FCH1819V03C,U011146,,,
+CS2360,8S-207,1,e2300,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2BF,,FCH1819V2BF,U011147,,,Host is missing from icinga.
+CS2360,8S-207,16,e2315,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V053,,FCH1820V053,U011163,,,
+CS2360,8S-207,20,e2319,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V0DU,,FCH1819V0DU,U011167,,,"""great reboot victims"" - Joe"
+CS2360,8S-207,33,e2332,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V13C,,FCH1818V13C,U011180,,,
+CS2360,8S-207,34,e2333,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V13J,,FCH1818V13J,U011181,,,
+CS2360,8S-207,37,e2336,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V27V,,FCH1819V27V,U011184,,,
+CS2360,8S-207,38,e2337,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V075,,FCH1819V075,U011185,,,
+CS2360,8S-207,39,e2338,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V16C,,FCH1819V16C,U011186,,,
+CS2360,8S-207,40,e2339,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1CY,,FCH1818V1CY,U011187,,,
+CS2360,8S-206,10,e2350,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1BE,,FCH1818V1BE,U011198,,,
+CS2360,8S-206,11,e2351,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V0ZX,,FCH1818V0ZX,U011199,,,Host is down. - Ryan
+CS2360,8S-206,12,e2352,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V06G,,FCH1819V06G,U011200,,,
+CS2360,8S-206,13,e2353,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1ST,,FCH1818V1ST,U011201,,,
+CS2360,8S-206,14,e2354,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1DQ,,FCH1818V1DQ,U011202,,,
+CS2360,8S-206,16,e2356,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1KB,,FCH1818V1KB,U011204,,,Host not on icinga and is down. Investigate later? - Ryan
+CS2360,8S-206,17,e2357,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V01Z,,FCH1819V01Z,U011205,,,
+CS2360,8S-206,18,e2358,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1RT,,FCH1819V1RT,U011206,,,
+CS2360,8S-206,20,e2360,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V024,,FCH1819V024,U011208,,,
+CS2360,8S-206,21,e2361,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V07Z,,FCH1819V07Z,U011209,,,
+CS2360,8S-206,22,e2362,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V04M,,FCH1820V04M,U011210,,,Host not on icinga and down? Investigate in WID.  - Ryan
+CS2360,8S-206,23,e2363,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V06S,,FCH1820V06S,U011211,,,
+CS2360,8S-206,24,e2364,chtc.wisc.edu,Cisco UCS C220 M3,FCH1829V048,,FCH1829V048,U011212,,,
+CS2360,8S-206,26,e2366,chtc.wisc.edu,Cisco UCS C220 M3,FCH1829V06C,,FCH1829V06C,U011214,,,
+CS2360,8S-206,33,e2373,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V0DR,,FCH1820V0DR,U011221,,,
+CS2360,8S-209,13,e2385,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V033,,FCH1819V033,U011233,,,Host is down. Investigate - Ryan
+CS2360,8S-209,14,e2386,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V06U,,FCH1820V06U,U011234,,,Host is down. Investigate - Ryan
+CS2360,8S-209,16,e2387,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V084,,FCH1819V084,U011235,,,SSH connections are timing out. Console directly to get serial #. - Ryan
+CS2360,8S-209,15,e2388,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1B5,,FCH1819V1B5,U011236,,,Host not on incinga. Investigate physical location. - Ryan
+CS2360,8S-209,31,e2389,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V082,,FCH1819V082,U011237,,,SSH connections timing out. Console directly. - Ryan
+CS2360,8S-209,32,e2390,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2NR,,FCH1819V2NR,U011238,,,Host is down. Investigate - Ryan
+CS2360,8S-209,34,e2391,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V074,,FCH1819V074,U011239,,,Host is down. Investigate - Ryan
+CS2360,8S-205,13,e2392,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V06V,,FCH1820V06V,U011240,,,
+CS2360,8S-205,14,e2393,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2CF,,FCH1819V2CF,U011241,,,
+CS2360,8S-205,16,e2395,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V15N,,FCH1818V15N,U011243,,,
+CS2360,8S-205,17,e2396,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1NX,,FCH1818V1NX,U911244,,,
+CS2360,8S-205,18,e2397,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V0D6,,FCH1820V0D6,U911245,,,
+CS2360,8S-205,19,e2398,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V07M,,FCH1819V07M,U911246,,,
+CS2360,8S-205,20,e2399,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1M5,,FCH1818V1M5,U911247,,,
+CS2360,8S-205,35,e2400,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2D1,,FCH1819V2D1,U011248,,,
+CS2360,8S-205,36,e2401,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2JC,,FCH1819V2JC,U011249,,,"""Down until network upgrade"" - Joe"
+CS2360,8S-205,37,e2402,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2BH,,FCH1819V2BH,U011250,,,Host not on icinga. Investigate -Ryan
+CS2360,8S-205,38,e2403,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V05L,,FCH1820V05L,U011251,,,Host not on icinga. Investigate -Ryan
+CS2360,8S-209,27,e2404,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V035,,FCH1819V035,U011252,,,"""Down until net migration"" - Joe"
+CS2360,8S-205,23,e2405,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1RG,,FCH1818V1RG,U011253,,,"""Unplugged for the sake of plugging [in] mem2002"" - Joe"
+CS2360,8S-209,28,e2406,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2C3,,FCH1819V2C3,U011254,,,"""Down until net migration"" - Joe"
+CS2360,8S-209,29,e2407,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2MY,,FCH1819V2MY,U011255,,,"""Down until net migration"" - Joe"
+CS2360,8S-209,30,e2408,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V26Q,,FCH1819V26Q,U011256,,,"""Down until net migration"" - Joe"
+CS2360,8S-204,31,e2409,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V26N,,FCH1819V26N,U011257,,,
+CS2360,8S-204,32,e2410,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V266,,FCH1819V266,U011258,,,
+CS2360,8S-204,33,e2411,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V182,,FCH1818V182,U011259,,,
+CS2360,8S-204,34,e2412,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1TB,,FCH1819V1TB,U011260,,,
+CS2360,8S-204,35,e2413,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V088,,FCH1819V088,U011261,,,
+CS2360,8S-208,4,e2414,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V2AE,,FCH1818V2AE,U011262,,,Not on icinga. Can't SSH.
+CS2360,8S-208,3,e2415,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V081,,FCH1819V081,U011263,,,Not on icinga. Can't SSH.
+CS2360,8S-204,38,e2420,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V089,,FCH1819V089,U011268,,,
+CS2360,8S-204,39,e2421,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1S7,,FCH1819V1S7,U011269,,,
+CS2360,8S-204,37,e2422,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1M0,,FCH1818V1M0,U011270,,,
+CS2360,8S-204,36,e2423,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2D8,,FCH1819V2D8,U011271,,,
+CS2360,8S-209,33,e2424,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1D1,,FCH1818V1D1,U011272,,,"""Moved to new rack for power migration, down until re-power"" - Joe"
+CS2360,8S-204,4,e2425,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1W0,,FCH1819V1W0,U011273,,,
+CS2360,8S-208,2,e2426,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V0BQ,,FCH1820V0BQ,U011274,,,"Device off, needs power?"
+CS2360,8S-208,1,e2427,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1NQ,,FCH1818V1NQ,U011275,,,"Device off, needs power?"
+CS2360,8S-204,13,e2432,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1Z2,,FCH1819V1Z2,U011242,,,
+CS2360,8S-206,28,e2433,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1ZH,,FCH1818V1ZH,U011281,,,
+CS2360,8S-206,27,e2435,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V19Q,,FCH1818V19Q,U011283,,,
+CS2360,8S-205,26,e2437,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1BH,,FCH1818V1BH,U011297,,,
+CS2360,8S-208,23,e2438,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V029,,FCH1819V029,U011286,,,"""great reboot victims"" - Joe"
+CS2360,8S-209,26,e2439,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V06A,,FCH1820V06A,U011287,,,hostname not found
+CS2360,8S-209,37,e2440,chtc.wisc.edu,Cisco UCS C220 M3,FCH1721V014,,FCH1721V014,U011288,,,"""Moved to new rack for power migration, down until re-power"" - Joe"
+CS2360,8S-209,25,e2441,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1NL,,FCH1818V1NL,U011289,,,"""Moved to new rack for power migration, down until re-power"" - Joe"
+CS2360,8S-205,22,e2442,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1NS,,FCH1818V1NS,U011290,,,
+CS2360,8S-205,21,e2443,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V05P,,FCH1820V05P,U011291,,,
+CS2360,8S-205,24,e2444,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2N5,,FCH1819V2N5,U011292,,,
+CS2360,8S-205,25,e2449,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V025,,FCH1819V025,U011297,,,
+CS2360,8S-205,28,e2451,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2L5,,FCH1819V2L5,U011299,,,
+CS2360,8S-205,27,e2452,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V06N,,FCH1819V06N,U011300,,,
+CS2360,10N-113,38-39,e2455,chtc.wisc.edu,Dell PowerEdge C6400,2G0CZC3,,2FHDZC3,U043190,C050921,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,38-39,e2456,chtc.wisc.edu,Dell PowerEdge C6400,2G0FZC3,,2FHDZC3,U043190,C050921,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,38-39,e2457,chtc.wisc.edu,Dell PowerEdge C6400,2G0DZC3,,2FHDZC3,U043190,C050921,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,36-37,e2461,chtc.wisc.edu,Dell PowerEdge C6400,2G1FZC3,,2FHFZC3,U043189,C050920,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,36-37,e2462,chtc.wisc.edu,Dell PowerEdge C6400,2G2DZC3,,2FHFZC3,U043189,C050920,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,34-35,e2463,chtc.wisc.edu,Dell PowerEdge C6400,2G2FZC3,,2FJBZC3,U043188,C050919,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,34-35,e2464,chtc.wisc.edu,Dell PowerEdge C6400,2G3DZC3,,2FJBZC3,U043188,C050919,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,34-35,e2465,chtc.wisc.edu,Dell PowerEdge C6400,2G3CZC3,,2FJBZC3,U043188,C050919,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,34-35,e2466,chtc.wisc.edu,Dell PowerEdge C6400,2G3FZC3,,2FJBZC3,U043188,C050919,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,32-33,e2467,chtc.wisc.edu,Dell PowerEdge C6400,2FYDZC3,,2FHCZC3,U043186,C050918,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,32-33,e2468,chtc.wisc.edu,Dell PowerEdge C6400,2FZCZC3,,2FHCZC3,U043186,C050918,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,32-33,e2469,chtc.wisc.edu,Dell PowerEdge C6400,2FZBZC3,,2FHCZC3,U043186,C050918,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,32-33,e2470,chtc.wisc.edu,Dell PowerEdge C6400,2FZDZC3,,2FHCZC3,U043186,C050918,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,30-31,e2471,chtc.wisc.edu,Dell PowerEdge C6400,2FTDZC3,,2FGDZC3,U043185,C050917,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,30-31,e2472,chtc.wisc.edu,Dell PowerEdge C6400,2FVCZC3,,2FGDZC3,U043185,C050917,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,30-31,e2473,chtc.wisc.edu,Dell PowerEdge C6400,2FVBZC3,,2FGDZC3,U043185,C050917,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,30-31,e2474,chtc.wisc.edu,Dell PowerEdge C6400,2FVDZC3,,2FGDZC3,U043185,C050917,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,28-29,e2475,chtc.wisc.edu,Dell PowerEdge C6400,2FSCZC3,,2FGCZC3,U043191,C050922,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,28-29,e2476,chtc.wisc.edu,Dell PowerEdge C6400,2FTBZC3,,2FGCZC3,U043191,C050922,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,28-29,e2477,chtc.wisc.edu,Dell PowerEdge C6400,2FSDZC3,,2FGCZC3,U043191,C050922,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,28-29,e2478,chtc.wisc.edu,Dell PowerEdge C6400,2FTCZC3,,2FGCZC3,U043191,C050922,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,26-27,e2479,chtc.wisc.edu,Dell PowerEdge C6400,2FWBZC3,,2FGFZC3,U043183,C050915,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,26-27,e2480,chtc.wisc.edu,Dell PowerEdge C6400,2FWDZC3,,2FGFZC3,U043183,C050915,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,26-27,e2481,chtc.wisc.edu,Dell PowerEdge C6400,2FWCZC3,,2FGFZC3,U043183,C050915,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,26-27,e2482,chtc.wisc.edu,Dell PowerEdge C6400,2FXBZC3,,2FGFZC3,U043183,C050915,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,24-25,e2483,chtc.wisc.edu,Dell PowerEdge C6400,2FXCZC3,,2FHBZC3,U043184,C05916,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,24-25,e2484,chtc.wisc.edu,Dell PowerEdge C6400,2FYBZC3,,2FHBZC3,U043184,C050916,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,24-25,e2485,chtc.wisc.edu,Dell PowerEdge C6400,2FXDZC3,,2FHBZC3,U043184,C050916,,Service tag in column G references the tag for entire chassis 
+CS2360,10N-113,24-25,e2486,chtc.wisc.edu,Dell PowerEdge C6400,2FYCZC3,,2FHBZC3,U043184,C050916,,Service tag in column G references the tag for entire chassis 
+CS2360,10S-210,10,ospool-ap2040,chtc.wisc.edu,Supermicro AS-1115HS-TNR,,CH119KM06BB0233,,,,,
+CS2360,10S-210,11,ap2001,chtc.wisc.edu,Supermicro AS-1115HS-TNR,,CH119KM06BB0232,,,,,
+CS2360,10S-210,12,ap2002,chtc.wisc.edu,Supermicro AS-1115HS-TNR,,CH119KL47BA0050,,,,,
+CS2360,10S-210,13,hypervisor2007,chtc.wisc.edu,Supermicro AS -2124GQ-NART,,,,,,,
+CS2360,10S-210,14,hypervisor2008,chtc.wisc.edu,Supermicro AS -2124GQ-NART,S430390X0C11405,,,,,,
+CS2360,10S-209,7,e2548,chtc.wisc.edu,Dell PowerEdge R6525,CBC4RN3,,CBC4RN3,U045112,,,
+CS2360,10S-209,6,e2549,chtc.wisc.edu,Dell PowerEdge R6525,JBC4RN3,,JBC4RN3,U045123,,,
+CS2360,10S-209,5,e2550,chtc.wisc.edu,Dell PowerEdge R6525,JCC4RN3,,JCC4RN3,U045124,,,
+CS2360,10S-209,4,e2551,chtc.wisc.edu,Dell PowerEdge R6525,DCC4RN3,,DCC4RN3,U045125,,,
+CS2360,10S-209,3,e2552,chtc.wisc.edu,Dell PowerEdge R6525,HCC4RN3,,HCC4RN3,U045126,,,
+CS2360,10S-209,2,e2553,chtc.wisc.edu,Dell PowerEdge R6525,BCC4RN3,,BCC4RN3,U045127,,,
+CS2360,10S-209,1,e2554,chtc.wisc.edu,Dell PowerEdge R6525,CCC4RN3,,CCC4RN3,U045128,,,
+CS2360,10S-206,12,e2555,chtc.wisc.edu,Dell PowerEdge R6525,GCC4RN3,,GCC4RN3,U045129,,,host down on icinga
+CS2360,10S-206,11,e2556,chtc.wisc.edu,Dell PowerEdge R6525,1DC4RN3,,1DC4RN3,U045013,,,
+CS2360,10S-206,10,e2557,chtc.wisc.edu,Dell PowerEdge R6525,FCC4RN3,,FCC4RN3,U045014,,,
+CS2360,10S-206,9,e2558,chtc.wisc.edu,Dell PowerEdge R6525,GBC4RN3,,GBC4RN3,U045015,,,
+CS2360,10S-206,8,e2559,chtc.wisc.edu,Dell PowerEdge R6525,DBC4RN3,,DBC4RN3,U045016,,,
+CS2360,10S-206,7,e2560,chtc.wisc.edu,Dell PowerEdge R6525,HBC4RN3,,HBC4RN3,U045017,,,
+CS2360,10S-206,6,e2561,chtc.wisc.edu,Dell PowerEdge R6525,1CC4RN3,,1CC4RN3,U045018,,,
+CS2360,10S-206,5,e2562,chtc.wisc.edu,Dell PowerEdge R6525,BBC4RN3,,BBC4RN3,U045019,,,
+CS2360,10S-206,4,e2563,chtc.wisc.edu,Dell PowerEdge R6525,FBC4RN3,,FBC4RN3,U045020,,,
+CS2360,10S-206,3,e2564,chtc.wisc.edu,Dell PowerEdge R6525,CQ44RN3,,CQ44RN3,U045021,,,
+CS2360,10S-206,2,e2565,chtc.wisc.edu,Dell PowerEdge R6525,1R44RN3,,1R44RN3,U045022,,,
+CS2360,10S-206,1,e2566,chtc.wisc.edu,Dell PowerEdge R6525,HQ44RN3,,HQ44RN3,U045023,,,
+CS2360,10S-203,13,e2588,chtc.wisc.edu,Dell PowerEdge R6525,2X0X0R3,,2X0X0R3,U044979,,,
+CS2360,10S-203,12,e2589,chtc.wisc.edu,Dell PowerEdge R6525,1X0X0R3,,1X0X0R3,U044980,,,
+CS2360,10S-203,11,e2590,chtc.wisc.edu,Dell PowerEdge R6525,FW0X0R3,,FW0X0R3,U044981,,,hostname not found
+CS2360,10S-203,10,e2591,chtc.wisc.edu,Dell PowerEdge R6525,4RGV0R3,,4RGV0R3,U044982,,,hostname not found
+CS2360,10S-203,9,e2592,chtc.wisc.edu,Dell PowerEdge R6525,JQGV0R3,,JQGV0R3,U044983,,,hostname not found
+CS2360,10S-203,8,e2593,chtc.wisc.edu,Dell PowerEdge R6525,HQGV0R3,,HQGV0R3,U044984,,,hostname not found
+CS2360,10S-203,7,e2594,chtc.wisc.edu,Dell PowerEdge R6525,5RGV0R3,,5RGV0R3,U044985,,,hostname not found
+CS2360,10S-203,6,e2595,chtc.wisc.edu,Dell PowerEdge R6525,1RGV0R3,,1RGV0R3,U044986,,,
+CS2360,10S-203,5,e2596,chtc.wisc.edu,Dell PowerEdge R6525,GQGV0R3,,GQGV0R3,U044987,,,
+CS2360,10S-203,4,e2597,chtc.wisc.edu,Dell PowerEdge R6525,2RGV0R3,,2RGV0R3,U044988,,,
+CS2360,10S-203,3,e2598,chtc.wisc.edu,Dell PowerEdge R6525,3RGV0R3,,3RGV0R3,U044989,,,
+CS2360,10S-109,2,e2599,chtc.wisc.edu,Dell PowerEdge R6525,7NGV0R3,,7NGV0R3,U044990,,,
+CS2360,8S-209,17,e260,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1LG,,FCH1818V1LG,U011107,,,
+CS2360,10S-203,1,e2600,chtc.wisc.edu,Dell PowerEdge R6525,9NGV0R3,,9NGV0R3,U044991,,,ssh timed out | U15 in 10S-109 is empty
+CS2360,10S-109,14,e2601,chtc.wisc.edu,Dell PowerEdge R6525,6NGV0R3,,6NGV0R3,U044992,,,
+CS2360,10S-109,13,e2602,chtc.wisc.edu,Dell PowerEdge R6525,CNGV0R3,,CNGV0R3,U044993,,,
+CS2360,10S-109,12,e2603,chtc.wisc.edu,Dell PowerEdge R6525,8NGV0R3,,8NGV0R3,U044994,,,
+CS2360,10S-109,11,e2604,chtc.wisc.edu,Dell PowerEdge R6525,FNGV0R3,,FNGV0R3,U044995,,,
+CS2360,10S-109,10,e2605,chtc.wisc.edu,Dell PowerEdge R6525,DNGV0R3,,DNGV0R3,U044996,,,
+CS2360,10S-109,9,e2606,chtc.wisc.edu,Dell PowerEdge R6525,BNGV0R3,,BNGV0R3,U044997,,,
+CS2360,10S-109,8,e2607,chtc.wisc.edu,Dell PowerEdge R6525,FQGV0R3,,FQGV0R3,U044998,,,
+CS2360,10S-109,7,e2608,chtc.wisc.edu,Dell PowerEdge R6525,9QGV0R3,,9QGV0R3,U044999,,,
+CS2360,10S-109,6,e2609,chtc.wisc.edu,Dell PowerEdge R6525,CQGV0R3,,CQGV0R3,U045000,,,
+CS2360,8S-209,18,e261,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V27X,,FCH1819V27X,U011108,,,host down on icinga
+CS2360,10S-109,5,e2610,chtc.wisc.edu,Dell PowerEdge R6525,6QGV0R3,,6QGV0R3,U045001,,,hostname not found
+CS2360,10S-109,4,e2611,chtc.wisc.edu,Dell PowerEdge R6525,BQGV0R3,,BQGV0R3,U045002,,,hostname not found
+CS2360,10S-109,3,e2612,chtc.wisc.edu,Dell PowerEdge R6525,DQGV0R3,,DQGV0R3,U045003,,,hostname not found
+CS2360,10S-109,2,e2613,chtc.wisc.edu,Dell PowerEdge R6525,7QGV0R3,,7QGV0R3,U045004,,,hostname not found
+CS2360,10S-109,1,e2614,chtc.wisc.edu,Dell PowerEdge R6525,8QGV0R3,,8QGV0R3,U045005,,,hostname not found
+CS2360,10S-205,1,e2615,chtc.wisc.edu,Dell PowerEdge R6525,CPGV0R3,,CPGV0R3,U045006,,,hostname not found
+CS2360,10S-205,2,e2616,chtc.wisc.edu,Dell PowerEdge R6525,7PGV0R3,,7PGV0R3,U045007,,,hostname not found
+CS2360,10S-205,3,e2617,chtc.wisc.edu,Dell PowerEdge R6525,FPGV0R3,,FPGV0R3,U045008,,,hostname not found
+CS2360,10S-205,4,e2618,chtc.wisc.edu,Dell PowerEdge R6525,6PGV0R3,,6PGV0R3,U045009,,,hostname not found
+CS2360,10S-205,5,e2619,chtc.wisc.edu,Dell PowerEdge R6525,DPGV0R3,,DPGV0R3,U045010,,,hostname not found
+CS2360,8S-209,19,e262,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1ZE,,FCH1819V1ZE,U011109,,,host down on icinga
+CS2360,10S-205,6,e2620,chtc.wisc.edu,Dell PowerEdge R6525,BPGV0R3,,BPGV0R3,U045011,,,hostname not found
+CS2360,10S-205,7,e2621,chtc.wisc.edu,Dell PowerEdge R6525,8PGV0R3,,8PGV0R3,U045012,,,hostname not found
+CS2360,10S-205,8,e2622,chtc.wisc.edu,Dell PowerEdge R6525,SPGV0R3,,SPGV0R3,U044973,,,hostname not found
+CS2360,10S-205,9,e2623,chtc.wisc.edu,Dell PowerEdge R6525,JPGV0R3,,JPGV0R3,U044974,,,hostname not found
+CS2360,10S-205,10,tiger2003,chtc.wisc.edu,Dell PowerEdge R6525,GPGV0R3,,GPGV0R3,U044975,,,hostname not found
+CS2360,10S-205,11,e2625,chtc.wisc.edu,Dell PowerEdge R6525,HPGV0R3,,HPGV0R3,U044976,,,This node has been selected to be AP40 - until we get the new AP hardware - temporarily ospool-ap2040
+CS2360,10S-205,12,e2626 ,chtc.wisc.edu,Dell PowerEdge R6525,1QGV0R3,,1QGV0R3,U044977,,,This node has been selected to be AP1 - until we get the new AP hardware - temporarily path-ap2001
+CS2360,10S-203,14,e2627,chtc.wisc.edu,Dell PowerEdge R6525,3QGV0R3,,3QGV0R3,U044978,,,hostname not found
+CS2360,8S-209,20,e263,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1WG,,FCH1819V1WG,U011110,,,host down on icinga
+CS2360,8S-208,6,e265,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V064,,FCH1820V064,U011112,,,host down on icinga
+CS2360,8S-208,8,e267,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V00V,,FCH1820V00V,U011114,,,
+CS2360,8S-208,9,e268,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V0BP,,FCH1820V0BP,U011115,,,
+CS2360,8S-208,10,e269,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V0AK,,FCH1819V0AK,U011116,,,host down in icinga
+CS2360,8S-208,11,e270,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V27U,,FCH1819V27U,U011117,,,host down in icinga
+CS2360,8S-208,12,e271,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1UP,,FCH1818V1UP,U011118,,,host down in icinga
+CS2360,8S-208,14,e273,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V07K,,FCH1819V07K,U011120,,,host down in icinga
+CS2360,8S-208,15,e274,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V0BN,,FCH1819V0BN,U011121,,,host down in icinga
+CS2360,8S-208,16,e275,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2C6,,FCH1819V2C6,U011122,,,host down in icinga
+CS2360,8S-208,17,e276,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V08Z,,FCH1819V08Z,U011123,,,host down in icinga
+CS2360,8S-208,18,e277,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1AD,,FCH1818V1AD,U011124,,,host down in icinga
+CS2360,8S-208,19,e278,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2EA,,FCH1819V2EA,U011125,,,hostname not found
+CS2360,8S-208,20,e279,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V262,,FCH1819V262,U011126,,,hostname not found
+CS2360,8S-208,21,e280,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2BY,,FCH1819V2BY,U011189,,,hostname not found
+CS2360,8S-208,30,e289,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1HY,,FCH1819V1HY,U011136,,,hostname not found
+CS2360,8S-208,37,e296,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1DN,,FCH1818V1DN,U011143,,,hostname not found
+CS2360,8S-208,38,e297,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2C1,,FCH1819V2C1,U011144,,,hostname not found
+CS2360,8S-207,2,e301,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V215,,FCH1819V215,U011148,,,
+CS2360,8S-207,3,e302,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V06D,,FCH1820V06D,U011149,,,
+CS2360,8S-207,4,e303,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V2A5,,FCH1818V2A5,U011150,,,
+CS2360,8S-207,5,e304,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V01D,,FCH1820V01D,U011151,,,
+CS2360,8S-207,6,e305,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V034,,FCH1819V034,U011152,,,
+CS2360,8S-207,7,e306,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2LJ,,FCH1819V2LJ,U011154,,,
+CS2360,8S-207,8,e307,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2N9,,FCH1819V2N9,U011155,,,
+CS2360,8S-207,9,e308,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1X0,,FCH1818V1X0,U011156,,,
+CS2360,8S-207,10,e309,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V0C9,,FCH1819V0C9,U011157,,,
+CS2360,8S-207,11,e310,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V03B,,FCH1819V03B,U011158,,,
+CS2360,8S-207,12,e311,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V061,,FCH1819V061,U011159,,,
+CS2360,8S-207,13,e312,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V08T,,FCH1820V08T,U011160,,,
+CS2360,8S-207,14,e313,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V01M,,FCH1820V01M,U011161,,,
+CS2360,8S-207,15,e314,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V01Z,,FCH1820V01Z,U011162,,,
+CS2360,8S-207,17,e316,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V03M,,FCH1820V03M,U011164,,,
+CS2360,8S-207,18,e317,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2CS,,FCH1819V2CS,U011165,,,
+CS2360,8S-207,19,e318,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V19),,FCH1818V19),U011166,,,
+CS2360,8S-207,21,e320,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V09W,,FCH1819V09W,U011168,,,
+CS2360,8S-207,22,e321,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V071,,FCH1820V071,U011169,,,
+CS2360,8S-207,23,e322,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2B9,,FCH1819V2B9,U011170,,,
+CS2360,8S-207,24,e323,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V15J,,FCH1818V15J,U011171,,,
+CS2360,8S-207,25,e324,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1WK,,FCH1819V1WK,U011172,,,
+CS2360,8S-207,26,e325,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V08E,,FCH1819V08E,U011173,,,
+CS2360,8S-207,27,e326,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V2A8,,FCH1818V2A8,U011174,,,
+CS2360,8S-207,28,e327,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V06F,,FCH1819V06F,U011175,,,
+CS2360,8S-207,29,e328,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V2AD,,FCH1818V2AD,U011176,,,
+CS2360,8S-207,30,e329,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V06E,,FCH1819V06E,U011177,,,
+CS2360,8S-207,31,e330,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V0CE,,FCH1819V0CE,U011178,,,
+CS2360,8S-207,32,e331,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2BU,,FCH1819V2BU,U011179,,,
+CS2360,8S-207,35,e334,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V0D1,,FCH1819V0D1,U011182,,,
+CS2360,8S-207,36,e335,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V13A,,FCH1818V13A,U011183,,,
+CS2360,8S-206,1,e340,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1RS,,FCH1819V1RS,U011188,,,
+CS2360,8S-208,22,e341,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V134,,FCH1818V134,U011189,,,
+CS2360,8S-206,2,e342,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1WH,,FCH1819V1WH,U011190,,,
+CS2360,8S-206,3,e343,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1MM,,FCH1818V1MM,U011191,,,
+CS2360,8S-206,4,e344,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V158,,FCH1818V158,U011192,,,
+CS2360,8S-206,5,e345,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1DS,,FCH1818V1DS,u011193,,,
+CS2360,8S-206,6,e346,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1UH,,FCH1818V1UH,U011194,,,
+CS2360,8S-206,7,e347,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1NV,,FCH1818V1NV,U011195,,,
+CS2360,8S-206,8,e348,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1ND,,FCH1819V1ND,U011196,,,
+CS2360,8S-206,9,e349,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1RX,,FCH1819V1RX,U011197,,,
+CS2360,8S-206,15,e355,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1UR,,FCH1818V1UR,U011203,,,
+CS2360,8S-206,19,e359,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V021,,FCH1819V021,U011207,,,
+CS2360,8S-206,25,e365,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V06R,,FCH1820V06R,U011213,,,
+CS2360,8S-206,29,e369,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2BJ,,FCH1819V2BJ,U011217,,,
+CS2360,8S-206,30,e370,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V00S,,FCH1820V00S,U011218,,,
+CS2360,8S-206,31,e371,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V08K,,FCH1819V08K,U011219,,,
+CS2360,8S-206,32,e372,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V012,,FCH1820V012,U011220,,,
+CS2360,8S-206,34,e374,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1UK,,FCH1818V1UK,U011222,,,
+CS2360,8S-206,35,e2375,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V29J,,FCH1818V29J,U011223,,,
+CS2360,8S-206,36,e376,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V083,,FCH1819V083,U011224,,,
+CS2360,8S-206,37,e2377,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1NR,,FCH1819V1NR,U011225,,,
+CS2360,8S-206,38,e378,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V049,,FCH1819V049,U011226,,,
+CS2360,8S-206,39,e379,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1R5,,FCH1818V1R5,U011227,,,
+CS2360,8S-209,11-12,e561,chtc.wisc.edu,Dell PowerEdge R515,4SJVPQ1,,4SJVPQ1,U015702,,,hostname not found
+CS2360,10N-112,16-17,gitter2000,chtc.wisc.edu,Dell PowerEdge R730,3CR7082,,3CR7082,none,C037966,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,17-32,gitter2001,chtc.wisc.edu,Tyan B7105F48TV8HR-2T-G,TCJKE23E0051,,TCJKE23E0051,U039077,C040243,,
+CS2360,10N-104,13-16,gitter2002,chtc.wisc.edu,Tyan B7105F48TV8HR-2T-G,TCJKE23E0008,,TCJKE23E0008,U039076,C040244,,
+CS2360,10N-112,18-21,gitter2003,chtc.wisc.edu,ASUSTeK ESC8000A-E11,N1S0MD00021H,,N1S0MD00021H,none,,9000534,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,8S-204,7-8,gpu2000,chtc.wisc.edu,Dell PowerEdge R740,D7QXZV2,,D7QXZV2,U035957,C040832,9000442,
+CS2360,8S-204,5-6,gpu2001,chtc.wisc.edu,Dell PowerEdge R740,D7QVZV2,,D7QVZV2,U035958,C040831,9000443,
+WID,Z1 R4,16-19,spark-agpu225,chtc.wisc.edu,Dell PowerEdge XE8545,60B5XP3,,60B5XP3,U044923,,,gpu2002 is old hostname
+CS2360,10S-112,5-8,gpu2003,chtc.wisc.edu,Dell PowerEdge XE8545,70B5XP3,,70B5XP3,U044924,,,
+CS2360,10S-112,9-12,gpu2004,chtc.wisc.edu,Dell PowerEdge XE8545,1B90XP3,,1B90XP3,U044925,,,
+CS2360,10S-112,13-16,gpu2005,chtc.wisc.edu,Dell PowerEdge XE8545,J990XP3,,J990XP3,U044926,,,
+CS2360,10S-112,17-20,gpu2006,chtc.wisc.edu,Dell PowerEdge XE8545,C0B5XP3,,C0B5XP3,U044927,,,
+CS2360,10S-113,1-4,gpu2007,chtc.wisc.edu,Dell PowerEdge XE8545,B0B5XP3,,BOB5XP3,U044928,,,
+CS2360,10S-113,5-8,gpu2008,chtc.wisc.edu,Dell PowerEdge XE8545,D0B5XP3,,D0B5XP3,U044929,,,
+CS2360,10S-113,9-12,gpu2009,chtc.wisc.edu,Dell PowerEdge XE8545,50B5XP3,,50B5XP3,U044930,,,
+CS2360,10S-113,13-16,gpu2010,chtc.wisc.edu,Dell PowerEdge XE8545,90B5XP3,,90B5XP3,U044931,,,
+CS2360,10S-113,17-20,gpu2011,chtc.wisc.edu,Dell PowerEdge XE8545,80B5XP3,,80B5XP3,U044932,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,7-8,gpulab2000,chtc.wisc.edu,Gigabyte G291-280-00,GJH9N2912A0010,,GJH9N2912A0010,none,C04034?,,"sticker was ripped, couldn't read last digit of tag | Torn apart - Confirmed no UW tag anywhere on the chassis"
+CS2360,10N-104,5-6,gpulab2001,chtc.wisc.edu,Gigabyte G291-280-00,GJH9N2912A0008,,GJH9N2912A0008,none,C040271,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,3-4,gpulab2002,chtc.wisc.edu,Gigabyte G291-280-00,GJH9N2912A0003,,GJH9N2912A0003,none,C040311,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,1-2,gpulab2003,chtc.wisc.edu,Gigabyte G291-280-00,GJH9N2912A0019,,GJH9N2912A0019,none,C040281,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-112,3-4,gpulab2004,chtc.wisc.edu,SuperMicro AS -2124GQ-NART,S430390X1217141,,S430390X1217141,none,"C050243, C050244",,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-112,11-12,gpulab2005,chtc.wisc.edu,SuperMicro AS -2124GQ-NART,S430390X1928585,,S430390X1928585,U042304,C051608,,
+CS2360,10N-113,36-37,htcss2000,chtc.wisc.edu,Dell PowerEdge C6400,2G2CZC3,,2FHFZC3,U043189,C050920,,Service tag in column G references the tag for entire chassis
+CS2360,10N-113,36-37,htcss2001,chtc.wisc.edu,Dell PowerEdge C6400,2G1DZC3,,2FHFZC3,U043189,C050920,,Service tag in column G references the tag for entire chassis
+CS2360,10N-113,38-39,htcss2002,chtc.wisc.edu,Dell PowerEdge C6400,2G1CZC3,,2FHDZC3,U043190,C050921,,Service tag in column G references the tag for entire chassis
+CS2360,8S-209,3-4,hypervisor2000,chtc.wisc.edu,Dell PowerEdge R515,7LSMNQ1,,7LSMNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,8S-209,21-22,hypervisor2001,chtc.wisc.edu,Dell PowerEdge R520,76T04W1,,76T04W1,U022767,,,
+CS2360,8S-209,23-24,hypervisor2002,chtc.wisc.edu,Dell PowerEdge R720xd,BJ6VV12,,BJ6VV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,40,hypervisor2004,chtc.wisc.edu,Dell PowerEdge R640,D59VZV2,,D59VZV2,U03569,C040816,,
+CS2360,10N-104,23,hypervisor2005,chtc.wisc.edu,Dell PowerEdge R640,D58WZV2,,D58WZV2,U035971,C040813,,"Confirmed that 23 is the correct elevation, NOT 38."
+CS2360,8S-204,16,interactive2000,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V025,,FCH1820V025,U011215,,,"Powered down and keep it offline, 5/20/24 - Theng"
+CS2360,8S-204,14,interactive2001,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V1KK,,FCH1819V1KK,U011216,,,
+CS2360,8S-204,11,herringa2001,chtc.wisc.edu,Dell PowerEdge R6525,DCF2PZ3,,DCF2PZ3,U047500,,,
+CS2360,8S-204,10,herringa2000,chtc.wisc.edu,Dell PowerEdge R6525,CCF2PZ3,,CCF2PZ3,U047499,,,
+CS2360,10S-209,9,Lindley2000,chtc.wisc.edu,Dell PowerEdge R6525,GFG76X3,,GFG76X3,U046265,,,
+CS2360,10S-209,8,Lindley2001,chtc.wisc.edu,Dell PowerEdge R6525,HFG76X3,,HFG76X3,U046266,,,
+CS2360,8S-204,27-30,mem2001,chtc.wisc.edu,Dell PowerEdge R920,7MPLV12,,7MPLV12,U012469,,,
+CS2360,8S-204,23-26,mem2002,chtc.wisc.edu,Dell PowerEdge R920,7MQJV12,,7MQJV12,U012470,,,
+CS2360,8S-204,19-22,mem2003,chtc.wisc.edu,Dell PowerEdge R930,JDX9CH2,,JDX9CH2,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10S-205,41,TODO,,Cisco UCS C220 M3,--,,,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,25,oconnor2000,chtc.wisc.edu,Dell PowerEdge R640,D58SZV2,,D58SZV2,U035972,C040812,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CS2360,10N-104,39,oconnor2001,chtc.wisc.edu,Dell PowerEdge R640,D58TZV2,,D58TZV2,U035967,C040811,,
+CS2360,10N-112,41,oconnor2002,chtc.wisc.edu,Dell PowerEdge R640,171BN83,,171BN83,U041760,,,
+CS2360,10N-112,40,oconnor2003,chtc.wisc.edu,Dell PowerEdge R640,1719N83,,1719N83,U041761,,,
+CS2360,10N-112,39,oconnor2004,chtc.wisc.edu,Dell PowerEdge R640,171FN83,,171FN83,U041762,,,
+CS2360,10N-112,38,oconnor2005,chtc.wisc.edu,Dell PowerEdge R640,171CN83,,171CN83,U0417163,,,
+CS2360,10N-112,37,oconnor2006,chtc.wisc.edu,Dell PowerEdge R640,171DN83,,171DN83,U041764,,,
+CS2360,10N-112,9-10,oconnorgpu2000,chtc.wisc.edu,Super Micro AS-2124GQ-NART,S430390X1721677,,S430390X1721677,none,,,
+CS2360,10S-110,24-25,osg-cpu-22,facility.path-cc.io,Dell PowerEdge C6525,63MCPK3,8ZLCPK3,63MCPK3,U044335,,,Part of a fabrication. UW PO MSN0089792
+CS2360,10S-110,24-25,osg-cpu-23,facility.path-cc.io,Dell PowerEdge C6525,53MCPK3,8ZLCPK3,53MCPK3,U044335,,,Part of a fabrication. UW PO MSN0089793
+CS2360,10S-110,24-25,osg-cpu-24,facility.path-cc.io,Dell PowerEdge C6525,73MCPK3,8ZLCPK3,73MCPK3,U044335,,,Part of a fabrication. UW PO MSN0089794
+CS2360,10S-110,22-23,osg-cpu-31,facility.path-cc.io,Dell PowerEdge C6525,5PJCPK3 ,4LJCPK3,5PJCPK3 ,U044335,,,Part of a fabrication. UW PO MSN0089795
+CS2360,10S-110,22-23,osg-cpu-32,facility.path-cc.io,Dell PowerEdge C6525,7PJCPK3 ,4LJCPK3,7PJCPK3 ,U044335,,,Part of a fabrication. UW PO MSN0089796
+CS2360,10S-110,22-23,osg-cpu-33,facility.path-cc.io,Dell PowerEdge C6525,6PJCPK3 ,4LJCPK3,6PJCPK3 ,U044335,,,Part of a fabrication. UW PO MSN0089797
+CS2360,10S-110,22-23,osg-cpu-34,facility.path-cc.io,Dell PowerEdge C6525,8PJCPK3 ,4LJCPK3,8PJCPK3 ,U044335,,,Part of a fabrication. UW PO MSN0089798
+CS2360,10S-110,20-21,osg-cpu-41,facility.path-cc.io,Dell PowerEdge C6525,FNJCPK3,2LJCPK3,FNJCPK3,U044335,,,Part of a fabrication. UW PO MSN0089799
+CS2360,10S-110,20-21,osg-cpu-42,facility.path-cc.io,Dell PowerEdge C6525,HNJCPK3,2LJCPK3,HNJCPK3,U044335,,,Part of a fabrication. UW PO MSN0089800
+CS2360,10S-110,20-21,osg-cpu-43,facility.path-cc.io,Dell PowerEdge C6525,GNJCPK3,2LJCPK3,GNJCPK3,U044335,,,Part of a fabrication. UW PO MSN0089801
+CS2360,10S-110,20-21,osg-cpu-44,facility.path-cc.io,Dell PowerEdge C6525,JNJCPK3,2LJCPK3,JNJCPK3,U044335,,,Part of a fabrication. UW PO MSN0089802
+CS2360,10S-110,18-19,osg-cpu-51,facility.path-cc.io,Dell PowerEdge C6525,1HV8PK3,FDV8PK3,1HV8PK3,U044335,,,Part of a fabrication. UW PO MSN0089803
+CS2360,10S-110,18-19,osg-cpu-52,facility.path-cc.io,Dell PowerEdge C6525,3HV8PK3,FDV8PK3,3HV8PK3,U044335,,,Part of a fabrication. UW PO MSN0089804
+CS2360,10S-110,18-19,osg-cpu-53,facility.path-cc.io,Dell PowerEdge C6525,2HV8PK3,FDV8PK3,2HV8PK3,U044335,,,Part of a fabrication. UW PO MSN0089805
+CS2360,10S-110,18-19,osg-cpu-54,facility.path-cc.io,Dell PowerEdge C6525,4HV8PK3,FDV8PK3,4HV8PK3,U044335,,,Part of a fabrication. UW PO MSN0089806
+CS2360,10N-104,38,parabyte2000,chtc.wisc.edu,Dell PowerEdge R640,HSZZQ53,,HSZZQ53,U041013,,,
+CS2360,8S-204,17,raddusmds2000,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V283,,FCH1819V283,U011111,,,
+CS2360,8S-204,18,raddusmds2001,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V097,,FCH1820V097,u011232,,,
+CS2360,10N-113,1-2,raddusosd2000,chtc.wisc.edu,Dell PowerEdge R720xd,BJ6SV12,,BJ6SV12,none,,,
+CS2360,10N-113,3-4,raddusosd2001,chtc.wisc.edu,Dell PowerEdge R720xd,BJ7RV12,,BJ7RV12,none,,,
+CS2360,10N-113,5-6,raddusosd2002,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,S318063X3925870,,S318063X3925870,U047423,C052754,,Tag on left-side of chassis front in sideways orientation
+WID,B8,5-6,cthuluosd0003,chtc.wisc.edu,Dell PowerEdge R720xd,BJ6TV12,,BJ6TV12,none,,,
+WID,B5,3-4,cthuluosd0001,chtc.wisc.edu,Dell PowerEdge R720xd,17KWX12,,17KWX12,none,,,
+CS2360,10N-113,7-8,raddusosd2016,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,55110011215213W+,,55110011215213W+,U042850,,,"Tag on top of chassis, server can slide out."
+CS2360,10S-210,1-2,raddusosd2017,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,57000020419245W+,,57000020419245W+,,,9000612,Tag on pull-out tab on left side of chassis front
+CS2360,10S-210,3-4,raddusosd2018,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,57000010419245W+,,57000010419245W+,,,9000611,Tag on pull-out tab on left side of chassis front
+WID,B8,3-4,cthuluosd0002,chtc.wisc.edu,Dell PowerEdge R720xd,17KXX12,,17KXX12,none,,,
+CS2360,10N-113,9-10,raddusosd2004,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,S318063X3925871,,S318063X3925871,U047424,C052755,,Tag on left-side of chassis front in sideways orientation
+WID,B8,7-8,cthuluosd0004,chtc.wisc.edu,Dell PowerEdge R720xd,17KVX12,,17KVX12,none,,,
+CS2360,10N-113,11-12,raddusosd2005,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,S318063X3925869,,S318063X3925869, U047422,C052753,,Tag on left-side of chassis front in sideways orientation
+CS2360,10N-113,13-14,raddusosd2006,chtc.wisc.edu,Dell PowerEdge R720xd,BJ4TV12,,BJ4TV12,none,,,
+WID,B5,1-2,cthuluosd0000,chtc.wisc.edu,Dell PowerEdge R720xd,BJ5SV12,,BJ5SV12,none,,,
+CS2360,10N-113,15-16,raddusosd2015,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,55110021215213W+,,55110021215213W+,U042849,,,"Tag on top of chassis, server can slide out."
+CS2360,10N-113,17-18,raddusosd2008,chtc.wisc.edu,Dell PowerEdge R720xd,17JXX12,,17JXX12,none,,,
+CS2360,10N-113,19-20,raddusosd2009,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,55057011130213W+,,55057011130213W+,U043400,,,"Tag on top of chassis, server can slide out."
+CS2360,8S-205,11-12,raddusosd2010,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,55202010120223W+,,55202010120223W+,U043163,,,"Tag on top of chassis, server can slide out."
+CS2360,8S-205,5-6,raddusosd2011,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,55202030120223W+,,55202030120223W+,U043164,,,"Tag on top of chassis, server can slide out."
+CS2360,8S-205,3-4,raddusosd2012,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,55202050120223W+,,55202050120223W+,U043165,,,"Tag on top of chassis, server can slide out."
+CS2360,8S-205,1-2,raddusosd2013,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,55202020120223W+,,55202020120223W+,U043166,,,"Tag on top of chassis, server can slide out."
+CS2360,8S-209,9-10,raddusosd2014,chtc.wisc.edu,King Star SSG-6029P-E1CR24H,55202040120223W+,,55202040120223W+,U043167,,,"Tag on top of chassis, server can slide out."
+CS2360,8S-204,15,robinhood2000,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2NC,,FCH1819V2NC,U011215,,,
+CS2360,10S-110,36-37,syrb-cpu-41,facility.path-cc.io,Dell PowerEdge C6525,1ZLCPK3,DLJCPK3,1ZLCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089617"
+CS2360,10S-110,36-37,syrb-cpu-42,facility.path-cc.io,Dell PowerEdge C6525,3ZLCPK3,DLJCPK3,3ZLCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089618"
+CS2360,10S-110,36-37,syrb-cpu-43,facility.path-cc.io,Dell PowerEdge C6525,2ZLCPK3,DLJCPK3,2ZLCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089619"
+CS2360,10S-110,36-37,syrb-cpu-44,facility.path-cc.io,Dell PowerEdge C6525,JYLCPK3,DLJCPK3,JYLCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089620"
+CS2360,10S-110,34-35,syrb-cpu-51,facility.path-cc.io,Dell PowerEdge C6525,5QJCPK3,8LJCPK3,5QJCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089621"
+CS2360,10S-110,34-35,syrb-cpu-52,facility.path-cc.io,Dell PowerEdge C6525,7QJCPK3,8LJCPK3,7QJCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089622"
+CS2360,10S-110,34-35,syrb-cpu-53,facility.path-cc.io,Dell PowerEdge C6525,6QJCPK3,8LJCPK3,6QJCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089623"
+CS2360,10S-110,34-35,syrb-cpu-54,facility.path-cc.io,Dell PowerEdge C6525,8QJCPK3,8LJCPK3,8QJCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089624"
+CS2360,10S-110,32-33,syrb-cpu-61,facility.path-cc.io,Dell PowerEdge C6525,FGV8PK3,DDV8PK3,FGV8PK3,U044334,,,"Part of a fabrication, UW PO MSN0089625"
+CS2360,10S-110,32-33,syrb-cpu-62,facility.path-cc.io,Dell PowerEdge C6525,HGV8PK3,DDV8PK3,HGV8PK3,U044334,,,"Part of a fabrication, UW PO MSN0089626"
+CS2360,10S-110,32-33,syrb-cpu-63,facility.path-cc.io,Dell PowerEdge C6525,GGV8PK3,DDV8PK3,GGV8PK3,U044334,,,"Part of a fabrication, UW PO MSN0089627"
+CS2360,10S-110,32-33,syrb-cpu-64,facility.path-cc.io,Dell PowerEdge C6525,JGV8PK3,DDV8PK3,JGV8PK3,U044334,,,"Part of a fabrication, UW PO MSN0089628"
+CS2360,10S-110,30-31,syrb-cpu-71,facility.path-cc.io,Dell PowerEdge C6525,1NJCPK3,HKJCPK3,1NJCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089629"
+CS2360,10S-110,30-31,syrb-cpu-72,facility.path-cc.io,Dell PowerEdge C6525,3NJCPK3,HKJCPK3,3NJCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089630"
+CS2360,10S-110,30-31,syrb-cpu-73,facility.path-cc.io,Dell PowerEdge C6525,2NJCPK3,HKJCPK3,2NJCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089631"
+CS2360,10S-110,30-31,syrb-cpu-74,facility.path-cc.io,Dell PowerEdge C6525,4NJCPK3,HKJCPK3,4NJCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089632"
+CS2360,10S-110,28-29,syrb-cpu-81,facility.path-cc.io,Dell PowerEdge C6525,8YLCPK3,BLJCPK3,8YLCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089633"
+CS2360,10S-110,28-29,syrb-cpu-82,facility.path-cc.io,Dell PowerEdge C6525,BYLCPK3,BLJCPK3,BYLCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089634"
+CS2360,10S-110,28-29,syrb-cpu-83,facility.path-cc.io,Dell PowerEdge C6525,9YLCPK3,BLJCPK3,9YLCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089635"
+CS2360,10S-110,28-29,syrb-cpu-84,facility.path-cc.io,Dell PowerEdge C6525,CYLCPK3,BLJCPK3,CYLCPK3,U044334,,,"Part of a fabrication, UW PO MSN0089636"
+CS2360,8S-204,11,tiger2000,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1U0,,FCH1818V1U0,U011278,,,
+CS2360,8S-204,12,tiger2001,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V05Z,,FCH1820V05Z,U011279,,,
+CS2360,8S-204,1-2,tiger2002,chtc.wisc.edu,SuperMicro,S43039X1A2924??,,S43039X1A2924??,none,C051683,,serial sticker partly bocked by CSL inventory tag.
+CS2360,8S-204,9,tigermaster2000,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V019,,FCH1819V019,U011276,,,
+CS2360,8S-204,10,tigermaster2001,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1NY,,FCH1818V1NY,U011277,,,
+CS2360,10S-110,26-27,wisc-cpu-11,facility.path-cc.io,Dell PowerEdge C6525,84MCPK3,JZLCPK3,84MCPK3,U044331,,,Part of a fabrication. UW PO MSN0089791
+CS2360,10S-110,26-27,wisc-cpu-12,facility.path-cc.io,Dell PowerEdge C6525,B4MCPK3,JZLCPK3,B4MCPK3,U044331,,,Part of a fabrication. UW PO MSN0089792
+CS2360,10S-110,26-27,wisc-cpu-13,facility.path-cc.io,Dell PowerEdge C6525,94MCPK3,JZLCPK3,94MCPK3,U044331,,,Part of a fabrication. UW PO MSN0089793
+CS2360,10S-110,26-27,wisc-cpu-14,facility.path-cc.io,Dell PowerEdge C6525,C4MCPK3,JZLCPK3,C4MCPK3,U044331,,,Part of a fabrication. UW PO MSN0089794
+CS2360,10N-104,24,wisc-svc-1,chtc.wisc.edu,Dell PowerEdge R640,D59SZV2,,D59SZV2,U035970,C040814,,
+CS2360,8S-205,7-8,NAME_THIS_1,chtc.wisc.edu,Dell PowerVault MD1200,GJ7DZV1,,GJ7DZV1,U015761,,,
+CS3370a,6,14-15,accounting3000,chtc.wisc.edu,Dell PowerEdge R515,D9HVPQ1,,D9HVPQ1,U004703,,,bad DIMM slot A# see ticket# 100266
+CS3370a,6,22-23,bareos3000,chtc.wisc.edu,Dell PowerEdge R515,6LSMNQ1,,6LSMNQ1,none,,,
+CS3370a,3,8-11,batlab-mac-0,chtc.wisc.edu,,,,,U039682,C036515,,
+CS3370a,3,2-7,batlab-mac-1,chtc.wisc.edu,,,,,U039683,C036523,,
+CS3370a,6,18-19,csrosetta3000,chtc.wisc.edu,Dell PowerEdge R515,27JTMS1,,27JTMS1,SSEC 15242,,,"""turned off for decom"" - Joe (see icinga entry), UW asset tag marked as SSEC Inventory "
+CS3370a,9,29-32,dumbo,chtc.wisc.edu,SuperMicro SYS-7049GP-TRT,S291427X9702565,,S291427X9702565,U037639,C04001,,
+CS3370a,9,36-37,gdd-datastorage,chtc.wisc.edu,King Star Computer,NM161S010106,,NM161S010106,none,C038259,,
+CS3370a,9,27-28,grafana3000,chtc.wisc.edu,Dell PowerEdge R815,HRBLNQ1,,HRBLNQ1,none,,,
+CS3370a,8,25-26,hypervisor3000,chtc.wisc.edu,Dell PowerEdge R520,86T04W1,,86T04W1,U022766,,,
+CS3370a,8,27-28,hypervisor3001,chtc.wisc.edu,Dell PowerEdge R520,56T04W1,,56T04W1,U022771,,,
+CS3370a,6,26-27,hypervisor3002,chtc.wisc.edu,Dell PowerEdge R515,GYKKNQ1,,GYKKNQ1,none,,,
+CS3370a,6,20-21,hypervisor3003,chtc.wisc.edu,Dell PowerEdge R515,8YKKNQ1,,8YKKNQ1,none,,,
+CS3370a,6,37-38,keles-submit3000,chtc.wisc.edu,Dell PowerEdge R730xd,4L4THK2,,4L4THK2,U032099,,,
+CS3370a,TABLE,,monitor0,chtc.wisc.edu,Dell PowerEdge R630,3HN4428,,3HN4428,none,C038042,,Sitting on Desk Torn apart - Confirmed no UW tag anywhere on the chassis
+CS3370a,9,35,oconnorsubmit3000,chtc.wisc.edu,Dell PowerEdge R740xd,FYXKMH3,,FYXKMH3,none,C034139,,Chronic reboots see RT#102733
+CS3370a,5,37-38,osghost3000,chtc.wisc.edu,King Star Computer,1234567890,,1234567890,U004661,,,"Yes, this is the real serial number (ssh'd in)"
+CS3370a,6,33-34,pagesubmit3000,chtc.wisc.edu,Dell PowerEdgeR520,3DZ7D42,,,U024490,,,host name on back of server. need to physically verify elevation
+CS3370a,Glow Rack 5,14-18,Spalding-1,chtc.wisc.edu,Kingstar Computer,39889030413123W+,,39889030413123W+,none,,,No longer in this location. Where they are? A mystery
+CS3370a,Glow Rack 5,10-13,Spalding-2,chtc.wisc.edu,Kingstar Computer,39889040413123W+,,39889040413123W+,none,,,No longer in this location. Where they are? A mystery
+CS3370a,Glow Rack 5,6-9,Spalding-3,chtc.wisc.edu,Kingstar Computer,39889020413123W+,,39889020413123W+,none,,,No longer in this location. Where they are? A mystery
+CS3370a,Glow Rack 5,19-22,Spalding-4,chtc.wisc.edu,Kingstar Computer,38996011115113W+,,38996011115113W+,none,,,No longer in this location. Where they are? A mystery
+CS3370a,8,32-33,submit-1,chtc.wisc.edu,Dell PowerEdge R520,J5T04W1,,J5T04W1,U022764,,,
+CS3370a,8,35-36,submit4,chtc.wisc.edu,Dell PowerEdge R520,1KT04W1,,1KT04W1,U022757,,,
+CS3370a,4,1,swamp01,chtc.wisc.edu,Cisco UCS C200 M2,QCI1439A9X8,,QCI1439A9X8,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+CS3370a,4,2,swamp02,chtc.wisc.edu,Cisco UCS C200 M2,QCI1439AEK8,,QCI1439AEK8,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+CS3370a,4,2,swamp03,chtc.wisc.edu,Cisco UCS C200 M2,QCI1439A9XI,,QCI1439A9XI,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+CS3370a,4,2,swamp04,chtc.wisc.edu,Cisco UCS C200 M2,QCI1439AEK2,,QCI1439AEK2,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+CS3370a,4,2,swamp05,chtc.wisc.edu,Cisco UCS C200 M2,QCI1439AEJW,,QCI1439AEJW,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+CS3370a,4,2,swamp06,chtc.wisc.edu,Cisco UCS C200 M2,QCI1439AEJS,,QCI1439AEJS,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+CS3370a,6,39-40,townsend-submit,chtc.wisc.edu,Dell PowerEdge R730xd,JTMYBM2,,JTMYBM2,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+CS3370a,6,35-36,wrightsubmit,chtc.wisc.edu,Dell PowerEdge R730xd,43JWJ93,,43JWJ93,none,,,"Duplicate of wrightsubmit3000?, Reprovision Me, Dan Wright's Node T#49472 | Torn apart - Confirmed no UW tag anywhere on the chassis"
+CS3370a,6,31-32,wrightsubmit3000,chtc.wisc.edu,Dell PowerEdge R740xd,43JWJ93,,43JWJ93,none,,,
+CS3370a,1,1-4,mirror,chtc.wisc.edu,,,,,U022754,,,Labeled Mirror | Verify location in room
+CSB240,C2,26-27,aci-001,chtc.wisc.edu,Dell PowerEdge C6220,HX10TW1,,HX10TW1,U001209,,,
+CSB240,C2,26-27,aci-002,chtc.wisc.edu,Dell PowerEdge C6220,HX01TW1,,HX01TW1,U001209,,,
+CSB240,C2,26-27,aci-003,chtc.wisc.edu,Dell PowerEdge C6220,HX0HSW1,,HX0HSW1,U001209,,,
+CSB240,C2,26-27,aci-004,chtc.wisc.edu,Dell PowerEdge C6220,HX00TW1,,HX00TW1,U001209,,,
+CSB240,C2,26-27,aci-004,chtc.wisc.edu,Dell PowerEdge C6220,HX00TW1,,HX00TW1,U001209,,,
+CSB240,C2,19-20,aci-005,chtc.wisc.edu,Dell PowerEdge C6220,HX52TW1,,HX52TW1,U001230,,,
+CSB240,C2,19-20,aci-006,chtc.wisc.edu,Dell PowerEdge C6220,HX51TW1,,HX51TW1,U001230,,,
+CSB240,C2,19-20,aci-007,chtc.wisc.edu,Dell PowerEdge C6220,HX50TW1,,HX50TW1,U001230,,,
+CSB240,C2,19-20,aci-008,chtc.wisc.edu,Dell PowerEdge C6220,HX5HSW1,,HX5HSW1,U001230,,,
+CSB240,C2,17-18,aci-010,chtc.wisc.edu,Dell PowerEdge C6220,GJVZBX1,,GJVZBX1,U001231,,,
+CSB240,C2,17-18,aci-011,chtc.wisc.edu,Dell PowerEdge C6220,GJWZBX1,,GJWZBX1,U001231,,,
+CSB240,C2,17-18,aci-012,chtc.wisc.edu,Dell PowerEdge C6220,GJWXBX1,,GJWXBX1,U001231,,,
+CSB240,C2,15-16,aci-013,chtc.wisc.edu,Dell PowerEdge C6220,HX32TW1,,HX32TW1,U001232,,,
+CSB240,C2,15-16,aci-014,chtc.wisc.edu,Dell PowerEdge C6220,HX3HHSW1,,HX3HHSW1,U001232,,,
+CSB240,C2,15-16,aci-015,chtc.wisc.edu,Dell PowerEdge C6220,HX3KSW1,,HX3KSW1,U001232,,,
+CSB240,C2,15-16,aci-016,chtc.wisc.edu,Dell PowerEdge C6220,HX3JSW1,,HX3JSW1,U001232,,,
+CSB240,C2,13-14,aci-017,chtc.wisc.edu,Dell PowerEdge C6220,HX1ZBX1,,HX1ZBX1,U001233,,,
+CSB240,C2,13-14,aci-018,chtc.wisc.edu,Dell PowerEdge C6220,HX20CX1,,HX20CX1,U001233,,,
+CSB240,C2,13-14,aci-019,chtc.wisc.edu,Dell PowerEdge C6220,HX21TW1,,HX21TW1,U001233,,,
+CSB240,C2,13-14,aci-020,chtc.wisc.edu,Dell PowerEdge C6220,HX20TW1,,HX20TW1,U001233,,,
+CSB240,C2,11-12,aci-021,chtc.wisc.edu,Dell PowerEdge C6220,HX42TW1,,HX42TW1,U001234,,,
+CSB240,C2,11-12,aci-022,chtc.wisc.edu,Dell PowerEdge C6220,HX40TW1,,HX40TW1,U001234,,,
+CSB240,C2,11-12,aci-023,chtc.wisc.edu,Dell PowerEdge C6220,HX40CX1,,HX40CX1,U001234,,,
+CSB240,C2,11-12,aci-024,chtc.wisc.edu,Dell PowerEdge C6220,HX41TW1,,HX41TW1,U001234,,,
+CSB240,C2,9-10,aci-025,chtc.wisc.edu,Dell PowerEdge C6220,HWYXBX1,,HWYXBX1,U001235,,,
+CSB240,C2,9-10,aci-026,chtc.wisc.edu,Dell PowerEdge C6220,HWYHSW1,,HWYHSW1,U001235,,,
+CSB240,C2,9-10,aci-027,chtc.wisc.edu,Dell PowerEdge C6220,HWYYBX1,,HWYYBX1,U001235,,,
+CSB240,C2,9-10,aci-028,chtc.wisc.edu,Dell PowerEdge C6220,HWYJSW1,,HWYJSW1,U001235,,,
+CSB240,C2,7-8,aci-029,chtc.wisc.edu,Dell PowerEdge C6220,HW30TW1,,HW30TW1,U001236,,,
+CSB240,C2,7-8,aci-030,chtc.wisc.edu,Dell PowerEdge C6220,HW31TW1,,HW31TW1,U001236,,,
+CSB240,C2,7-8,aci-031,chtc.wisc.edu,Dell PowerEdge C6220,HW32TW1,,HW32TW1,U001236,,,
+CSB240,C2,7-8,aci-032,chtc.wisc.edu,Dell PowerEdge C6220,HW30CX1,,HW30CX1,U001236,,,
+CSB240,C2,1-2,aci-037,chtc.wisc.edu,Dell PowerEdge C6220,HWZJSW1,,HWZJSW1,U001210,,,
+CSB240,C2,1-2,aci-038,chtc.wisc.edu,Dell PowerEdge C6220,HWZGSW1,,HWZGSW1,U001210,,,
+CSB240,C2,1-2,aci-039,chtc.wisc.edu,Dell PowerEdge C6220,HWZXBX1,,HWZXBX1,U001210,,,
+CSB240,C2,1-2,aci-040,chtc.wisc.edu,Dell PowerEdge C6220,HWZKSW1,,HWZKSW1,U001210,,,
+CSB240,C2,3-4,aci-041,chtc.wisc.edu,Dell PowerEdge C6220,HX4ZBX1,,HX4ZBX1,U001211,,,
+CSB240,C2,3-4,aci-042,chtc.wisc.edu,Dell PowerEdge C6220,HX4YBX1,,HX4YBX1,U001211,,,
+CSB240,C2,3-4,aci-043,chtc.wisc.edu,Dell PowerEdge C6220,HX4JSW1,,HX4JSW1,U001211,,,
+CSB240,C2,3-4,aci-044,chtc.wisc.edu,Dell PowerEdge C6220,HX4KSW1,,HX4KSW1,U001211,,,
+CSB240,C2,5-6,aci-045,chtc.wisc.edu,Dell PowerEdge C6220,HX11TW1,,HX11TW1,U001212,,,
+CSB240,C2,5-6,aci-046,chtc.wisc.edu,Dell PowerEdge C6220,HX10CX1,,HX10CX1,U001212,,,
+CSB240,C2,5-6,aci-047,chtc.wisc.edu,Dell PowerEdge C6220,HX12TW1,,HX12TW1,U001212,,,
+CSB240,C2,5-6,aci-048,chtc.wisc.edu,Dell PowerEdge C6220,HX02TW1,,HX02TW1,U001212,,,
+CSB240,G1,35-36,dockercache1000,chtc.wisc.edu,Dell PowerEdge R515,5MZQPS1,,5MZQPS1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G1,33-34,dockercache1001,chtc.wisc.edu,Dell PowerEdge R515,5N1TPS1,,5N1TPS1,U649390,,,
+CSB240,G6,37-38,e1002,chtc.wisc.edu,Dell PowerEdge R815,1BLKNQ1,,1BLKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis. CPU too old for CS9.
+CSB240,G6,35-36,e1003,chtc.wisc.edu,Dell PowerEdge R815,1H9LNQ1,,1H9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis. CPU too old for CS9.
+CSB240,G6,25-26,e1008,chtc.wisc.edu,Dell PowerEdge R815,3BLKNQ1,,3BLKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,23-24,e1009,chtc.wisc.edu,Dell PowerEdge R815,6H9LNQ1,,6H9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,21-22,e1010,chtc.wisc.edu,Dell PowerEdge R815,8F9LNQ1,,8F9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,19-20,e1011,chtc.wisc.edu,Dell PowerEdge R815,J9LKNQ1,,J9LKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,17-18,e1012,chtc.wisc.edu,Dell PowerEdge R815,8H9LNQ1,,8H9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,13-14,e1014,chtc.wisc.edu,Dell PowerEdge R815,9H9LNQ1,,9H9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,11-12,e1015,chtc.wisc.edu,Dell PowerEdge R815,7H9LNQ1,,7H9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,9-10,e1016,chtc.wisc.edu,Dell PowerEdge R815,5SBLNQ1,,5SBLNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,7-8,e1017,chtc.wisc.edu,Dell PowerEdge R815,47C0WS1,,47C0WS1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,5-6,e1018,chtc.wisc.edu,Dell PowerEdge R815,3F9LNQ1,,3F9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,3-4,e1020,chtc.wisc.edu,Dell PowerEdge R815,GD9LNQ1,,GD9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G6,1-2,e1021,chtc.wisc.edu,Dell PowerEdge R815,C9LKNQ1,,C9LKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,1-2,e1023,chtc.wisc.edu,Dell PowerEdge R815,7SBLNQ1,,7SBLNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,3-4,e1024,chtc.wisc.edu,Dell PowerEdge R815,3SBLNQ1,,3SBLNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,5-6,e1025,chtc.wisc.edu,Dell PowerEdge R815,5G9LNQ1,,5G9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,9-10,e1027,chtc.wisc.edu,Dell PowerEdge R815,6G9LNQ1,,6G9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,11-12,e1028,chtc.wisc.edu,Dell PowerEdge R815,5BLKNQ1,,5BLKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,13-14,e1030,chtc.wisc.edu,Dell PowerEdge R815,HD9LNQ1,,HD9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,15-16,e1031,chtc.wisc.edu,Dell PowerEdge R815,1F9LNQ1,,1F9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,17-18,e1033,chtc.wisc.edu,Dell PowerEdge R815,4BLKNQ1,,4BLKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,19-20,e1034,chtc.wisc.edu,Dell PowerEdge R815,D9LKNQ1,,D9LKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,21-22,e1035,chtc.wisc.edu,Dell PowerEdge R815,9F9LNQ1,,9F9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,23-24,e1036,chtc.wisc.edu,Dell PowerEdge R815,4F9LNQ1,,4F9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,25-26,e1037,chtc.wisc.edu,Dell PowerEdge R815,FF9LNQ1,,FF9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,27-28,e1038,chtc.wisc.edu,Dell PowerEdge R815,BF9LNQ1,,BF9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,29-30,e1039,chtc.wisc.edu,Dell PowerEdge R815,JF9LNQ1,,JF9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,35-36,e1040,chtc.wisc.edu,Dell PowerEdge R815,JBKKNQ1,,JBKKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,33-34,e1041,chtc.wisc.edu,Dell PowerEdge R815,2BLKNQ1,,2BLKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,31-32,e1042,chtc.wisc.edu,Dell PowerEdge R815,HBKKNQ1,,HBKKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,29-30,e1043,chtc.wisc.edu,Dell PowerEdge R815,GBKKNQ1,,GBKKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,27-28,e1044,chtc.wisc.edu,Dell PowerEdge R815,GF9LNQ1,,GF9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,25-26,e1045,chtc.wisc.edu,Dell PowerEdge R815,1CKKNQ1,,1CKKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,23-24,e1046,chtc.wisc.edu,Dell PowerEdge R815,HF9LNQ1,,HF9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,19-20,e1051,chtc.wisc.edu,Dell PowerEdge R815,2SBLNQ1,,2SBLNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,17-18,e1052,chtc.wisc.edu,Dell PowerEdge R815,1SBLNQ1,,1SBLNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,15-16,e1054,chtc.wisc.edu,Dell PowerEdge R815,4SBLNQ1,,4SBLNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,11-12,e1056,chtc.wisc.edu,Dell PowerEdge R815,CF9LNQ1,,CF9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,7-8,e1058,chtc.wisc.edu,Dell PowerEdge R815,FD9LNQ1,,FD9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,E6,5-6,e1059,chtc.wisc.edu,Dell PowerEdge R815,4G9LNQ1,,4G9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,C4,29-30,cvmfssquid1000,chtc.wisc.edu,Dell PowerEdge R515,4YKKNQ1,,4YKKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,A4,32-33,e1094,chtc.wisc.edu,Dell PowerEdge R815,9G9LNQ1,,9G9LNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,A2,37-38,e1095,chtc.wisc.edu,Dell PowerEdge R815,6SBLNQ1,,6SBLNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,A4,28-29,e1096,chtc.wisc.edu,Dell PowerEdge R815,GRBLNQ1,,GRBLNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,A2,27-28,e1472,chtc.wisc.edu,Dell PowerEdge R515,JVWTPQ1,,JVWTPQ1,U004704,,,
+CSB240,A2,35-36,e468,chtc.wisc.edu,Dell PowerEdge R515,*SWAP*,,*SWAP*,none,,,"no longer located at A2 35-36? (spot empty). ""SWAP"" - Joe."
+CSB240,E2,11-12,hypervisor1000,chtc.wisc.edu,Dell PowerEdge R510,CYHZQN1,,CYHZQN1,U022746,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G1,14-15,hypervisor1001,chtc.wisc.edu,Dell PowerEdge R515,27DYMS1,,27DYMS1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G1,18-19,hypervisor1002,chtc.wisc.edu,Dell PowerEdge R515,27DTMS1,,27DTMS1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,C4,39-40,hypervisor1003,chtc.wisc.edu,Dell PowerEdge R515,FYKKNQ1,,FYKKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,C4,37-38,hypervisor1004,chtc.wisc.edu,Dell PowerEdge R515,HYKKNQ1,,HYKKNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,A2,31-32,hypervisor1005,chtc.wisc.edu,Dell PowerEdge R515,13RX6S1,,13RX6S1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G1,16-17,squid1000,chtc.wisc.edu,Dell PowerEdge R515,27GTMS1,,27GTMS1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,A2,15-16,squid1002,chtc.wisc.edu,Dell PowerEdge R515,1BHVPQ1,,1BHVPQ1,U004705,,,
+CSB240,A2,13-14,squid1003,chtc.wisc.edu,Dell PowerEdge R515,H2RX6S1,,H2RX6S1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,35,NAME_THIS_3,chtc.wisc.edu,ASUS DVD,KOI20081023,,,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,G5,36,NAME_THIS_4,chtc.wisc.edu,ASUS DVD,KOI20081024,,,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+CSB240,C1,12-13,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2Q27P22,,2Q27P22,none,,,Former HPC 265
+CSB240,C1,12-13,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2Q24P22,,2Q24P22,none,,,Former HPC 266
+CSB240,C1,12-13,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2Q26P22,,2Q26P22,none,,,Former HPC 267
+CSB240,C1,12-13,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2Q25P22,,2Q25P22,none,,,Former HPC 268
+CSB240,C1,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJXRV12,FJ8RV12,FJXRV12,none,,,Former HPC 241
+CSB240,C1,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJWTV12,FJ8RV12,FJWTV12,none,,,Former HPC 242
+CSB240,C1,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJWRV12,FJ8RV12,FJWRV12,none,,,Former HPC 243
+CSB240,C1,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJWSV12,FJ8RV12,FJWSV12,none,,,Former HPC 244
+CSB240,C1,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLKTV12,FKPV12,FLKTV12,none,,,Former HPC 249
+CSB240,C1,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLKSV12,FKPV12,FLKSV12,none,,,Former HPC 250
+CSB240,C1,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLLRV12,FKPV12,FLLRV12,none,,,Former HPC 251
+CSB240,C1,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLKRV12,FKPV12,FLKRV12,none,,,Former HPC 252
+CSB240,C1,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,,FKMSV12,,none,,,"This machine seems to be missing its PSU, one should be cannibilized or it should be switched out"
+CSB240,C1,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,,FKMSV12,,none,,,"This machine seems to be missing its PSU, one should be cannibilized or it should be switched out"
+CSB240,C1,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,,FKMSV12,,none,,,"This machine seems to be missing its PSU, one should be cannibilized or it should be switched out"
+CSB240,C1,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,,FKMSV12,,none,,,"This machine seems to be missing its PSU, one should be cannibilized or it should be switched out"
+CSB240,C2,23-24,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJRTV12,FJ6TV12,FJRTV12,none,,,Former HPC 213
+CSB240,C2,23-24,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJRRV12,FJ6TV12,FJRRV12,none,,,Former HPC 214
+CSB240,C2,23-24,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJQTV12,FJ6TV12,FJQTV12,none,,,Former HPC 215
+CSB240,C2,23-24,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJRSV12,FJ6TV12,FJRSV12,none,,,Former HPC 216
+CSB240,C4,7-8,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,38LBB42,277MB42,38LBB42,none,,,Former HPC 309
+CSB240,C4,7-8,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2C7NB42,277MB42,2C7NB42,none,,,Former HPC 310
+CSB240,C4,7-8,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2C6PB42,277MB42,2C6PB42,none,,,Former HPC 311
+CSB240,C4,7-8,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2C7PB42,277MB42,2C7PB42,none,,,Former HPC 312
+CSB240,C4,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,B527P22,B3Y6P22,B527P22,none,,,Former HPC 277
+CSB240,C4,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,B534P22,B3Y6P22,B534P22,none,,,Former HPC 278
+CSB240,C4,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,B526P22,B3Y6P22,B526P22,none,,,Former HPC 279
+CSB240,C4,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,B525P22,B3Y6P22,B525P22,none,,,Former HPC 280
+CSB240,C4,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,B4W6P22,B3X6P22,B4W6P22,none,,,Former HPC 285
+CSB240,C4,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,B4W4P22,B3X6P22,B4W4P22,none,,,Former HPC 286
+CSB240,C4,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,B4W5P22,B3X6P22,B4W5P22,none,,,Former HPC 287
+CSB240,C4,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,B4V6P22,B3X6P22,B4V6P22,none,,,Former HPC 288
+CSB240,C4,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6400,CZ3FDW2,????,CZ3FDW2,none,,,Upper Left Sled from back (former HPC)
+CSB240,C4,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6400,CZ3HDW2,????,CZ3HDW2,none,,,Lower Left Sled from back (former HPC)
+CSB240,C4,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6400,CZ3DDW2,????,CZ3DDW2,none,,,Upper Right Sled from back (former HPC)
+CSB240,C4,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6400,CZ3GDW2,????,CZ3GDW2,none,,,Lower Right Sled from back (former HPC)
+CSB240,A2,7-8,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9HTV12,G95SV12,G9HTV12,none,,,Former HPC 161
+CSB240,A2,7-8,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9HSV12,G95SV12,G9HSV12,none,,,Former HPC 162
+CSB240,A2,7-8,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9HRV12,G95SV12,G9HRV12,none,,,Former HPC 163
+CSB240,A2,7-8,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9JRV12,G95SV12,G9JRV12,none,,,Former HPC 164
+CSB240,A2,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6400,9HYDMN2,????,9HYDMN2,none,,,Former HPC 381
+CSB240,A2,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6400,9HXHMN2,????,9HXHMN2,none,,,Former HPC 382
+CSB240,A2,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6400,9HXJMN2,????,9HXJMN2,none,,,Former HPC 383
+CSB240,A2,5-6,e12XX,chtc.wisc.edu,Dell PowerEdge C6400,9HXJMN2,????,9HXJMN2,none,,,Former HPC 384
+CSB240,A2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9CTV12,G93TV12,G9CTV12,none,,,Former HPC 153
+CSB240,A2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9CSV12,G93TV12,G9CSV12,none,,,Former HPC 154
+CSB240,A2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9CSV12,G93TV12,G9CSV12,none,,,Former HPC 155
+CSB240,A2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9BVV12,G93TV12,G9BVV12,none,,,Former HPC 156
+CSB240,A2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,HDYH942,HDBJ942,HDYH942,none,,,Former HPC 301
+CSB240,A2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,HDYJ942,HDBJ942,HDYJ942,none,,,Former HPC 302
+CSB240,A2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,HDYG942,HDBJ942,HDYG942,none,,,Former HPC 303
+CSB240,A2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,HDYF942,HDBJ942,HDYF942,none,,,Former HPC 304
+CSB240,A4,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,CR1DR52,FFBJR52,CR1DR52,none,,,Former HPC 325
+CSB240,A4,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,CR1GR52,FFBJR52,CR1GR52,none,,,Former HPC 326
+CSB240,A4,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FF5FR52,FFBJR52,FF5FR52,none,,,Former HPC 327
+CSB240,A4,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,CR1FR52,FFBJR52,CR1FR52,none,,,Former HPC 328
+CSB240,E6,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLHRV12,FKNTV12,FLHRV12,none,,,Former HPC 141
+CSB240,E6,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLGTV12,FKNTV12,FLGTV12,none,,,Former HPC 142
+CSB240,E6,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLHSV12,FKNTV12,FLHSV12,none,,,Former HPC 143
+CSB240,E6,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLGSV12,FKNTV12,FLGSV12,none,,,Former HPC 144
+CSB240,E6,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,COCNGB2,COHSGB2,COCNGB2,none,,,Former HPC 333
+CSB240,E6,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,COCPGB2,COHSGB2,COCPGB2,none,,,Former HPC 334
+CSB240,E6,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,COCMGB2,COHSGB2,COCMGB2,none,,,Former HPC 335
+CSB240,E6,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,COCGGB2,COHSGB2,COCGGB2,none,,,Former HPC 336
+CSB240,E5,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2VOSHB2,2VKTHB2,2VOSHB2,none,,,Former HPC 337
+CSB240,E5,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2VORHB2,2VKTHB2,2VORHB2,none,,,Former HPC 338
+CSB240,E5,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2VOVHB2,2VKTHB2,2VOVHB2,none,,,Former HPC 339
+CSB240,E5,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2VOTHB2,2VKTHB2,2VOTHB2,none,,,Former HPC 340
+CSB240,E5,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9RTV12,G98SV12,G9RTV12,none,,,Former HPC 165
+CSB240,E5,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9STV12,G98SV12,G9STV12,none,,,Former HPC 166
+CSB240,E5,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9SRV12,G98SV12,G9SRV12,none,,,Former HPC 167
+CSB240,E2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9SSV12,G98SV12,G9SSV12,none,,,Former HPC 168
+CSB240,E2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FOM8B42,F347B42,FOM8B42,none,,,Former HPC 313
+CSB240,E2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FON5B42,F347B42,FON5B42,none,,,Former HPC 314
+CSB240,E2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FOM6B42,F347B42,FOM6B42,none,,,Former HPC 315
+CSB240,E2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FOM7B42,F347B42,FOM7B42,none,,,Former HPC 316
+CSB240,E2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FK7SV12,FJCTV12,FK7SV12,none,,,Former HPC 185
+CSB240,E2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FK6VV12,FJCTV12,FK6VV12,none,,,Former HPC 186
+CSB240,E2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FK7TV12,FJCTV12,FK7TV12,none,,,Former HPC 187
+CSB240,E2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FK7RV12,FJCTV12,FK7RV12,none,,,Former HPC 188
+CSB240,G6,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLNRV12,FKPSV12,FLNRV12,none,,,Former HPC 133
+CSB240,G6,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLNSV12,FKPSV12,FLNSV12,none,,,Former HPC 134
+CSB240,G6,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLNTV12,FKPSV12,FLNTV12,none,,,Former HPC 135
+CSB240,G6,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLMTV12,FKPSV12,FLMTV12,none,,,Former HPC 136
+CSB240,G6,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2TZRHB2,2VKSHB2,2TZRHB2,none,,,Former HPC 341
+CSB240,G6,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2TZQHB2,2VKSHB2,2TZQHB2,none,,,Former HPC 342
+CSB240,G6,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2TZTHB2,2VKSHB2,2TZTHB2,none,,,Former HPC 343
+CSB240,G6,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,2TZSHB2,2VKSHB2,2TZSHB2,none,,,Former HPC 344
+CSB240,G5,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9MSV12,G96TV12,G9MSV12,none,,,Former HPC 169
+CSB240,G5,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9MRV12,G96TV12,G9MRV12,none,,,Former HPC 170
+CSB240,G5,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9LSV12,G96TV12,G9LSV12,none,,,Former HPC 171
+CSB240,G5,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,G9LTV12,G96TV12,G9LTV12,none,,,Former HPC 172
+CSB240,G5,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLXRV12,FKSSV12,FLXRV12,none,,,Former HPC 129
+CSB240,G5,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLWTV12,FKSSV12,FLWTV12,none,,,Former HPC 130
+CSB240,G5,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLXSV12,FKSSV12,FLXSV12,none,,,Former HPC 131
+CSB240,G5,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLWSV12,FKSSV12,FLWSV12,none,,,Former HPC 132
+CSB240,G2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLSSV12,FKRRV12,FLSSV12,none,,,Former HPC 117
+CSB240,G2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLSRV12,FKRRV12,FLSRV12,none,,,Former HPC 118
+CSB240,G2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLTRV12,FKRRV12,FLTRV12,none,,,Former HPC 119
+CSB240,G2,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FK9VV12,FKRRV12,FK9VV12,none,,,Former HPC 120
+CSB240,G2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FKBRV12,FJDTV12,FKBRV12,none,,,Former HPC 177
+CSB240,G2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FK9TV12,FJDTV12,FK9TV12,none,,,Former HPC 178
+CSB240,G2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FK9SV12,FJDTV12,FK9SV12,none,,,Former HPC 179
+CSB240,G2,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FK9VV12,FJDTV12,FK9VV12,none,,,Former HPC 180
+CSB240,G1,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJZRV12,FJ9RV12,FJZRV12,none,,,Former HPC 149
+CSB240,G1,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJZSV12,FJ9RV12,FJZSV12,none,,,Former HPC 150
+CSB240,G1,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJZSV12,FJ9RV12,FJZSV12,none,,,Former HPC 151
+CSB240,G1,3-4,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FJZSV12,FJ9RV12,FJZSV12,none,,,Former HPC 152
+CSB240,G1,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLVTV12,FKRTV12,FLVTV12,none,,,Former HPC 109
+CSB240,G1,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLVSV12,FKRTV12,FLVSV12,none,,,Former HPC 110
+CSB240,G1,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLTTV12,FKRTV12,FLTTV12,none,,,Former HPC 111
+CSB240,G1,1-2,e12XX,chtc.wisc.edu,Dell PowerEdge C6220,FLVRV12,FKRTV12,FLVRV12,none,,,Former HPC 112
+WID,Z2 R10,1-4,NAME_THIS_5,chtc.wisc.edu,SuperMicro SYS-420GP-TNR,S425662X3314578,,,none,,,
+WID,Z2 R10,5-8,NAME_THIS_6,chtc.wisc.edu,SuperMicro SYS-420GP-TNR,S425662X3314595,,,none,,,
+WID,Z1 R5,22-23,spark-i193,chtc.wisc.edu,spark-i nodes,G1ML3W2,,G1ML3W2,none,,,In Basement to be racked
+,,,spark-i194,chtc.wisc.edu,spark-i nodes,G1MK3W2,,G1MK3W2,none,,,In Basement to be racked
+,,,spark-i195,chtc.wisc.edu,spark-i nodes,G1MJ3W2,,G1MJ3W2,none,,,In Basement to be racked
+,,,spark-i196,chtc.wisc.edu,spark-i nodes,CZ57DW2,,CZ57DW2,none,,,In Basement to be racked
+,,,spark-i197,chtc.wisc.edu,spark-i nodes,CZ4JDW2,,CZ4JDW2,none,,,In Basement to be racked
+,,,spark-i198,chtc.wisc.edu,spark-i nodes,CZ4HDW2,,CZ4HDW2,none,,,In Basement to be racked
+,,,spark-i199,chtc.wisc.edu,spark-i nodes,CZ4GDW2,,CZ4GDW2,,,,In Basement to be racked
+,,,spark-i200,chtc.wisc.edu,spark-i nodes,CZ49DW2,,CZ49DW2,none,,,In Basement to be racked
+,,,spark-i201,chtc.wisc.edu,spark-i nodes,CZ48DW2,,CZ48DW2,none,,,In Basement to be racked
+,,,spark-i202,chtc.wisc.edu,spark-i nodes,CZ47DW2,,CZ47DW2,none,,,In Basement to be racked
+,,,spark-i203,chtc.wisc.edu,spark-i nodes,CZ3JDW2,,CZ3JDW2,none,,,In Basement to be racked
+,,,spark-i204,chtc.wisc.edu,property@bussvc.wisc.edu,DOWN,,none,none,,,In Basement to be racked
+,,,spark-i205,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i206,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i207,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i208,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i213,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i214,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i215,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i216,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i217,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i218,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i219,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i220,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i221,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i222,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i223,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i224,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i225,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i226,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i227,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i228,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i229,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i230,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i231,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i232,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i233,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i234,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i235,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i236,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i237,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i238,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i239,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+,,,spark-i240,chtc.wisc.edu,spark-i nodes,DOWN,,DOWN,none,,,In Basement to be racked
+WID,Z1 R8,13-14,aci-storage-10,chtc.wisc.edu,Dell PowerEdge R720xd,HTGSV12,,HTGSV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z1 R8,11-12,aci-storage-11,chtc.wisc.edu,Dell PowerEdge R720xd,HTDTV12,,HTDTV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z1 R8,9-10,aci-storage-12,chtc.wisc.edu,Dell PowerEdge R720xd,HTDVV12,,HTDVV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z1 R8,7-8,aci-storage-13,chtc.wisc.edu,Dell PowerEdge R720xd,HTFRV12,,HTFRV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z1 R8,5-6,aci-storage-14,chtc.wisc.edu,Dell PowerEdge R720xd,HTGTV12,,HTGTV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z1 R8,3-4,aci-storage-15,chtc.wisc.edu,Dell PowerEdge R720xd,HTFTV12,,HTFTV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z1 R8,15-16,aci-storage-9,chtc.wisc.edu,Dell PowerEdge R720xd,HTHTV12,,HTHTV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z1 R8,25-29,ahlquist0000,chtc.wisc.edu,SuperMicro SYS-4029GP-TRT,S309092X8C26397,,S309092X8C26397,U035959,,,Check pull-out tab for tag(s)
+WID,B5,13-14,ahlquist0001,chtc.wisc.edu,Dell PowerEdge R740,D7RQZV2,,D7RQZV2,U035960,C040834,9000444,Check pull-out tab for tag(s)
+WID,B5,27-28,ahlquist0002,chtc.wisc.edu,Dell PowerEdge R740,D7QWZV2,,D7QWZV2,none,C040833,9000436,Torn apart - Confirmed no UW tag anywhere on the chassis.
+WID,B8,1,bartel0000,chtc.wisc.edu,Dell PowerEdge R6525,GFCJ2Z3,,GFCJ2Z3,none,,?,bartel group = Morgridge PI ; HTC node
+WID,B8,2,bartel0001,chtc.wisc.edu,Dell PowerEdge R6525,FFCJ2Z3,,FFCJ2Z3,none,,?,bartel group = Morgridge PI ; HTC node
+WID,B5,7-8,batlabsubmit0001,chtc.wisc.edu,Dell PowerEdge R515,5N0SPS1,,5N0SPS1,SSEC - 015320,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,B8,18,annex-cm,chtc.wisc.edu,Dell PowerEdge R310,DZ4DHS1,,DZ4DHS1,none,C032584,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z2 R11,26-29,cosmos0001,chtc.wisc.edu,Dell PowerEdge R940xa,59RQCS2,,59RQCS2,U035858,,,
+WID,Z2 R11,30-33,cosmos0002,chtc.wisc.edu,Dell PowerEdge R940xa,59RRCS2,,59RRCS2,U035857,,,
+WID,A12,32-33,cosmos0003,chtc.wisc.edu,Dell PowerEdge R740,DBJQZV2,,DBJQZV2,U036653,,,
+WID,A12,34-35,cosmos0004,chtc.wisc.edu,Dell PowerEdge R740,DBHXZV2,,DBHXZV2,U036654,,,
+WID,A14,5,e0146,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V18G,,FCH1651V18G,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A12,8-9,e0150,chtc.wisc.edu,Dell PowerEdge R810,FXHDXQ1,,FXHDXQ1,none,C032398,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,A14,31,e0455,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V0DT,,FCH1819V0DT,U011303,,,
+WID,A14,32,e0456,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2N2,,FCH1819V2N2,U011304,,,
+WID,A14,30,e121,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V18T,,FCH1651V18T,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,29,e122,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1MV,,FCH1651V1MV,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,28,e123,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1G0,,FCH1651V1G0,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,27,e124,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V18P,,FCH1651V18P,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,26,e125,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1BG,,FCH1651V1BG,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,25,e126,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1RP,,FCH1651V1RP,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,24,e127,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V18K,,FCH1651V18K,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,22,e129,chtc.wisc.edu,Cisco UCS C220 M3,,,,none,,,"Host appears stuck on boot. Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,18,e133,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V18F,,FCH1651V18F,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,17,e134,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1PZ,,FCH1651V1PZ,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,16,e135,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V18R,,FCH1651V18R,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,15,e136,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1FY,,FCH1651V1FY,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,14,e137,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V0W4,,FCH1651V0W4,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,13,e138,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1LL,,FCH1651V1LL,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,12,e139,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V18L,,FCH1651V18L,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,9,e142,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1LM,,FCH1651V1LM,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,8,e143,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V18N,,FCH1651V18N,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,7,e144,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1R9,,FCH1651V1R9,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,6,e145,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V0VU,,FCH1651V0VU,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,4,e147,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1BF,,FCH1651V1BF,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,3,e148,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1MM,,FCH1651V1MM,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,2,e149,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1MT,,FCH1651V1MT,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,B1,11,e2434,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V19M,,FCH1818V19M,U011282,,,
+WID,B1,17,e2436,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V191,,FCH1818V191,U011284,,,
+WID,B1,12,e2445,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2LB,,FCH1819V2LB,U011293,,,
+WID,B1,15,e2446,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V0DA,,FCH1820V0DA,U011294,,,
+WID,B1,16,e2447,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V080,,FCH1819V080,U011295,,,
+WID,B1,14,e2453,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V08D,,FCH1819V08D,U011301,,,
+WID,B1,13,e2454,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V2L8,,FCH1819V2L8,U011302,,,
+WID,A14,19,e380,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V084,,FCH1820V084,U011228,,,
+WID,A14,20,e381,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1LQ,,FCH1818V1LQ,U011229,,,
+WID,A14,21,e382,chtc.wisc.edu,Cisco UCS C220 M3,FCH1820V05D,,FCH1820V05D,U011230,,,
+WID,A14,23,e383,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V28R,,FCH1818V28R,U011231,,,
+WID,A14,36,e416,chtc.wisc.edu,Cisco UCS C220 M3,FCH1819V06Q,,FCH1819V06Q,U011264,,,
+WID,A14,35,e417,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V1DR,,FCH1818V1DR,U011265,,,
+WID,A14,34,e418,chtc.wisc.edu,Cisco UCS C220 M3,FCH1813V1KM,,FCH1813V1KM,U011266,,,
+WID,A14,38,e457,chtc.wisc.edu,Cisco UCS C220 M3,BJT04W1,,BJT04W1,U011305,,,host down
+WID,A14,33,es0001,chtc.wisc.edu,Cisco UCS C220 M3,FCH1818V27W,,FCH1818V27W,U011267,,,
+WID,A14,11,es0002,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1MU,,FCH1651V1MU,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,A14,10,es0003,chtc.wisc.edu,Cisco UCS C220 M3,FCH1651V1LP,,FCH1651V1LP,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis, Top will not remove, no tags under top"
+WID,B8,36,exec-17,chtc.wisc.edu,Dell PowerEdge R415,7LST8Q1,,7LST8Q1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,A12,21-22,gdd-store,chtc.wisc.edu,Dell PowerEdge R730,FKJYCH2,,FKJYCH2,U000997,,,No tag?
+WID,A12,23-24,FILL HERE,chtc.wisc.edu,Supermicro ?,,,,,C053103,,New xDD storage host
+WID,Z2 R10,27,gitter0000,chtc.wisc.edu,Nor-Tech,S282159X8220446,,S282159X8220446,U042798,,,Tag on frontal pull-out tab.
+WID,Z1 R7,11-12,hpc-hypervisor-1,chtc.wisc.edu,Dell PowerEdge R720xd,JSXGSW1,,JSXGSW1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z1 R8,1-2,hpc-hypervisor-16,chtc.wisc.edu,Dell PowerEdge R720xd,HTHTV12,,HTHTV12,none,,,No tag. hostname not found
+WID,Z1 R7,9-10,hpc-hypervisor-2,chtc.wisc.edu,Dell PowerEdge R720xd,5WVK182,,5WVK182,U651423,,,
+WID,Z1 R7,7-8,hpc-hypervisor-3,chtc.wisc.edu,Dell PowerEdge R720xd,JSXHSW1,,JSXHSW1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+WID,Z1 R7,5-6,hpc-hypervisor-4,chtc.wisc.edu,Dell PowerEdge R720xd,JSXJSW1,,JSXJSW1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+WID,Z1 R7,19-20,hpc-mds-4,chtc.wisc.edu,Dell PowerEdge R720,9MHZBX1,,9MHZBX1,U008360,,,host down in icinga
+WID,Z1 R7,17-18,hpc-mds-5,chtc.wisc.edu,Dell PowerEdge R720,9MJXBX1,,9MJXBX1,U008361,,,host down in icinga
+WID,Z1 R7,15-16,hpc-mds-6,chtc.wisc.edu,Dell PowerEdge R720,B1CSV12,,B1CSV12,U000396,,,host down in icinga
+WID,Z1 R7,3-4,hpc-storage-5,chtc.wisc.edu,Dell PowerEdge R720xd,HTHSV12,,HTHSV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+WID,Z1 R7,1-2,hpc-storage-6,chtc.wisc.edu,Dell PowerEdge R720xd,HTGRV12,,HTGRV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+WID,Z1 R8,19-20,hpc-storage-7,chtc.wisc.edu,Dell PowerEdge R720xd,HTHRV12,,HTHRV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,Z1 R8,17-18,hpc-storage-8,chtc.wisc.edu,Dell PowerEdge R720xd,HTDSV12,,HTDSV12,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,A14,37-38,hypervisor0000,chtc.wisc.edu,Dell PowerEdge R520,BJT04W1,,BJT04W1,U022759,,,
+WID,B8,34,hypervisor0001,chtc.wisc.edu,Dell PowerEdge R415,BLST8Q1,,BLST8Q1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,B5,21-22,hypervisor0002,chtc.wisc.edu,Dell PowerEdge R520,26T04W1,,26T04W1,U022768,,,
+WID,B5,15-16,hypervisor0003,chtc.wisc.edu,Dell PowerEdge R520,36T04W1,,36T04W1,U022765,,,
+WID,B5,11-12,hypervisor0004,chtc.wisc.edu,Dell PowerEdge R520,66T04W1,,66T04W1,U022763,,,Fault on drive 7 in disk bay 1
+WID,B5,23-24,hypervisor0005,chtc.wisc.edu,Dell PowerEdge R520,46T04W1,,46T04W1,U022769,,,
+WID,B5,25-26,hypervisor0006,chtc.wisc.edu,Dell PowerEdge R520,16T04W1,,16T04W1,U022770,,,
+WID,B5,29-30,hypervisor0008,chtc.wisc.edu,Dell PowerEdge R520,2KT04W1,,2KT04W1,U022772,,,
+WID,B5,31-32,hypervisor0009,chtc.wisc.edu,Dell PowerEdge R520,CJT04W1,,CJT04W1,U022773,,,CMOS battery is low
+WID,B5,33-34,hypervisor0010,chtc.wisc.edu,Dell PowerEdge R520,GJT04W1,,GJT04W1,U022774,,,
+WID,B5,35-36,hypervisor0011,chtc.wisc.edu,Dell PowerEdge R520,DJT04W1,,DJT04W1,U022775,,,
+WID,B5,37-38,hypervisor0012,chtc.wisc.edu,Dell PowerEdge R520,3KT04W1,,3KT04W1,U022776,,,
+WID,B5,19-20,hypervisor0013,chtc.wisc.edu,Dell PowerEdge R520,HJT04W1,,HJT04W1,U022760,,,
+WID,B5,9-10,hypervisor0014,chtc.wisc.edu,Dell PowerEdge R520,H5T04W1,,H5T04W1,U022762,,,
+WID,B5,17-18,hypervisor0015,chtc.wisc.edu,Dell PowerEdge R520,JJT04W1,,JJT04W1,U022761,,,
+WID,A12,17-18,hypervisor0017,chtc.wisc.edu,Dell PowerEdge R515,CMGG7R1,,CMGG7R1,U022751,,,
+WID,B1,22-23,hypervisor0018,chtc.wisc.edu,Dell PowerEdge R515,9LSMNQ1,,9LSMNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+WID,A12,15-16,hypervisor0019,chtc.wisc.edu,Dell PowerEdge R515,HLSMNQ1,,HLSMNQ1,none,,,Torn apart - Confirmed no UW tag anywhere on the chassis.
+WID,Z2 R10,25-26,patel0000,chtc.wisc.edu,SuperMicro,52015 S290178X9504221,,52015 S290178X9504221,U036816,,,no tag
+WID,Z2 R10,29-30,roy-exec-3,chtc.wisc.edu,Dell EMC PowerEdge R840,BZY53W2,,BZY53W2,U037266,,,Roy chassis are not ours. 
+WID,Z2 R10,31-32,roy-exec-4,chtc.wisc.edu,Dell EMC PowerEdge R840,BZY43W2,,BZY43W2,U037265,,,Roy chassis are not ours. 
+WID,Z2 R10,33-34,roy-exec-5,chtc.wisc.edu,Dell EMC PowerEdge R840,BZY63W2,,BZY63W2,U037267,,,Roy chassis are not ours. 
+WID,Z2 R10,35-36,roy-exec-8,chtc.wisc.edu,Dell EMC PowerEdge R840,2SSP243,,2SSP243,U040165,,,Roy chassis are not ours. 
+WID,Z2 R11,39-40,roy-exec-9,chtc.wisc.edu,SuperMicro SYS-2049U-TR4,528GNK3,,528GNK3,U042743,,,Roy chassis are not ours. 
+WID,Z2 R4,41,spark-a029,chtc.wisc.edu,Dell EMC PowerEdge R6525,4W0X0R3,,4W0X0R3,U044933,,,
+WID,Z2 R4,40,spark-a030,chtc.wisc.edu,Dell EMC PowerEdge R6525,2PGV0R3,,2PGV0R3,U044934,,,
+WID,Z2 R4,39,spark-a031,chtc.wisc.edu,Dell EMC PowerEdge R6525,3W0X0R3,,3W0X0R3,U044935,,,
+WID,Z2 R4,38,spark-a032,chtc.wisc.edu,Dell EMC PowerEdge R6525,JV0X0R3,,JV0X0R3,U044936,,,
+WID,Z2 R4,37,spark-a033,chtc.wisc.edu,Dell EMC PowerEdge R6525,BW0X0R3,,BW0X0R3,U044937,,,
+WID,Z2 R4,36,spark-a034,chtc.wisc.edu,Dell EMC PowerEdge R6525,6W0X0R3,,6W0X0R3,U044938,,,
+WID,Z2 R4,35,spark-a035,chtc.wisc.edu,Dell EMC PowerEdge R6525,GV0X0R3,,GV0X0R3,U044939,,,
+WID,Z2 R4,34,spark-a036,chtc.wisc.edu,Dell EMC PowerEdge R6525,5W0X0R3,,5W0X0R3,U044940,,,
+WID,Z2 R4,31,spark-a037,chtc.wisc.edu,Dell EMC PowerEdge R6525,BV0X0R3,,BV0X0R3,U044941,,,
+WID,Z2 R4,30,spark-a038,chtc.wisc.edu,Dell EMC PowerEdge R6525,4PGV0R3,,4PGV0R3,U044942,,,
+WID,Z2 R4,29,spark-a039,chtc.wisc.edu,Dell EMC PowerEdge R6525,CW0X0R3,,CW0X0R3,U044943,,,
+WID,Z2 R4,28,spark-a040,chtc.wisc.edu,Dell EMC PowerEdge R6525,9W0X0R3,,9W0X0R3,U044944,,,
+WID,Z2 R4,27,spark-a041,chtc.wisc.edu,Dell EMC PowerEdge R6525,HNGV0R3,,HNGV0R3,U044945,,,
+WID,Z2 R4,26,spark-a042,chtc.wisc.edu,Dell EMC PowerEdge R6525,JNGV0R3,,JNGV0R3,U044946,,,
+WID,Z2 R4,25,spark-a043,chtc.wisc.edu,Dell EMC PowerEdge R6525,3PGV0R3,,3PGV0R3,U044947,,,
+WID,Z2 R4,19,spark-a044,chtc.wisc.edu,Dell EMC PowerEdge R6525,1PGV0R3,,1PGV0R3, U044948,,,
+WID,Z2 R4,18,spark-a045,chtc.wisc.edu,Dell EMC PowerEdge R6525,8W0X0R3,,8W0X0R3,U044949,,,
+WID,Z2 R4,17,spark-a046,chtc.wisc.edu,Dell EMC PowerEdge R6525,8V0X0R3,,8V0X0R3, U044950,,,
+WID,Z2 R4,16,spark-a047,chtc.wisc.edu,Dell EMC PowerEdge R6525,5PGV0R3,,5PGV0R3,U044951,,,
+WID,Z2 R4,15,spark-a048,chtc.wisc.edu,Dell EMC PowerEdge R6525,CV0X0R3,,CV0X0R3,U044952,,,
+WID,Z2 R4,14,spark-a049,chtc.wisc.edu,Dell EMC PowerEdge R6525,7W0X0R3,,7W0X0R3,U044953,,,
+WID,Z2 R4,13,spark-a050,chtc.wisc.edu,Dell EMC PowerEdge R6525,GNGV0R3,,GNGV0R3,U044954,,,
+WID,Z2 R4,10,spark-a051,chtc.wisc.edu,Dell EMC PowerEdge R6525,JW0X0R3,,JW0X0R3,U044955,,,
+WID,Z2 R4,9,spark-a052,chtc.wisc.edu,Dell EMC PowerEdge R6525,GW0X0R3,,GW0X0R3,U044956,,,
+WID,Z2 R4,8,spark-a053,chtc.wisc.edu,Dell EMC PowerEdge R6525,4X0X0R3,,4X0X0R3,U044957,,,
+WID,Z2 R4,7,spark-a054,chtc.wisc.edu,Dell EMC PowerEdge R6525,HW0X0R3,,HW0X0R3,U044958,,,
+WID,Z2 R4,6,spark-a055,chtc.wisc.edu,Dell EMC PowerEdge R6525,3X0X0R3,,3X0X0R3,U044959,,,
+WID,Z2 R4,5,spark-a056,chtc.wisc.edu,Dell EMC PowerEdge R6525,HV0X0R3,,HV0X0R3,U044960,,,
+WID,Z2 R4,4,spark-a057,chtc.wisc.edu,Dell EMC PowerEdge R6525,2W0X0R3,,2W0X0R3,U044961,,,
+WID,Z2 R4,3,spark-a058,chtc.wisc.edu,Dell EMC PowerEdge R6525,FV0X0R3,,FV0X0R3,U044962,,,
+WID,Z1 R4,15,spark-a059,chtc.wisc.edu,Dell EMC PowerEdge R6525,7V0X0R3,,7V0X0R3,U044963,,,
+WID,Z2 R8,22,spark-a060,chtc.wisc.edu,Dell EMC PowerEdge R6525,DV0X0R3,,DV0X0R3,U044964,,,
+WID,Z2 R8,26,spark-a061,chtc.wisc.edu,Dell EMC PowerEdge R6525,6V0X0R3,,6V0X0R3,U044965,,,
+WID,Z2 R8,27,spark-a062,chtc.wisc.edu,Dell EMC PowerEdge R6525,5V0X0R3,,5V0X0R3,U044966,,,
+WID,Z2 R8,28,spark-a063,chtc.wisc.edu,Dell EMC PowerEdge R6525,9V0X0R3,,9V0X0R3,U044967,,,
+WID,Z2 R8,29,spark-a064,chtc.wisc.edu,Dell EMC PowerEdge R6525,DW0X0R3,,DW0X0R3,U044968,,,
+WID,Z2 R8,30,spark-a065,chtc.wisc.edu,Dell EMC PowerEdge R6525,1W0X0R3,,1W0X0R3,U044969,,,
+WID,Z2 R8,25,spark-a066,chtc.wisc.edu,Dell EMC PowerEdge R6525,4QGV0R3,,4QGV0R3,U044970,,,
+WID,Z2 R8,24,spark-a067,chtc.wisc.edu,Dell EMC PowerEdge R6525,2QGV0R3,,2QGV0R3,U044971,,,
+WID,Z2 R8,23,spark-a068,chtc.wisc.edu,Dell EMC PowerEdge R6525,5QGV0R3,,5QGV0R3,U044972,,,
+WID,Z2 R8,31,spark-a069,chtc.wisc.edu,Dell EMC PowerEdge R6525,8ZRFGT3,,8ZRFGT3,none,,,
+WID,Z2 R8,32,spark-a070,chtc.wisc.edu,Dell EMC PowerEdge R6525,BZRFGT3,,BZRFGT3,none,,,
+WID,Z2 R8,33,spark-a071,chtc.wisc.edu,Dell EMC PowerEdge R6525,9ZRFGT3,,9ZRFGT3,none,,,
+WID,Z2 R7,27,spark-ceph-1,chtc.wisc.edu,SuperMicro SYS-120U-TNR,55544040622223W+,,55544040622223W+,U044097,,,"Tag on top front of chassis, slide out server to view."
+WID,Z2 R7,28,spark-ceph-2,chtc.wisc.edu,SuperMicro SYS-120U-TNR,55544030622223W+,,55544030622223W+,U044098,,,"Tag on top front of chassis, slide out server to view."
+WID,Z2 R7,29,spark-ceph-3,chtc.wisc.edu,SuperMicro SYS-120U-TNR,55544020622223W+,,55544020622223W+,U044099,,,"Tag on top front of chassis, slide out server to view."
+WID,Z2 R7,30,spark-ceph-4,chtc.wisc.edu,SuperMicro SYS-120U-TNR,55544010622223W+,,55544010622223W+,U044100,,,"Tag on top front of chassis, slide out server to view."
+WID,Z2 R7,1-2,spark-i072,chtc.wisc.edu,Dell EMC C6400,JK25853,,JK25853,U041058,,,
+WID,Z2 R7,1-2,spark-i073,chtc.wisc.edu,Dell EMC C6400,JK24853,,JK24853,U041058,,,
+WID,Z2 R7,1-2,spark-i074,chtc.wisc.edu,Dell EMC C6400,JK23853,,JK23853,U041058,,,
+WID,Z2 R7,1-2,spark-i075,chtc.wisc.edu,Dell EMC C6400,JK22853,,JK22853,U041058,,,
+WID,Z2 R7,3-4,spark-i076,chtc.wisc.edu,Dell EMC C6400,JK21853,,JK21853,U041050,,,
+WID,Z2 R7,3-4,spark-i077,chtc.wisc.edu,Dell EMC C6400,JK20853,,JK20853,U041050,,,
+WID,Z2 R7,3-4,spark-i078,chtc.wisc.edu,Dell EMC C6400,JK1Z753,,JK1Z753,U041050,,,
+WID,Z2 R7,3-4,spark-i079,chtc.wisc.edu,Dell EMC C6400,JK1VQ53,,JK1VQ53,U041050,,,
+WID,Z2 R7,5-6,spark-i080,chtc.wisc.edu,Dell EMC C6400,2MPHQ53,,2MPHQ53,U041051,,,
+WID,Z2 R7,5-6,spark-i081,chtc.wisc.edu,Dell EMC C6400,2MPGQ53,,2MPGQ53,U041051,,,
+WID,Z2 R7,5-6,spark-i082,chtc.wisc.edu,Dell EMC C6400,2MPFQ53,,2MPFQ53,U041051,,,
+WID,Z2 R7,5-6,spark-i083,chtc.wisc.edu,Dell EMC C6400,2MPDQ53,,2MPDQ53,U041051,,,
+WID,Z2 R7,7-8,spark-i084,chtc.wisc.edu,Dell EMC C6400,2MPCQ53,,2MPCQ53,U041053,,,
+WID,Z2 R7,7-8,spark-i085,chtc.wisc.edu,Dell EMC C6400,2MPBQ53,,2MPBQ53,U041053,,,
+WID,Z2 R7,7-8,spark-i086,chtc.wisc.edu,Dell EMC C6400,2MNP853,,2MNP853,U041053,,,
+WID,Z2 R7,7-8,spark-i087,chtc.wisc.edu,Dell EMC C6400,2MNN853,,2MNN853,U041053,,,
+WID,Z2 R7,9-10,spark-i088,chtc.wisc.edu,Dell EMC C6400,JK2D853,,JK2D853,U041052,,,
+WID,Z2 R7,9-10,spark-i089,chtc.wisc.edu,Dell EMC C6400,JK2CQ53,,JK2CQ53,U041052,,,
+WID,Z2 R7,9-10,spark-i090,chtc.wisc.edu,Dell EMC C6400,JK2C853,,JK2C853,U041052,,,
+WID,Z2 R7,9-10,spark-i091,chtc.wisc.edu,Dell EMC C6400,JK2B853,,JK2B853,U041052,,,
+WID,Z2 R7,11-12,spark-i092,chtc.wisc.edu,Dell EMC C6400,JK1L853,,JK1L853,U041057,,,
+WID,Z2 R7,11-12,spark-i093,chtc.wisc.edu,Dell EMC C6400,JK1KQ53,,JK1KQ53,U041057,,,
+WID,Z2 R7,11-12,spark-i094,chtc.wisc.edu,Dell EMC C6400,JK1K853,,JK1K853,U041057,,,
+WID,Z2 R7,11-12,spark-i095,chtc.wisc.edu,Dell EMC C6400,JK1JQ53,,JK1JQ53,U041057,,,
+WID,Z2 R7,13-14,spark-i096,chtc.wisc.edu,Dell EMC C6400,JK1J853,,JK1J853,U041056,,,
+WID,Z2 R7,13-14,spark-i097,chtc.wisc.edu,Dell EMC C6400,JK1HQ53,,JK1HQ53,U041056,,,
+WID,Z2 R7,13-14,spark-i098,chtc.wisc.edu,Dell EMC C6400,JK1H853,,JK1H853,U041056,,,
+WID,Z2 R7,13-14,spark-i099,chtc.wisc.edu,Dell EMC C6400,JK1GQ53,,JK1GQ53,U041056,,,
+WID,Z2 R7,25-26,spark-i100,chtc.wisc.edu,Dell EMC C6400,JK1G853,,JK1G853,U041055,,,
+WID,Z2 R7,25-26,spark-i101,chtc.wisc.edu,Dell EMC C6400,JK1FQ53,,JK1FQ53,U041055,,,
+WID,Z2 R7,25-26,spark-i102,chtc.wisc.edu,Dell EMC C6400,JK1F853,,JK1F853,U041055,,,
+WID,Z2 R7,25-26,spark-i103,chtc.wisc.edu,Dell EMC C6400,JK1DQ53,,JK1DQ53,U041055,,,
+WID,Z2 R7,17-18,spark-i104,chtc.wisc.edu,Dell EMC C6400,JK29853,,JK29853,U041054,,,
+WID,Z2 R7,17-18,spark-i105,chtc.wisc.edu,Dell EMC C6400,JK28853,,JK28853,U041054,,,
+WID,Z2 R7,17-18,spark-i106,chtc.wisc.edu,Dell EMC C6400,JK27853,,JK27853,U041054,,,
+WID,Z2 R7,17-18,spark-i107,chtc.wisc.edu,Dell EMC C6400,JK26853,,JK26853,U041054,,,
+WID,Z2 R7,19-20,spark-i108,chtc.wisc.edu,Dell EMC C6400,JK1Q853,,JK1Q853,U041059,,,
+WID,Z2 R7,19-20,spark-i109,chtc.wisc.edu,Dell EMC C6400,JK1PQ53,,JK1PQ53,U041059,,,
+WID,Z2 R7,19-20,spark-i110,chtc.wisc.edu,Dell EMC C6400,JK1P853,,JK1P853,U041059,,,
+WID,Z2 R7,19-20,spark-i111,chtc.wisc.edu,Dell EMC C6400,,,,U041059,,,
+WID,Z2 R7,21-22,spark-i112,chtc.wisc.edu,Dell EMC C6400,JK1TQ53,,JK1TQ53,U040607,,,
+WID,Z2 R7,21-22,spark-i113,chtc.wisc.edu,Dell EMC C6400,JK1SQ53,,JK1SQ53,U040607,,,
+WID,Z2 R7,21-22,spark-i114,chtc.wisc.edu,Dell EMC C6400,JK1RQ53,,JK1RQ53,U040607,,,
+WID,Z2 R7,21-22,spark-i115,chtc.wisc.edu,Dell EMC C6400,JK1QQ53,,JK1QQ53,U040607,,,
+WID,Z2 R7,23-24,spark-i116,chtc.wisc.edu,Dell EMC C6400,JK1N853,,JK1N853,U040608,,,
+WID,Z2 R7,23-24,spark-i117,chtc.wisc.edu,Dell EMC C6400,JK1MQ53,,JK1MQ53,U040608,,,
+WID,Z2 R7,23-24,spark-i118,chtc.wisc.edu,Dell EMC C6400,JK1M853,,JK1M853,U040608,,,
+WID,Z2 R7,23-24,spark-i119,chtc.wisc.edu,Dell EMC C6400,JK1LQ53,,JK1LQ53,U040608,,,
+WID,Z2 R8,1-2,spark-i120,chtc.wisc.edu,Dell EMC C6400,2MPP853,,2MPP853,U040609,,,
+WID,Z2 R8,1-2,spark-i121,chtc.wisc.edu,Dell EMC C6400,2MNP853,,2MNP853,U040609,,,
+WID,Z2 R8,1-2,spark-i122,chtc.wisc.edu,Dell EMC C6400,2MPM853,,2MPM853,U040609,,,
+WID,Z2 R8,1-2,spark-i123,chtc.wisc.edu,Dell EMC C6400,2MPJQ53,,2MPJQ53,U040609,,,
+WID,Z2 R8,3-4,spark-i124,chtc.wisc.edu,Dell EMC C6400,5BZQK93,,5BZQK93,none,,,
+WID,Z2 R8,3-4,spark-i125,chtc.wisc.edu,Dell EMC C6400,5BZPK93,,5BZPK93,none,,,
+WID,Z2 R8,3-4,spark-i126,chtc.wisc.edu,Dell EMC C6400,5BZNK93,,5BZNK93,none,,,
+WID,Z2 R8,3-4,spark-i127,chtc.wisc.edu,Dell EMC C6400,5BZMK93,,5BZMK93,none,,,
+WID,Z2 R8,5-6,spark-i128,chtc.wisc.edu,Dell EMC C6400,4TMQZB3,,4TMQZB3,none,,,
+WID,Z2 R8,5-6,spark-i129,chtc.wisc.edu,Dell EMC C6400,4TMPZB3,,4TMPZB3,none,,,
+WID,Z2 R8,5-6,spark-i130,chtc.wisc.edu,Dell EMC C6400,4TMNZB3,,4TMNZB3,none,,,
+WID,Z2 R8,5-6,spark-i131,chtc.wisc.edu,Dell EMC C6400,4TMMZB3,,4TMMZB3,none,,,
+WID,Z2 R8,7-8,spark-i132,chtc.wisc.edu,Dell EMC C6400,56H4ZC3,,56H4ZC3,none,,,
+WID,Z2 R8,7-8,spark-i133,chtc.wisc.edu,Dell EMC C6400,56H3ZC3,,56H3ZC3,none,,,
+WID,Z2 R8,7-8,spark-i134,chtc.wisc.edu,Dell EMC C6400,56H2ZC3,,56H2ZC3,none,,,
+WID,Z2 R8,7-8,spark-i135,chtc.wisc.edu,Dell EMC C6400,56H1ZC3,,56H1ZC3,none,,,
+WID,Z2 R8,9-10,spark-i136,chtc.wisc.edu,Dell EMC C6400,56G9ZC3,,56G9ZC3,none,,,
+WID,Z2 R8,9-10,spark-i137,chtc.wisc.edu,Dell EMC C6400,56G8ZC3,,56G8ZC3,none,,,
+WID,Z2 R8,9-10,spark-i138,chtc.wisc.edu,Dell EMC C6400,56G7ZC3,,56G7ZC3,none,,,
+WID,Z2 R8,9-10,spark-i139,chtc.wisc.edu,Dell EMC C6400,56G6ZC3,,56G6ZC3,none,,,
+WID,Z2 R8,11-12,spark-i140,chtc.wisc.edu,Dell EMC C6400,56J3ZC3,,56J3ZC3,none,,,
+WID,Z2 R8,11-12,spark-i141,chtc.wisc.edu,Dell EMC C6400,56J2ZC3,,56J2ZC3,none,,,
+WID,Z2 R8,11-12,spark-i142,chtc.wisc.edu,Dell EMC C6400,56J1ZC3,,56J1ZC3,none,,,
+WID,Z2 R8,11-12,spark-i143,chtc.wisc.edu,Dell EMC C6400,56H9ZC3,,56H9ZC3,none,,,
+WID,Z2 R8,13-14,spark-i144,chtc.wisc.edu,Dell EMC C6400,56H8ZC3,,56H8ZC3,none,,,
+WID,Z2 R8,13-14,spark-i145,chtc.wisc.edu,Dell EMC C6400,56H7ZC3,,56H7ZC3,none,,,
+WID,Z2 R8,13-14,spark-i146,chtc.wisc.edu,Dell EMC C6400,56H6ZC3,,56H6ZC3,none,,,
+WID,Z2 R8,13-14,spark-i147,chtc.wisc.edu,Dell EMC C6400,56H5ZC3,,56H5ZC3,none,,,
+WID,Z2 R8,17-18,spark-i148,chtc.wisc.edu,Dell EMC C6400,65P7VD3,,65P7VD3,none,,,
+WID,Z2 R8,17-18,spark-i149,chtc.wisc.edu,Dell EMC C6400,65P6VD3,,65P6VD3,none,,,
+WID,Z2 R8,17-18,spark-i150,chtc.wisc.edu,Dell EMC C6400,65P5VD3,,65P5VD3,none,,,
+WID,Z2 R8,17-18,spark-i151,chtc.wisc.edu,Dell EMC C6400,65P4VD3,,65P4VD3,none,,,
+WID,Z2 R8,19-20,spark-i152,chtc.wisc.edu,Dell EMC C6400,65QBVD3,,65QBVD3,none,,,
+WID,Z2 R8,19-20,spark-i153,chtc.wisc.edu,Dell EMC C6400,65Q9VD3,,65Q9VD3,none,,,
+WID,Z2 R8,19-20,spark-i154,chtc.wisc.edu,Dell EMC C6400,65Q8VD3,,65Q8VD3,none,,,
+WID,Z2 R8,19-20,spark-i155,chtc.wisc.edu,Dell EMC C6400,65Q7VD3,,65Q7VD3,none,,,
+WID,Z2 R5,7-8,spark-i156,chtc.wisc.edu,Dell EMC C6400,HR0W0Q2,,HR0W0Q2,U036397,,,
+WID,Z2 R5,7-8,spark-i157,chtc.wisc.edu,Dell EMC C6400,HR0V0Q2,,HR0V0Q2,U036397,,,
+WID,Z2 R5,7-8,spark-i158,chtc.wisc.edu,Dell EMC C6400,HR0T0Q2,,HR0T0Q2,U036397,,,
+WID,Z2 R5,7-8,spark-i159,chtc.wisc.edu,Dell EMC C6400,HQZY0Q2,,HQZY0Q2,U036397,,,
+WID,Z2 R5,5-6,spark-i160,chtc.wisc.edu,Dell EMC C6400,HQYV0Q2,,HQYV0Q2,U036404,,,
+WID,Z2 R5,5-6,spark-i161,chtc.wisc.edu,Dell EMC C6400,HQYT0Q2,,HQYT0Q2,U036404,,,
+WID,Z2 R5,5-6,spark-i162,chtc.wisc.edu,Dell EMC C6400,HQYS0Q2,,HQYS0Q2,U036404,,,
+WID,Z2 R5,5-6,spark-i163,chtc.wisc.edu,Dell EMC C6400,HQXY0Q2,,HQXY0Q2,U036404,,,
+WID,Z2 R5,3-4,spark-i164,chtc.wisc.edu,Dell EMC C6400,HQZX0Q2,,HQZX0Q2,U036403,,,
+WID,Z2 R5,3-4,spark-i165,chtc.wisc.edu,Dell EMC C6400,HQZW0Q2,,HQZW0Q2,U036403,,,
+WID,Z2 R5,3-4,spark-i166,chtc.wisc.edu,Dell EMC C6400,HQZV0Q2,,HQZV0Q2,U036403,,,
+WID,Z2 R5,3-4,spark-i167,chtc.wisc.edu,Dell EMC C6400,HQZT0Q2,,HQZT0Q2,U036403,,,
+WID,Z2 R5,1-2,spark-i168,chtc.wisc.edu,Dell EMC C6400,HR2W0Q2,,HR2W0Q2,U036402,,,
+WID,Z2 R5,1-2,spark-i169,chtc.wisc.edu,Dell EMC C6400,HR2T0Q2,,HR2T0Q2,U036402,,,
+WID,Z2 R5,1-2,spark-i170,chtc.wisc.edu,Dell EMC C6400,HR2V0Q2,,HR2V0Q2,U036402,,,
+WID,Z2 R5,1-2,spark-i171,chtc.wisc.edu,Dell EMC C6400,HR1Z0Q2,,HR1Z0Q2,U036402,,,
+WID,Z2 R5,9-10,spark-i172,chtc.wisc.edu,Dell EMC C6400,HR3T0Q2,,HR3T0Q2,U036401,,,
+WID,Z2 R5,9-10,spark-i173,chtc.wisc.edu,Dell EMC C6400,HR2Z0Q2,,HR2Z0Q2,U036401,,,
+WID,Z2 R5,9-10,spark-i174,chtc.wisc.edu,Dell EMC C6400,HR2Y0Q2,,HR2Y0Q2,U036401,,,
+WID,Z2 R5,9-10,spark-i175,chtc.wisc.edu,Dell EMC C6400,HR2X0Q2,,HR2X0Q2,U036401,,,
+WID,Z2 R5,11-12,spark-i176,chtc.wisc.edu,Dell EMC C6400,HQZS0Q2,,HQZS0Q2,U036399,,,
+WID,Z2 R5,11-12,spark-i177,chtc.wisc.edu,Dell EMC C6400,HQYY0Q2,,HQYY0Q2,U036399,,,
+WID,Z2 R5,11-12,spark-i178,chtc.wisc.edu,Dell EMC C6400,HQYX0Q2,,HQYX0Q2,U036399,,,
+WID,Z2 R5,11-12,spark-i179,chtc.wisc.edu,Dell EMC C6400,HQYW0Q2,,HQYW0Q2,U036399,,,
+WID,Z2 R5,13-14,spark-i180,chtc.wisc.edu,Dell EMC C6400,HR1T0Q2,,HR1T0Q2,U036400,,,
+WID,Z2 R5,13-14,spark-i181,chtc.wisc.edu,Dell EMC C6400,HR0Z0Q2,,HR0Z0Q2,U036400,,,
+WID,Z2 R5,13-14,spark-i182,chtc.wisc.edu,Dell EMC C6400,HR0Y0Q2,,HR0Y0Q2,U036400,,,
+WID,Z2 R5,13-14,spark-i183,chtc.wisc.edu,Dell EMC C6400,HR0X0Q2,,HR0X0Q2,U036400,,,
+WID,Z2 R5,15-16,spark-i184,chtc.wisc.edu,Dell EMC C6400,HR1Y0Q2,,HR1Y0Q2,U036398,,,
+WID,Z2 R5,15-16,spark-i185,chtc.wisc.edu,Dell EMC C6400,HR1X0Q2,,HR1X0Q2,U036398,,,
+WID,Z2 R5,15-16,spark-i186,chtc.wisc.edu,Dell EMC C6400,HR1W0Q2,,HR1W0Q2,U036398,,,
+WID,Z2 R5,15-16,spark-i187,chtc.wisc.edu,Dell EMC C6400,,,,U036398,,,Disk Read Error in i187 slot
+WID,Z2 R5,18,spark-a206,chtc.wisc.edu,Dell EMC PowerEdge R6525,FFG76X3,,FFG76X3,U046152,,,Ben Lindley Chassis
+WID,Z2 R5,19,spark-a205,chtc.wisc.edu,Dell EMC PowerEdge R6525,CFG76X3,,CFG76X3,U046153,,,Ben Lindley Chassis
+WID,Z2 R5,20,spark-a204,chtc.wisc.edu,Dell EMC PowerEdge R6525,DFG76X3,,DFG76X3,U046154,,,Ben Lindley Chassis
+WID,Z2 R5,26,spark-a207,chtc.wisc.edu,Dell EMC PowerEdge R6525,1G3DWX3,,1G3DWX3,none,,,Yuan Ping Chassis. Needs Cabling
+WID,Z2 R5,27,spark-a208,chtc.wisc.edu,Dell EMC PowerEdge R6525,2G3DWX3,,2G3DWX3,none,,,Yuan Ping Chassis. Needs Cabling
+WID,Z2 R5,28,spark-a209,chtc.wisc.edu,Dell EMC PowerEdge R6525,3G3DWX3,,3G3DWX3,none,,,Yuan Ping Chassis. Needs Cabling
+WID,Z2 R5,29,spark-a210,chtc.wisc.edu,Dell EMC PowerEdge R6525,4G3DWX3,,4G3DWX3,none,,,Yuan Ping Chassis. Needs Cabling
+WID,Z2 R5,30,spark-a211,chtc.wisc.edu,Dell EMC PowerEdge R6525,5G3DWX3,,5G3DWX3,none,,,Yuan Ping Chassis. Needs Cabling
+WID,Z2 R5,31,spark-a212,chtc.wisc.edu,Dell EMC PowerEdge R6525,6G3DWX3,,6G3DWX3,none,,,Yuan Ping Chassis. Needs Cabling
+WID,Z2 R5,32,spark-a213,chtc.wisc.edu,Dell EMC PowerEdge R6525,7G3DWX3,,7G3DWX3,none,,,Yuan Ping Chassis. Needs Cabling
+WID,Z2 R5,33,spark-a214,chtc.wisc.edu,Dell EMC PowerEdge R6525,8G3DWX3,,8G3DWX3,none,,,In WID storage waiting to be racked. Yuan Ping Chassis
+WID,Z2 R5,34,spark-hv-1,chtc.wisc.edu,SuperMicro HS119-R12H13,S515042X3914049,,S515042X3914050,U047460,,,
+WID,Z2 R5,35,spark-hv-2,chtc.wisc.edu,SuperMicro HS119-R12H13,S515042X3914050,,S515042X3914049,U047459,,,
+WID,A12,10-11,submit0005,chtc.wisc.edu,Dell PowerEdge R515,CLSMNQ1,,CLSMNQ1,U044979,,,No tag? hostname not found in icinga
+WID,A12,13-14,submit2,chtc.wisc.edu,Dell PowerEdge R520,FJT04W1,,FJT04W1,U022758,,,
+WID,A12,19-20,submit3,chtc.wisc.edu,Dell PowerEdge R515,DMGG7R1,,DMGG7R1,none,,,"Torn apart - Confirmed no UW tag anywhere on the chassis. No tags inside, Joe."
+WID,Z2 R10,28,tekin0000,chtc.wisc.edu,SuperMicro SYS-1029GQ-TRT,S282159X8622395,,S282159X8622395,U034068,,,"Potential SWAP, need to find Waisman dept contact (https://wiser.wisc.edu/#/asset/000000027629?unit=UWMSN)"
+WID,B1,24-27,tgrant0000,chtc.wisc.edu,King Star Super Server,53511010820203W+,,53511010820203W+,none,,9000474,Torn apart - Confirmed no UW tag anywhere on the chassis
+WID,B1,5-6,tiger0000,chtc.wisc.edu,King Star SSG-6029P-E1CR12H,S287468X0118433 53006010317203W+,,S287468X0118433 53006010317203W+,none,,9000457,
+WID,B1,3-4,tiger0001,chtc.wisc.edu,King Star SSG-6029P-E1CR12H,S287468X0118428 53006020317203W+,,S287468X0118428 53006020317203W+,none,,9000456,
+WID,B1,1-2,tiger0002,chtc.wisc.edu,King Star SSG-6029P-E1CR12H,S287468X0118432 5300603031720W+,,S287468X0118432 5300603031720W+,none,,9000455,
+WID,B1,20,tiger0011,chtc.wisc.edu,"""Super Server"" baseboard X11DDW-L",53578010915203W+,,53578010915203W+,U040484,C036712 & C06713,,
+WID,B1,21,tiger0012,chtc.wisc.edu,"""Super Server"" baseboard X11DDW-L",53578040915203W+,,53578040915203W+,U039220,C036733 & C06734,,
+WID,B1,28,tiger0013,chtc.wisc.edu,"""Super Server"" baseboard X11DDW-L",53577010915203W+,,53577010915203W+,U039217,C036690 to C036694 & C036700,,
+WID,B1,29,tiger0014,chtc.wisc.edu,"""Super Server"" baseboard X11DDW-L",53577020915203W+,,53577020915203W+,U039218,C036701 to C036706,,
+WID,B5,5,tiger0015,chtc.wisc.edu,"""Super Server"" baseboard X11DDW-L",53578020915203W+,,53578020915203W+,U039219,C036719 & C036720,,
+WID,B5,6,tiger0016,chtc.wisc.edu,"""Super Server"" baseboard X11DDW-L",53578030915203W+,,53578030915203W+,U040485,C036726 & C037627,,
+WID,B1,7,tiger0034,chtc.wisc.edu,SuperMicro SYS-F617R2-RT+,54458020609213W+,,54458020609213W+,none,,9000510,Tiger0036 sticker on back of chassis
+WID,B1,8,tiger0035,chtc.wisc.edu,SuperMicro SYS-F617R2-RT+,54458010609213W+,,54458010609213W+,none,,9000509,
+WID,Z1 R8,21-24,vetsigian0000,chtc.wisc.edu,SuperMicro SYS-4029GP-TRT,S309092X8B25964,,S309092X8B25964,U036026,,,
+WID,Z1 R7,31-34,vetsigian0001,chtc.wisc.edu,SuperMicro SYS-4029GP-TRT,S309092X8C26414,,S309092X8C26414,U036064,,,
+WID,B1,18-19,wid-003,chtc.wisc.edu,RAX XS8-12S3-10G,AB1844968,,AB1844968,U001224,,,Tags for disks inside
+WID,Z2 R2,14-15,xddfetch,chtc.wisc.edu,Dell PowerEdge R720,58KBR22,,58KBR22,U000675,,,
+WID,Z1 R2,7-10,spaldingarchive0001,chtc.wisc.edu,SSG-6049P-E1CR36H,S287680X2712895,,55605010721223W+,,,,
+WID,Z1 R4,1-2,hpc-ib-eth-gw,chtc.wisc.edu,Dell EMC C6400,3CQYMH3,3CC1NH3,3CQYMH3,none,,,
+WID,Z1 R4,1-2,spark-a002,chtc.wisc.edu,Dell EMC C6400,3CQXMH3,3CC1NH3,3CQXMH3,none,,,
+WID,Z1 R4,1-2,spark-a003,chtc.wisc.edu,Dell EMC C6400,3CQWMH3,3CC1NH3,3CQWMH3,none,,,
+WID,Z1 R4,1-2,spark-a004,chtc.wisc.edu,Dell EMC C6400,3CQ2NH3,3CC1NH3,3CQ2NH3,none,,,
+WID,Z1 R4,3-4,spark-a005,chtc.wisc.edu,Dell EMC C6400,3CQ1NH3,3CC0NH3,3CQ1NH3,none,,,
+WID,Z1 R4,3-4,spark-a006,chtc.wisc.edu,Dell EMC C6400,3CQ0NH3,3CC0NH3,3CQ0NH3,none,,,
+WID,Z1 R4,3-4,spark-a007,chtc.wisc.edu,Dell EMC C6400,3CPZMH3,3CC0NH3,3CPZMH3,none,,,
+WID,Z1 R4,3-4,spark-a008,chtc.wisc.edu,Dell EMC C6400,3CPYMH3,3CC0NH3,3CPYMH3,none,,,
+WID,Z1 R4,5-6,spark-a009,chtc.wisc.edu,Dell EMC C6400,3CRZMH3,3CCXMH3,3CRZMH3,none,,,
+WID,Z1 R4,5-6,spark-a010,chtc.wisc.edu,Dell EMC C6400,3CRYMH3,3CCXMH3,3CRYMH3,none,,,
+WID,Z1 R4,5-6,spark-a011,chtc.wisc.edu,Dell EMC C6400,3CRXMH3,3CCXMH3,3CRXMH3,none,,,
+WID,Z1 R4,5-6,spark-a012,chtc.wisc.edu,Dell EMC C6400,3CRWMH3,3CCXMH3,3CRWMH3,none,,,
+WID,Z1 R4,7-8,spark-a013,chtc.wisc.edu,Dell EMC C6400,3CP0NH3,3CBYMH3,3CP0NH3,none,,,
+WID,Z1 R4,7-8,spark-a014,chtc.wisc.edu,Dell EMC C6400,3CNZMH3,3CBYMH3,3CNZMH3,none,,,
+WID,Z1 R4,7-8,spark-a015,chtc.wisc.edu,Dell EMC C6400,3CNYMH3,3CBYMH3,3CNYMH3,none,,,
+WID,Z1 R4,7-8,spark-a016,chtc.wisc.edu,Dell EMC C6400,3CNXMH3,3CBYMH3,3CNXMH3,none,,,
+WID,Z1 R4,9-10,spark-a017,chtc.wisc.edu,Dell EMC C6400,3CR2NH3,3CC2NH3,3CR2NH3,none,,,: 
+WID,Z1 R4,9-10,spark-a018,chtc.wisc.edu,Dell EMC C6400,3CR1NH3,3CC2NH3,3CR1NH3,none,,,
+WID,Z1 R4,9-10,spark-a019,chtc.wisc.edu,Dell EMC C6400,3CR0NH3,3CC2NH3,3CR0NH3,none,,,
+WID,Z1 R4,9-10,spark-a020,chtc.wisc.edu,Dell EMC C6400,3CQZMH3,3CC2NH3,3CQZMH3,none,,,
+WID,Z1 R4,11-12,spark-a021,chtc.wisc.edu,Dell EMC C6400,3CNWMH3,3CBXMH3,3CNWMH3,none,,,
+WID,Z1 R4,11-12,spark-a022,chtc.wisc.edu,Dell EMC C6400,3CN2NH3,3CBXMH3,3CN2NH3,none,,,
+WID,Z1 R4,11-12,spark-a023,chtc.wisc.edu,Dell EMC C6400,3CN1NH3,3CBXMH3,3CN1NH3,none,,,
+WID,Z1 R4,11-12,spark-a024,chtc.wisc.edu,Dell EMC C6400,3CN0NH3,3CBXMH3,3CN0NH3,none,,,
+WID,Z1 R4,13-14,spark-a025,chtc.wisc.edu,Dell EMC C6400,3CPXMH3,3CBZMH3,3CPXMH3,none,,,
+WID,Z1 R4,13-14,spark-a026,chtc.wisc.edu,Dell EMC C6400,3CPWMH3,3CBZMH3,3CPWMH3,none,,,
+WID,Z1 R4,13-14,spark-a027,chtc.wisc.edu,Dell EMC C6400,3CP2NH3,3CBZMH3,3CP2NH3,none,,,
+WID,Z1 R4,13-14,spark-a028,chtc.wisc.edu,Dell EMC C6400,3CP1NH3,3CBZMH3,3CP1NH3,none,,,
+WID,Z1 R5,22-23,spark-i196,chtc.wisc.edu,Dell EMC C6400,CZ57DW2,,CZ57DW2,U046008,,,
+WID,Z1 R5,22-23,spark-i197,chtc.wisc.edu,Dell EMC C6400,CZ4JDW2,,CZ4JDW2,U046008,,,
+WID,Z1 R5,22-23,spark-i198,chtc.wisc.edu,Dell EMC C6400,CZ4HDW2,,CZ4HDW2,U046008,,,
+WID,Z1 R5,22-23,spark-i199,chtc.wisc.edu,Dell EMC C6400,CZ4GDW2,,CZ4GDW2,U046008,,,
+WID,Z1 R5,24-25,spark-i200,chtc.wisc.edu,Dell EMC C6400,CZ49DW2,,CZ49DW2,U046009,,,
+WID,Z1 R5,24-25,spark-i201,chtc.wisc.edu,Dell EMC C6400,CZ48DW2,,CZ48DW2,U046009,,,
+WID,Z1 R5,24-25,spark-i202,chtc.wisc.edu,Dell EMC C6400,CZ47DW2,,CZ47DW2,U046009,,,
+WID,Z1 R5,24-25,spark-i203,chtc.wisc.edu,Dell EMC C6400,CZ3JDW2,,CZ3JDW2,U046009,,,
+WID,Z1 R5,26-27,spark-i188,chtc.wisc.edu,Dell EMC C6400,G1NJ3W2,,G1NJ3W2,G1NJ3W2,,,
+WID,Z1 R5,26-27,spark-i189,chtc.wisc.edu,Dell EMC C6400,G1NH3W2,,G1NH3W2,U046006,,,
+WID,Z1 R5,26-27,spark-i190,chtc.wisc.edu,Dell EMC C6400,G1MP3W2,,G1MP3W2,U046006,,,
+WID,Z1 R5,26-27,spark-i191,chtc.wisc.edu,Dell EMC C6400,G1MN3W2,,G1MN3W2,U046006,,,
+WID,Z1 R5,28-29,spark-i192,chtc.wisc.edu,Dell EMC C6400,G1MM3W2,,G1MM3W2,U046007,,,
+WID,Z1 R5,28-29,spark-i193,chtc.wisc.edu,Dell EMC C6400,G1ML3W2,,G1ML3W2,U046007,,,
+WID,Z1 R5,28-29,spark-i194,chtc.wisc.edu,Dell EMC C6400,G1MK3W2,,G1MK3W2,U046007,,,
+WID,Z1 R5,28-29,spark-i195,chtc.wisc.edu,Dell EMC C6400,G1MJ3W2,,G1MJ3W2,U046007,,,
+WID,Z2 R7,31,spark-mds-1,chtc.wisc.edu,King Star Xeon 1U,55380010408223W+,,55380010408223W+,U043374,,,"Slide out chassis to view tag, located up top."
+WID,Z1 R2,20-23,jcaicedogpu0000,chtc.wisc.edu,sys-420gp-tnr,S425662X3314578,,S425662X3314578,,,,
+WID,Z1 R2,24-27,jcaicedogpu0001,chtc.wisc.edu,sys-420gp-tnr,S425662X3314595,,S425662X3314595,,,,
+WID,Z1 R11,1,spark-a215,chtc.wisc.edu,PowerEdge R6525,1PGT2Z3,,,U047656,,,
+WID,Z1 R11,2,spark-a216,chtc.wisc.edu,PowerEdge R6525,6PGT2Z3,,,U047657,,,
+WID,Z1 R11,3,spark-a217,chtc.wisc.edu,PowerEdge R6525,2PGT2Z3,,,U047658,,,
+WID,Z1 R11,4,spark-a218,chtc.wisc.edu,PowerEdge R6525,JNGT2Z3,,,U047659,,,
+WID,Z1 R11,5,spark-a219,chtc.wisc.edu,PowerEdge R6525,GNGT2Z3,,,U047660,,,
+WID,Z1 R11,6,spark-a220,chtc.wisc.edu,PowerEdge R6525,4PGT2Z3,,,U047661,,,
+WID,Z1 R11,7,spark-a221,chtc.wisc.edu,PowerEdge R6525,5PGT2Z3,,,U047662,,,
+WID,Z1 R11,8,spark-a222,chtc.wisc.edu,PowerEdge R6525,3PGT2Z3,,,U047663,,,
+WID,Z1 R11,9,spark-a223,chtc.wisc.edu,PowerEdge R6525,HNGT2Z3,,,U047664,,,
+WID,Z1 R11,10,spark-a224,chtc.wisc.edu,PowerEdge R6525,FNGT2Z3,,,U047665,,,
+CSB240,C1,16,e459,chtc.wisc.edu,Cisco UCSC-C220-M3S,FCH1819V03Q,,FCH1819V03Q,U011153,,,
+OneNeck,5 - 7,1,build4000,chtc.wisc.edu,PowerEdge R6525,,,BDC4RN3,U045024,,,formerly e4000
+OneNeck,5 - 7,2,e4001,chtc.wisc.edu,PowerEdge R6525,,,GDC4RN3,U045025,,,
+OneNeck,5 - 7,3,e4002,chtc.wisc.edu,PowerEdge R6525,,,FDC4RN3,U045026,,,
+OneNeck,5 - 7,4,e4003,chtc.wisc.edu,PowerEdge R6525,,,1FC4RN3,U045027,,,
+OneNeck,5 - 7,5,e4004,chtc.wisc.edu,PowerEdge R6525,,,5R44RN3,U045028,,,
+OneNeck,5 - 7,6,e4005,chtc.wisc.edu,PowerEdge R6525,,,3R44RN3,U045029,,,
+OneNeck,5 - 7,7,e4006,chtc.wisc.edu,PowerEdge R6525,,,9R44RN3,U045030,,,
+OneNeck,5 - 7,8,e4007,chtc.wisc.edu,PowerEdge R6525,,,DDC4RN3,U045031,,,
+OneNeck,5 - 7,9,e4008,chtc.wisc.edu,PowerEdge R6525,,,JDC4RN3,U045032,,,
+OneNeck,5 - 7,10,e4009,chtc.wisc.edu,PowerEdge R6525,,,7R44RN3,U045033,,,
+OneNeck,5 - 7,11,e4010,chtc.wisc.edu,PowerEdge R6525,,,CDC4RN3,U045034,,,
+OneNeck,5 - 7,12,e4011,chtc.wisc.edu,PowerEdge R6525,,,6R44RN3,U045035,,,
+OneNeck,5 - 7,13,e4012,chtc.wisc.edu,PowerEdge R6525,,,4R44RN3,U045036,,,
+OneNeck,5 - 7,14,e4013,chtc.wisc.edu,PowerEdge R6525,,,HDC4RN3,U045037,,,
+OneNeck,7 - 15,2,e4014,chtc.wisc.edu,PowerEdge R6525,,,29C4RN3,U045038,,,
+OneNeck,7 - 15,3,e4015,chtc.wisc.edu,PowerEdge R6525,,,D8C4RN3,U045039,,,
+OneNeck,7 - 15,4,e4016,chtc.wisc.edu,PowerEdge R6525,,,39C4RN3,U045040,,,
+OneNeck,7 - 15,5,e4017,chtc.wisc.edu,PowerEdge R6525,,,89C4RN3,U045041,,,
+OneNeck,7 - 15,6,e4018,chtc.wisc.edu,PowerEdge R6525,,,5DC4RN3,U045042,,,
+OneNeck,7 - 15,7,e4019,chtc.wisc.edu,PowerEdge R6525,,,6DC4RN3,U045043,,,
+OneNeck,7 - 15,8,e4020,chtc.wisc.edu,PowerEdge R6525,,,8DC4RN3,U045044,,,
+OneNeck,7 - 15,9,e4021,chtc.wisc.edu,PowerEdge R6525,,,9DC4RN3,U045045,,,
+OneNeck,7 - 15,10,e4022,chtc.wisc.edu,PowerEdge R6525,,,4DC4RN3,U045046,,,
+OneNeck,7 - 15,11,e4023,chtc.wisc.edu,PowerEdge R6525,,,19C4RN3,U045047,,,
+OneNeck,7 - 15,12,e4024,chtc.wisc.edu,PowerEdge R6525,,,J8C4RN3,U045048,,,
+OneNeck,7 - 15,13,build4001,chtc.wisc.edu,PowerEdge R6525,,,F8C4RN3,U045049,,,formerly e4025
+OneNeck,7 - 15,14,e4026,chtc.wisc.edu,PowerEdge R6525,,,B8C4RN3,U045050,,,
+OneNeck,7 - 14,1,e4027,chtc.wisc.edu,PowerEdge R6525,,,C8C4RN3,U045051,,,
+OneNeck,7 - 14,2,e4028,chtc.wisc.edu,PowerEdge R6525,,,B9C4RN3,U045052,,,
+OneNeck,7 - 14,3,e4029,chtc.wisc.edu,PowerEdge R6525,,,4CC4RN3,U045053,,,
+OneNeck,7 - 14,4,e4030,chtc.wisc.edu,PowerEdge R6525,,,3BC4RN3,U045054,,,
+OneNeck,7 - 14,5,e4031,chtc.wisc.edu,PowerEdge R6525,,,8R44RN3,U045055,,,
+OneNeck,7 - 14,6,e4032,chtc.wisc.edu,PowerEdge R6525,,,BR44RN3,U045056,,,
+OneNeck,7 - 14,7,e4033,chtc.wisc.edu,PowerEdge R6525,,,8BC4RN3,U045057,,,
+OneNeck,7 - 14,8,e4034,chtc.wisc.edu,PowerEdge R6525,,,5BC4RN3,U045058,,,
+OneNeck,7 - 14,9,e4035,chtc.wisc.edu,PowerEdge R6525,,,4BC4RN3,U045059,,,
+OneNeck,7 - 14,10,e4036,chtc.wisc.edu,PowerEdge R6525,,,JQ44RN3,U045060,,,
+OneNeck,7 - 14,11,e4037,chtc.wisc.edu,PowerEdge R6525,,,FQ44RN3,U045061,,,
+OneNeck,7 - 14,12,e4038,chtc.wisc.edu,PowerEdge R6525,,,2R44RN3,U045062,,,
+OneNeck,7 - 14,13,e4039,chtc.wisc.edu,PowerEdge R6525,,,7BC4RN3,U045063,,,
+OneNeck,7 - 14,14,e4040,chtc.wisc.edu,PowerEdge R6525,,,9BC4RN3,U045064,,,
+OneNeck,7 - 15,1,e4041,chtc.wisc.edu,PowerEdge R6525,,,J9C4RN3,U045065,,,
+OneNeck,7 - 13,1,e4042,chtc.wisc.edu,PowerEdge R6525,,,6BC4RN3,U045066,,,
+OneNeck,7 - 13,2,e4043,chtc.wisc.edu,PowerEdge R6525,,,2BC4RN3,U045067,,,
+OneNeck,7 - 13,3,e4044,chtc.wisc.edu,PowerEdge R6525,,,DQ44RN3,U045068,,,
+OneNeck,7 - 13,4,build4002,chtc.wisc.edu,PowerEdge R6525,,,GQ44RN3,U045069,,,fomerly e4045
+OneNeck,7 - 13,5,e4046,chtc.wisc.edu,PowerEdge R6525,,,6CC4RN3,U045070,,,
+OneNeck,7 - 13,6,e4047,chtc.wisc.edu,PowerEdge R6525,,,7CC4RN3,U045071,,,
+OneNeck,7 - 13,7,e4048,chtc.wisc.edu,PowerEdge R6525,,,8CC4RN3,U045072,,,
+OneNeck,7 - 13,8,e4049,chtc.wisc.edu,PowerEdge R6525,,,2CC4RN3,U045073,,,
+OneNeck,7 - 13,9,e4050,chtc.wisc.edu,PowerEdge R6525,,,9CC4RN3,U045074,,,
+OneNeck,7 - 13,10,e4051,chtc.wisc.edu,PowerEdge R6525,,,3CC4RN3,U045075,,,
+OneNeck,7 - 13,11,e4052,chtc.wisc.edu,PowerEdge R6525,,,5CC4RN3,U045076,,,
+OneNeck,7 - 13,12,e4053,chtc.wisc.edu,PowerEdge R6525,,,BN44RN3,U045077,,,
+OneNeck,7 - 13,13,e4054,chtc.wisc.edu,PowerEdge R6525,,,5P44RN3,U045078,,,
+OneNeck,7 - 13,14,e4055,chtc.wisc.edu,PowerEdge R6525,,,7P44RN3,U045079,,,
+OneNeck,7 - 12,1,e4056,chtc.wisc.edu,PowerEdge R6525,,,BP44RN3,U045080,,,
+OneNeck,7 - 12,2,e4057,chtc.wisc.edu,PowerEdge R6525,,,3P44RN3,U045081,,,
+OneNeck,7 - 12,3,e4058,chtc.wisc.edu,PowerEdge R6525,,,9P44RN3,U045082,,,
+OneNeck,7 - 12,4,e4059,chtc.wisc.edu,PowerEdge R6525,,,G8C4RN3,U045083,,,
+OneNeck,7 - 12,5,e4060,chtc.wisc.edu,PowerEdge R6525,,,79C4RN3,U045084,,,
+OneNeck,7 - 12,6,e4061,chtc.wisc.edu,PowerEdge R6525,,,8P44RN3,U045085,,,
+OneNeck,7 - 12,7,e4062,chtc.wisc.edu,PowerEdge R6525,,,4P44RN3,U045086,,,
+OneNeck,7 - 12,8,e4063,chtc.wisc.edu,PowerEdge R6525,,,6P44RN3,U045087,,,
+OneNeck,7 - 12,9,e4064,chtc.wisc.edu,PowerEdge R6525,,,C9C4RN3,U045088,,,
+OneNeck,7 - 12,10,e4065,chtc.wisc.edu,PowerEdge R6525,,,H9C4RN3,U045089,,,
+OneNeck,7 - 12,11,e4066,chtc.wisc.edu,PowerEdge R6525,,,69C4RN3,U045090,,,
+OneNeck,7 - 12,12,e4067,chtc.wisc.edu,PowerEdge R6525,,,H8C4RN3,U045091,,,
+OneNeck,7 - 12,13,e4068,chtc.wisc.edu,PowerEdge R6525,,,1BC4RN3,U045092,,,
+OneNeck,7 - 12,14,e4069,chtc.wisc.edu,PowerEdge R6525,,,GN44RN3,U045093,,,
+OneNeck,7 - 11,1,e4070,chtc.wisc.edu,PowerEdge R6525,,,FN44RN3,U045094,,,
+OneNeck,7 - 11,2,e4071,chtc.wisc.edu,PowerEdge R6525,,,F9C4RN3,U045095,,,
+OneNeck,7 - 11,3,e4072,chtc.wisc.edu,PowerEdge R6525,,,D9C4RN3,U045096,,,
+OneNeck,7 - 11,4,e4073,chtc.wisc.edu,PowerEdge R6525,,,59C4RN3,U045097,,,
+OneNeck,7 - 11,5,e4074,chtc.wisc.edu,PowerEdge R6525,,,49C4RN3,U045098,,,
+OneNeck,7 - 11,6,e4075,chtc.wisc.edu,PowerEdge R6525,,,99C4RN3,U045099,,,
+OneNeck,7 - 11,7,e4076,chtc.wisc.edu,PowerEdge R6525,,,2P44RN3,U045100,,,
+OneNeck,7 - 11,8,e4077,chtc.wisc.edu,PowerEdge R6525,,,JN44RN3,U045101,,,
+OneNeck,7 - 11,9,e4078,chtc.wisc.edu,PowerEdge R6525,,,DN44RN3,U045102,,,
+OneNeck,7 - 11,10,e4079,chtc.wisc.edu,PowerEdge R6525,,,1P44RN3,U045103,,,
+OneNeck,7 - 11,11,e4080,chtc.wisc.edu,PowerEdge R6525,,,CN44RN3,U045104,,,
+OneNeck,7 - 11,12,e4081,chtc.wisc.edu,PowerEdge R6525,,,HN44RN3,U045105,,,
+OneNeck,7 - 11,13,e4082,chtc.wisc.edu,PowerEdge R6525,,,2DC4RN3,U045106,,,
+OneNeck,7 - 11,14,e4083,chtc.wisc.edu,PowerEdge R6525,,,7DC4RN3,U045107,,,
+OneNeck,7 - 10,1,e4084,chtc.wisc.edu,PowerEdge R6525,,,3DC4RN3,U045108,,,
+OneNeck,7 - 10,2,e4085,chtc.wisc.edu,PowerEdge R6525,,,G9C4RN3,U045109,,,
+OneNeck,7 - 10,3,e4086,chtc.wisc.edu,PowerEdge R6525,,,8Q44RN3,U045110,,,
+OneNeck,7 - 10,4,e4087,chtc.wisc.edu,PowerEdge R6525,,,7Q44RN3,U045111,,,
+OneNeck,7 - 10,5,e4088,chtc.wisc.edu,PowerEdge R6525,,,5Q44RN3,U045113,,,
+OneNeck,7 - 10,6,e4089,chtc.wisc.edu,PowerEdge R6525,,,9Q44RN3,U045114,,,
+OneNeck,7 - 10,7,e4090,chtc.wisc.edu,PowerEdge R6525,,,4Q44RN3,U045115,,,
+OneNeck,7 - 10,8,e4091,chtc.wisc.edu,PowerEdge R6525,,,6Q44RN3,U045116,,,
+OneNeck,7 - 10,9,e4092,chtc.wisc.edu,PowerEdge R6525,,,7N44RN3,U045117,,,
+OneNeck,7 - 10,10,e4093,chtc.wisc.edu,PowerEdge R6525,,,9N44RN3,U045118,,,
+OneNeck,7 - 10,11,e4094,chtc.wisc.edu,PowerEdge R6525,,,6N44RN3,U045119,,,
+OneNeck,7 - 10,12,e4095,chtc.wisc.edu,PowerEdge R6525,,,8N44RN3,U045120,,,
+OneNeck,7 - 10,13,e4096,chtc.wisc.edu,PowerEdge R6525,,,BQ44RN3,U045121,,,
+OneNeck,7 - 10,14,e4097,chtc.wisc.edu,PowerEdge R6525,,,3Q44RN3,U045122,,,
+OneNeck,5 - 9,39,tiger4000,chtc.wisc.edu,PowerEdge R640,,,D58XZV2,U035968,,,
+OneNeck,7 - 16,5 - 8,xhuanggpu4000,chtc.wisc.edu,AS-4124GS-TNR,S404070X2A11921,,S404070X2A11921,U041262,,,
+OneNeck,314.07.15,15-18,xhuanggpu4001,chtc.wisc.edu,sys-420gp-tnr,S425662X3314615,,S425662X3314615,U048066,,,
+OneNeck,8 - 16,13 - 14,mcdanielgpu4000,chtc.wisc.edu,AS-2124GQ-NART,S430390X1104450,,S430390X1104450,U041766,,,
+OneNeck,9 - 16,9 - 12,mcdanielgpu4001,chtc.wisc.edu,AS -4124GO-NART,S434992X1110251,,S434992X1110251,U041774,,,
+OneNeck,314.07.12,15-18,gpu4000,chtc.wisc.edu,sys-420gp-tnr,S425662X3314608,,S425662X3314608,U048067,,,
+OneNeck,314.07.10,15-18,gpu4001,chtc.wisc.edu,sys-420gp-tnr,S425662X3314609,,S425662X3314609,U048068,,,
+OneNeck,314.07.10,19-22,gpu4002,chtc.wisc.edu,sys-420gp-tnr,S425662X3720402,,S425662X3720402,U048069,,,
+OneNeck,314.07.15,15-18,xhuanggpu4001,chtc.wisc.edu,sys-420gp-tnr,S425662X3314615,,S425662X3314615,U048066,,,
+OneNeck,314.07.14,15-18,dsigpu4000,chtc.wisc.edu,sys-420gp-tnr,S425662X3406897,,S425662X3406897,,,,
+OneNeck,314.07.13,15-18,dsigpu4001,chtc.wisc.edu,sys-420gp-tnr,S425662X3406899,,S425662X3406899,,,,
+OneNeck,314.07.12,15-18,dsigpu4002,chtc.wisc.edu,sys-420gp-tnr,S425662X3720401,,S425662X3720401,,,,
+OneNeck,314.02.12,1-4,cxiaogpu4000,chtc.wisc.edu,AS -4124GO-NART,S434992X4217876,,S434992X4217876,,,,
+WID,B8,9-10,arm-e0000,chtc.wisc.edu,ARS-210M-NR,S501038X4402413,,S501038X4402413,,,9000610,INF-1852
+Florida,?,?,FIU-TOR,chtc.wisc.edu,,,,,U044332,,,FIU TOR
+Florida,?,?,FIU-ADMIN,chtc.wisc.edu,,,,,U044332,,,FIU ADMIN
+Florida,?,?,fiu-svc-1,facility.path-cc.io,,,,,U044332,,,PATh Facility - FIU
+Florida,?,?,fiu-gpu-1,facility.path-cc.io,,,,,U044332,,,PATh Facility - FIU
+Florida,?,?,fiu-cpu-11,facility.path-cc.io,Dell PowerEdge C6525,,,,U044332,,,PATh Facility - FIU
+Florida,?,?,fiu-cpu-12,facility.path-cc.io,Dell PowerEdge C6525,,,,U044332,,,PATh Facility - FIU
+Florida,?,?,fiu-cpu-13,facility.path-cc.io,Dell PowerEdge C6525,,,,U044332,,,PATh Facility - FIU
+Florida,?,?,fiu-cpu-14,facility.path-cc.io,Dell PowerEdge C6525,,,,U044332,,,PATh Facility - FIU
+Nebraska,?,?,UNL-TOR,,,,,,U044336,,,Nebraska TOR
+Nebraska,?,?,UNL-ADMIN,,,,,,U044336,,,Nebraska ADMIN
+Nebraska,?,?,unl-svc-1,facility.path-cc.io,,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-gpu-1,facility.path-cc.io,,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-11,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-12,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-13,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-14,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-21,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-22,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-23,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-24,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-31,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-32,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-33,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-34,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-41,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-42,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-43,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-44,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-51,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-52,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-53,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-54,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-61,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-62,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-63,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,hey @
+Nebraska,?,?,unl-cpu-64,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-71,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-72,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-73,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-74,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-81,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-82,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-83,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Nebraska,?,?,unl-cpu-84,facility.path-cc.io,Dell PowerEdge C6525,,,,U044336,,,PATh Facility- UNL
+Syracuse,?,?,SYRA-TOR,,,,,,U044333,,,Syracuse TOR
+Syracuse,?,?,SYRA-ADMIN,,,,,,U044333,,,Syracuse Admin
+Syracuse,?,?,syra-svc-1,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-gpu-1,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-11,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-12,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-13,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-14,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-21,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-22,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-23,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-24,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-31,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-32,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-33,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-34,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-41,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-42,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-43,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+Syracuse,?,?,syra-cpu-44,facility.path-cc.io,Dell PowerEdge C6525,,,,U044333,,,PATh Facility- Syracuse
+WID,Darpa Rack,36,tiger0045,chtc.wisc.edu,couldnotreach,,can get through ssh,,,,,
+WID,Darpa Rack,35,tiger0046,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,34,tiger0047,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,33,tiger0048,chtc.wisc.edu,couldnotreach,,,,,,,dns not found
+WID,Darpa Rack,32,tiger0053,chtc.wisc.edu,couldnotreach,,,,,,,dns not found
+WID,Darpa Rack,31,tiger0054,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,30,tiger0055,chtc.wisc.edu,SYS-F617R2-RT+,S11475745316689,CF418AD02B10017,,,,,very slow ssh
+WID,Darpa Rack,29,tiger0056,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,28,tiger0003,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318536,CF418AC50B10050,,,,,
+WID,Darpa Rack,27,tiger0004,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318536,CF418AC50B10050,,,,,
+WID,Darpa Rack,26,tiger0005,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318536,CF418AC50B10050,,,,,
+WID,Darpa Rack,25,tiger0006,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318536,CF418AC50B10050,,,,,
+WID,Darpa Rack,16,tigermaster0001,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318527,CF418AC50B10043,,,,,
+WID,Darpa Rack,15,tigermaster0002,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318527,CF418AC50B10043,,,,,
+WID,Darpa Rack,14,tigermaster0003,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318527,CF418AC50B10043,,,,,
+WID,Darpa Rack,13,tigerpeer0001,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318527,CF418AC50B10043,,,,,
+WID,Darpa Rack,12,tiger0040,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318535,CF418AC50B10003,,,,,
+WID,Darpa Rack,11,tiger0039,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318535,CF418AC50B10003,,,,,
+WID,Darpa Rack,10,tiger0038,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318535,CF418AC50B10003,,,,,
+WID,Darpa Rack,9,tiger0037,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318535,CF418AC50B10003,,,,,
+WID,Darpa Rack,8,tiger0030,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318525,CF418AD02B20005,,,,,
+WID,Darpa Rack,7,tiger0029,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318525,CF418AD02B20005,,,,,
+WID,Darpa Rack,6,tiger0028,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318525,CF418AD02B20005,,,,,
+WID,Darpa Rack,5,tiger0027,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,4,tiger0022,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318523,CF418AC50B10044,,,,,
+WID,Darpa Rack,3,tiger0021,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318523,CF418AC50B10044,,,,,
+WID,Darpa Rack,2,tiger0020,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318523,CF418AC50B10044,,,,,
+WID,Darpa Rack,1,tiger0019,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,36,tiger0049,chtc.wisc.edu,couldnotreach,,,,,,,dns not found
+WID,Darpa Rack,35,tiger0050,chtc.wisc.edu,couldnotreach,,,,,,,dns not found
+WID,Darpa Rack,34,tiger0051,chtc.wisc.edu,couldnotreach,,,,,,,dns not found
+WID,Darpa Rack,33,tiger0052,chtc.wisc.edu,couldnotreach,,,,,,,dns not found
+WID,Darpa Rack,32,tiger0057,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,31,tiger0058,chtc.wisc.edu,SYS-F617R2-RT+,S11475745316689,CF418AD02B10017,,,,,
+WID,Darpa Rack,30,tiger0059,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,29,tiger0060,chtc.wisc.edu,SYS-F617R2-RT+,S11475745316689,CF418AD02B10017,,,,,"really slow ssh for some reason, doesn't have dmidecode"
+WID,Darpa Rack,28,tiger0007,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318536,CF418AC50B10050,,,,,
+WID,Darpa Rack,27,tiger0008,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,26,tiger0009,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318536,CF418AC50B10050,,,,,
+WID,Darpa Rack,25,tiger0010,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318536,CF418AC50B10050,,,,,
+WID,Darpa Rack,16,tigerpeer0000,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318527,CF418AC50B10043,,,,,
+WID,Darpa Rack,15,e508,chtc.wisc.edu,couldnotreach,,,,,,,reset through bmc?
+WID,Darpa Rack,14,tiger0042,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,13,tiger0041,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318527,CF418AC50B10043,,,,,
+WID,Darpa Rack,12,tiger0034,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318535,CF418AC50B10003,,,,,
+WID,Darpa Rack,11,tiger0033,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318535,CF418AC50B10003,,,,,
+WID,Darpa Rack,10,tiger0032,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,9,tiger0031,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,8,tiger0026,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318525,CF418AD02B20005,,,,,
+WID,Darpa Rack,7,tiger0025,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318525,CF418AD02B20005,,,,,
+WID,Darpa Rack,6,tiger0024,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318525,CF418AD02B20005,,,,,
+WID,Darpa Rack,5,tiger0023,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318525,CF418AD02B20005,,,,,
+WID,Darpa Rack,4,tiger0018,chtc.wisc.edu,SYS-F617R2-RT+,S11475745318523,CF418AC50B10044,,,,,
+WID,Darpa Rack,3,tiger0017,chtc.wisc.edu,couldnotreach,,,,,,,
+WID,Darpa Rack,1,e483,chtc.wisc.edu,couldnotreach,,,,,,,reset through bmc?
