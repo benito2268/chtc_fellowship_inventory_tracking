@@ -3,47 +3,47 @@ import csv
 
 class Asset:
 
-    # each asset is represented with a nested dictionary
-    asset = {
-        'aquisition' : {
-            'po'     : '',
-            'date'   : '',
-            'reason' : '',
-        },
-
-        'purpose' : '',
-
-        'hardware' : {
-            'model'         : '',
-            'serial_number' : '',
-            'service_tag'   : '',
-        },
-
-        # TODO revisit this probably
-        'condo_chassis' : {
-            'serial_number' : '',
-            'service_tag'   : '',
-            'model'         : '',
-        },
-
-        'location' : {
-            'rack'      : '',
-            'elevation' : '',
-            'room'      : '',
-            'building'  : '',
-        }, 
-
-        'tags' : {
-            'csl'       : '',
-            'uw'        : '',
-            'morgridge' : '',
-        },
-    }
-
     # converts an array of strings (row from the csv file) to a dictionary
     # TODO need a way to detect condos
     def __init__(self, csv_row):
-        print('init Asset ' + csv_row[5])
+        # each asset is represented with a nested dictionary
+        self.asset = {
+            'aquisition' : {
+                'po'     : '',
+                'date'   : '',
+                'reason' : '',
+            },
+
+            'purpose' : '',
+
+            'hardware' : {
+                'model'         : '',
+                'serial_number' : '',
+                'service_tag'   : '',
+            },
+
+            # TODO revisit this probably
+            'condo_chassis' : {
+                'serial_number' : '',
+                'service_tag'   : '',
+                'model'         : '',
+            },
+
+            'location' : {
+                'rack'      : '',
+                'elevation' : '',
+                'room'      : '',
+                'building'  : '',
+            }, 
+
+            'tags' : {
+                'csl'       : '',
+                'uw'        : '',
+                'morgridge' : '',
+            },
+        }
+
+        self.asset['location']['room'] = csv_row[0]
 
 # This function is meant to convert the CHTC inventory spreadsheet
 # to a yaml file - See INF-1138 in Jira
@@ -58,12 +58,14 @@ def csv2yaml(csv_name):
         assets = []
 
         for row in reader:
-            print(', '.join(row))
-            # assets.append(Asset(row))
+            # print(', '.join(row))
+            a = Asset(row)
+            assets.append(a)
 
-    return assets
-            
+        for a in assets:
+            print(a.asset['location']['room'])
 
+    
 # having a main function might be a good idea?
 # if this module is ever imported somewhere for use of csv2yaml()
 # but this script is also kind of a one off...
