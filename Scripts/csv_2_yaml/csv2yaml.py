@@ -1,5 +1,6 @@
 import sys
 import csv
+import yaml
 
 class Asset:
 
@@ -9,13 +10,16 @@ class Asset:
         'room'          : 0,
         'rack'          : 1,
         'elevation'     : 2,
+        'hostname'      : 3,
+        'domain'        : 4,
         'model'         : 5,
         'serial_number' : 6,
+        'identifier'    : 7,
         'service_tag'   : 8,
         'uw'            : 9,
         'csl'           : 10,
         'morgridge'     : 11,
-        'purpose'       : 12, # map 'purpose' to 'notes' for now
+        'notes'         : 12, # map 'purpose' to 'notes' for now
     }
 
     # converts an array of strings (row from the csv file) to a dictionary
@@ -24,23 +28,24 @@ class Asset:
         # each asset is represented with a nested dictionary
         self.asset = {
             'aquisition' : {
-                'po'     : '',
-                'date'   : '',
-                'reason' : '',
+                'po'            : '',
+                'date'          : '',
+                'reason'        : '',
+                'owner'         : '',
+                'fabrication'   : '',
             },
-
-            'purpose' : '',
 
             'hardware' : {
                 'model'         : '',
                 'serial_number' : '',
                 'service_tag'   : '',
+                'purpose'       : '',
+                'notes'         : '',
             },
 
             # TODO revisit this probably
             'condo_chassis' : {
-                'serial_number' : '',
-                'service_tag'   : '',
+                'identifier'    : '',
                 'model'         : '',
             },
 
@@ -57,6 +62,9 @@ class Asset:
                 'morgridge' : '',
             },
         }
+
+        self.hostname = csv_row[self.key_map['hostname']]
+        self.domain = csv_row[self.key_map['domain']]
 
         # iterate through each inner and outer key and grab
         # its corresponding value (as determined by key_map) from the spreadsheet
@@ -127,6 +135,9 @@ def main():
 
     csv_name = sys.argv[1]
     assets = csv2yaml(csv_name)
+
+    with open(assets[0].hostname + '.' + assets[0].domain + ".yaml", 'w') as testfile:
+        yaml.dump(assets[0].asset, testfile, default_flow_style=False)
 
     for a in assets:
         print_dict(a.asset)
