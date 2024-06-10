@@ -8,9 +8,9 @@ class quoted(str):
     pass
 
 class Asset:
-
     # a shared (among all Assets) dictionary that maps YAML/dict key names
     # to their corresponding column number in the spreadsheet
+    #TODO this does not properly account for keys with the same name in different categories
     key_map = {
         'room'          : 0,
         'rack'          : 1,
@@ -32,7 +32,7 @@ class Asset:
     def __init__(self, csv_row):
         # each asset is represented with a nested dictionary
         self.asset = {
-            'aquisition' : {
+            'acquisition' : {
                 'po'            : "",
                 'date'          : "",
                 'reason'        : "",
@@ -73,22 +73,25 @@ class Asset:
 
         # iterate through each inner and outer key and grab
         # its corresponding value (as determined by key_map) from the spreadsheet
-        # TODO detect condos and fabrications (possibly via some sort of heuristic)
+        # TODO what to do about condo models
         # TODO find location info in puppet repo
         # TODO this bit is in desperate need of a cleanup and fixup - but it's a start
         for outer_key, outer_value in self.asset.items():
-
             if isinstance(outer_value, dict):
-
                 #if outer_value is a dictionary we need to iterate one level deeper
                 for inner_key, inner_value in outer_value.items():
                     cell = self.key_map.get(inner_key, "")
-                    if cell == "":
-                        value = quoted('MISSING')
-                    else:
-                        value = quoted(csv_row[cell])
+                    match cell:
+                        case "":
+                            value = quoted('MISSING')
+                        case _:
+                            value = quoted(csv_row[cell])
 
                     self.asset[outer_key][inner_key] = value
+        
+        # call any heuristics to help extract misc. data
+        self.asset['acquisition']['po'] = is_fabrication(csv_row[self.key_map['notes']])
+
 
 # for debugging
 def print_dict(d):
@@ -102,8 +105,31 @@ def print_dict(d):
         else:
             print(':', d[x])
 
+# the default Python yaml module doesn't preserve double quotes :(
+# can change that behavior with a representer
+# see "Constructors, representers, resolvers" in https://pyyaml.org/wiki/PyYAMLDocumentation
+def quote_representer(dumper, data):
+    return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
+
+# a heuristic for trying to determine if an asset
+# is a fabrication from its 'notes' field
+#
+# params:
+#   notes: the notes section from the elevation spreadsheet
+#
+# returns: (hopefully) the PO if contained in the notes field - "" if not a fabrication
+def is_fabrication(notes):
+    if notes.lower().find('fabrication') >= 0:
+        # we assume it is, try to return the PO
+        index = notes.find("UW PO")
+        index += len("UW PO ")
+
+        return notes[index:]
+    else:
+        return ''
+
 # This function is meant to convert the CHTC inventory spreadsheet
-# to a yaml file - See INF-1138 in Jira
+# into an array of Asset objects containing all of it's data
 # 
 # params: csv_name - name of the input csv file
 # returns: a list of Asset objects as read from the file
@@ -118,20 +144,26 @@ def csv_read(csv_name):
         next(reader)
 
         for row in reader:
-            # print(', '.join(row))
             a = Asset(row)
             assets.append(a)
 
         return assets
-    
-# the default Python yaml module doesn't preserve double quotes :(
-# can change that behavior with a representer
-# see "Constructors, representers, resolvers" in https://pyyaml.org/wiki/PyYAMLDocumentation
-def quote_representer(dumper, data):
-    return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
+
+# This function takes a list of Asset objects and generated a YAML file
+# for each one
+#
+# params:
+#   assets: the list of assets to generate from
+def gen_yaml(assets):
+    # register the yaml representer for double quoted strings
+    yaml.add_representer(quoted, quote_representer)
+
+    # todo surely there is a better way to construct the name??
+    with open(assets[386].hostname + '.' + assets[386].domain + ".yaml", 'w') as testfile:
+        yaml.dump(assets[386].asset, testfile)
     
 # having a main function might be a good idea?
-# if this module is ever imported somewhere for use of csv2yaml()
+# if this module is ever imported somewhere
 # but this script is also kind of a one off...
 def main():
     # take csv filename as a command line arg
@@ -142,14 +174,7 @@ def main():
     csv_name = sys.argv[1]
     assets = csv_read(csv_name)
 
-    # register the yaml representer for double quoted strings
-    yaml.add_representer(quoted, quote_representer)
-
-    with open(assets[0].hostname + '.' + assets[0].domain + ".yaml", 'w') as testfile:
-        yaml.dump(assets[0].asset, testfile)
-
-    for a in assets:
-        print_dict(a.asset)
+    gen_yaml(assets)
 
 if __name__ == "__main__":
     main()
