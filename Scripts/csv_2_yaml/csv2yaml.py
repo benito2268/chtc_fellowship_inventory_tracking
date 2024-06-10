@@ -90,8 +90,13 @@ class Asset:
                     self.asset[outer_key][inner_key] = value
         
         # call any heuristics to help extract misc. data
-        self.asset['acquisition']['po'] = is_fabrication(csv_row[self.key_map['notes']])
+        self.asset['acquisition']['po'] = quoted(is_fabrication(csv_row[self.key_map['notes']]))
 
+        #TODO find a better way to do this
+        if  self.asset['acquisition']['po'] == 'MISSING':
+            self.asset['acquisition']['fabrication'] = False
+        else:
+            self.asset['acquisition']['fabrication'] = True
 
 # for debugging
 def print_dict(d):
@@ -113,7 +118,7 @@ def quote_representer(dumper, data):
 
 # a heuristic for trying to determine if an asset
 # is a fabrication from its 'notes' field
-#
+# TODO could split into 2 functions - one for fabrication and one for po #
 # params:
 #   notes: the notes section from the elevation spreadsheet
 #
@@ -126,7 +131,7 @@ def is_fabrication(notes):
 
         return notes[index:]
     else:
-        return ''
+        return 'MISSING'
 
 # This function is meant to convert the CHTC inventory spreadsheet
 # into an array of Asset objects containing all of it's data
@@ -159,8 +164,8 @@ def gen_yaml(assets):
     yaml.add_representer(quoted, quote_representer)
 
     # todo surely there is a better way to construct the name??
-    with open(assets[386].hostname + '.' + assets[386].domain + ".yaml", 'w') as testfile:
-        yaml.dump(assets[386].asset, testfile)
+    with open(assets[0].hostname + '.' + assets[0].domain + ".yaml", 'w') as testfile:
+        yaml.dump(assets[0].asset, testfile)
     
 # having a main function might be a good idea?
 # if this module is ever imported somewhere
