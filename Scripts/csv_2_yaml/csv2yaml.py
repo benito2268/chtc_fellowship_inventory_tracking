@@ -8,27 +8,30 @@ class quoted(str):
     pass
 
 class Asset:
+
+    # strings found in spreadsheet for when a value is missing
+    missing_names = ('', '????', 'none')
+
     # a shared (among all Assets) dictionary that maps YAML/dict key names
     # to their corresponding column number in the spreadsheet
-    #TODO this does not properly account for keys with the same name in different categories
+    # not all tags are mapped because not all come directly from the spreadsheet
     key_map = {
-        'room'          : 0,
-        'rack'          : 1,
-        'elevation'     : 2,
-        'hostname'      : 3,
-        'domain'        : 4,
-        'model'         : 5,
-        'serial_number' : 6,
-        'identifier'    : 7,
-        'service_tag'   : 8,
-        'uw'            : 9,
-        'csl'           : 10,
-        'morgridge'     : 11,
-        'notes'         : 12,
+        'location.room'                     : 0,
+        'location.rack'                     : 1,
+        'location.elevation'                : 2,
+        'hostname'                          : 3,
+        'domain'                            : 4,
+        'hardware.model'                    : 5,
+        'hardware.serial_number'            : 6,
+        'hardware.condo_chassis.identifier' : 7,
+        'hardware.service_tag'              : 8,
+        'tags.uw'                           : 9,
+        'tags.csl'                          : 10,
+        'tags.morgridge'                    : 11,
+        'hardware.notes'                    : 12,
     }
 
     # converts an array of strings (row from the csv file) to a dictionary
-    # TODO need a way to detect condos
     def __init__(self, csv_row):
         # each asset is represented with a nested dictionary
         self.asset = {
@@ -37,7 +40,7 @@ class Asset:
                 'date'          : "",
                 'reason'        : "",
                 'owner'         : "",
-                'fabrication'   : False,    # default is false - script will change if true
+                'fabrication'   : False,
             },
 
             'hardware' : {
@@ -46,11 +49,11 @@ class Asset:
                 'service_tag'   : "",
                 'purpose'       : "",
                 'notes'         : "",
-            },
 
-            'condo_chassis' : {
-                'identifier'    : "",
-                'model'         : "",
+                'condo_chassis' : {
+                    'identifier'    : "",
+                    'model'         : "",
+                },
             },
 
             'location' : {
@@ -70,26 +73,35 @@ class Asset:
         self.hostname = csv_row[self.key_map['hostname']]
         self.domain = csv_row[self.key_map['domain']]
 
-        # iterate through each inner and outer key and grab
-        # its corresponding value (as determined by key_map) from the spreadsheet
-        # TODO what to do about condo models
+        # flatten the dictionary first (with '.' as the seperator)
+        # then place place each value according to key_map
+        # and finally, un-flatten everything
         # TODO find location info in puppet repo
-        for outer_key, outer_value in self.asset.items():
-            if isinstance(outer_value, dict):
-                #if outer_value is a dictionary we need to iterate one level deeper
-                for inner_key, inner_value in outer_value.items():
-                    cell = self.key_map.get(inner_key, "")
-                    match cell:
-                        case "":
-                            value = quoted('MISSING')
-                        case _:
-                            value = quoted(csv_row[cell])
+        flat = flatten_dict(self.asset)
+        
+        for key in flat.keys():
+            index = self.key_map.get(key, "NA")
 
-                    self.asset[outer_key][inner_key] = value
+            if index == "NA":
+                value = "MISSING"
+            else:
+                value = quoted(csv_row[index])
+            
+            # if there actually was a value, but it was something like 'none' or '????'
+            # we still want to mark as 'MISSING'
+            if value in self.missing_names:
+                value = 'MISSING'
+            
+            flat[key] = value
         
         # call any heuristics here to help extract misc. data
-        self.asset['acquisition']['po'] = quoted(has_po(csv_row[self.key_map['notes']]))
-        self.asset['acquisition']['fabrication'] = is_fabrication(csv_row[self.key_map['notes']])
+        notes = csv_row[self.key_map['hardware.notes']]
+
+        flat['hardware.notes'] = quoted(has_po(notes))
+        flat['acquisition.fabrication'] = is_fabrication(notes)
+
+        # finally, unflatten the dict
+        self.asset = unflatten_dict(flat)
 
 # for debugging
 def print_dict(d):
@@ -102,6 +114,54 @@ def print_dict(d):
                 print('\t', y, ':', d[x][y])
         else:
             print(':', d[x])
+
+# flattens a dictionary with '.' as the seperator
+#
+# params:
+#   nested - current dictionary to be flattened
+#   parent_key - the (already flattened) path the leads to nested - used by the recursive call only
+# returns:
+#   a dictionary that maps a 'path' to each bottom level value in the original
+#   ex) an entry would look like  "hardware.condo_chassis.model" : "Dell PowerEdge ..." 
+def flatten_dict(nested, parent_key=''):
+    # using a list means we have append() and extend()
+    flat = []
+    for key, value in nested.items():
+        if parent_key == '':
+            # we're at the top level
+            newkey = key
+        else:
+            # we're somewhere in a nested level
+            newkey = parent_key + '.' + key
+        
+        if isinstance(value, dict):
+            # if value is a dictionary - recurse further in
+            flat.extend(flatten_dict(value, newkey).items())
+        else:
+            # otherwise, we've hit the base case - append and return once
+            flat.append((newkey, value))
+        
+    return dict(flat)
+
+# unflattens (nests) a dictionary with '.' as the seperator
+def unflatten_dict(flat):
+    ret = dict()
+
+    for key, value in flat.items():
+        tags = key.split('.')
+        sub_dict = ret
+
+        #re-nest all of the levels - not yet worrying about values
+        for tag in tags[:-1]:
+            if tag not in ret.keys():
+                sub_dict[tag] = dict()
+
+            sub_dict = sub_dict[tag]
+
+        # now put the value in
+        sub_dict[len(tags) - 1] = value
+
+    return ret
 
 # the default Python yaml module doesn't preserve double quotes :(
 # can change that behavior with a representer
