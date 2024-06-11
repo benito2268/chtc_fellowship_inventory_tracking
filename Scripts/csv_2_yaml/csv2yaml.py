@@ -37,7 +37,7 @@ class Asset:
                 'date'          : "",
                 'reason'        : "",
                 'owner'         : "",
-                'fabrication'   : "",
+                'fabrication'   : False,    # default is false - script will change if true
             },
 
             'hardware' : {
@@ -48,7 +48,6 @@ class Asset:
                 'notes'         : "",
             },
 
-            # TODO revisit this probably
             'condo_chassis' : {
                 'identifier'    : "",
                 'model'         : "",
@@ -75,7 +74,6 @@ class Asset:
         # its corresponding value (as determined by key_map) from the spreadsheet
         # TODO what to do about condo models
         # TODO find location info in puppet repo
-        # TODO this bit is in desperate need of a cleanup and fixup - but it's a start
         for outer_key, outer_value in self.asset.items():
             if isinstance(outer_value, dict):
                 #if outer_value is a dictionary we need to iterate one level deeper
@@ -89,14 +87,9 @@ class Asset:
 
                     self.asset[outer_key][inner_key] = value
         
-        # call any heuristics to help extract misc. data
-        self.asset['acquisition']['po'] = quoted(is_fabrication(csv_row[self.key_map['notes']]))
-
-        #TODO find a better way to do this
-        if  self.asset['acquisition']['po'] == 'MISSING':
-            self.asset['acquisition']['fabrication'] = False
-        else:
-            self.asset['acquisition']['fabrication'] = True
+        # call any heuristics here to help extract misc. data
+        self.asset['acquisition']['po'] = quoted(has_po(csv_row[self.key_map['notes']]))
+        self.asset['acquisition']['fabrication'] = is_fabrication(csv_row[self.key_map['notes']])
 
 # for debugging
 def print_dict(d):
@@ -118,14 +111,22 @@ def quote_representer(dumper, data):
 
 # a heuristic for trying to determine if an asset
 # is a fabrication from its 'notes' field
-# TODO could split into 2 functions - one for fabrication and one for po #
 # params:
 #   notes: the notes section from the elevation spreadsheet
 #
-# returns: (hopefully) the PO if contained in the notes field - "" if not a fabrication
+# returns: True if fabrication, false if not
 def is_fabrication(notes):
-    if notes.lower().find('fabrication') >= 0:
+    return notes.lower().find('fabrication') >= 0
+
+# a heuristic for trying to determine if an asset
+# has a PO # from its 'notes' field
+# params:
+#   notes: the notes section from the elevation spreadsheet
+#
+# returns: the PO # if one was found - 'MISSING' otherwise
+def has_po(notes):
         # we assume it is, try to return the PO
+    if notes.lower().find('uw po') >= 0:
         index = notes.find("UW PO")
         index += len("UW PO ")
 
