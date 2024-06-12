@@ -3,6 +3,11 @@ import io
 import csv
 import yaml
 
+# yet TODO on this script
+# 1. figure out locations
+# 2. tweak some of the heuristics
+# 3. print warnings for bad data
+
 # a wrapper class for quoted yaml string values
 # used instead of str so keys are not also quoted
 class quoted(str):
@@ -10,7 +15,7 @@ class quoted(str):
 
 class Asset:
 
-    # strings found in spreadsheet for when a value is missing
+    # strings commonly found in spreadsheet for when a value is missing
     missing_names = ('', '????', '?', 'none', 'MISSING')
 
     # a shared (among all Assets) dictionary that maps YAML/dict key names
@@ -76,7 +81,6 @@ class Asset:
 
         # flatten the dictionary first (with '.' as the seperator)
         # then place place each value according to key_map
-        # and finally, un-flatten everything
         # TODO find location info in puppet repo
         flat = flatten_dict(self.asset)
         
@@ -89,7 +93,6 @@ class Asset:
 
         determine_missing(flat)
 
-        # finally, unflatten the dictPlug 'nvim-tree/nvim-web-devicons' " optional
         self.asset = unflatten_dict(flat)
 
         # call any heuristics here to help extract misc. data
@@ -97,6 +100,8 @@ class Asset:
 
         self.asset['acquisition']['po'] = quoted(has_po(notes))
         self.asset['acquisition']['fabrication'] = is_fabrication(notes)
+        self.asset['acquisition']['owner'] = quoted(find_owner(notes))
+        self.asset['hardware']['purpose'] = quoted(find_purpose(notes))
 
 # for debugging
 def print_dict(d):
@@ -213,6 +218,47 @@ def has_po(notes):
     else:
         return 'MISSING'
 
+# another (very basic) heuristic to try to fill the owner field from the notes column
+#
+# params:
+#   notes:  the notes column in the inventory spreadsheet
+# returns:
+#   a string containing the owner (CHTC is assumed if none other is found)
+# TODO is there a place that we could find this?? should we even worry?
+def find_owner(notes):
+    # look for a couple of names found in the spreadsheet
+    if notes.lower().find('yuan ping chassis') >= 0:
+        return 'Yuan Ping'
+    elif notes.lower().find('ben lindley chassis') >= 0:
+        return 'Ben Lindley'
+
+    return 'CHTC'
+
+# another heuristic to try to discern the asset's purpose from the notes column
+#
+# params:
+#   notes: the notes column in the inventory spreadsheet
+# returns:  
+#   a string containing the purpose, or 'MISSING if none
+def find_purpose(notes):
+    # some nodes are maked as 'former HPC'
+    if notes.lower().find('former hpc') >= 0:
+        return notes
+    elif notes.lower().find('path facility') >= 0:
+        return notes
+
+    return 'MISSING'
+
+# scans through the puppet_data/site_tier_0/ directory and looks for asset's locations
+#
+def find_location(name):
+    pass
+
+# takes an Asset object and prints warnings about data that
+# may not be quite right ex) the servers with e12XX listed as their hostname
+def warn_missing(asset):
+    pass
+
 # This function is meant to convert the CHTC inventory spreadsheet
 # into an array of Asset objects containing all of it's data
 # 
@@ -243,14 +289,10 @@ def gen_yaml(assets):
     # register the yaml representer for double quoted strings
     yaml.add_representer(quoted, quote_representer)
 
-    # TODO surely there is a better way to construct the name??
     # write files with unix (LF) line endings
-    with open(assets[425].hostname + '.' + assets[425].domain + ".yaml", 'w', newline='\n') as testfile:
-        yaml.dump(assets[425].asset, testfile, sort_keys=False)
+    with open(assets[1170].hostname + '.' + assets[1170].domain + ".yaml", 'w', newline='\n') as testfile:
+        yaml.dump(assets[1170].asset, testfile, sort_keys=False)
     
-# having a main function might be a good idea?
-# if this module is ever imported somewhere
-# but this script is also kind of a one off...
 def main():
     # take csv filename as a command line arg
     if len(sys.argv) < 2:
