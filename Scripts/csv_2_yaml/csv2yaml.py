@@ -11,7 +11,7 @@ class quoted(str):
 class Asset:
 
     # strings found in spreadsheet for when a value is missing
-    missing_names = ('', '????', 'none')
+    missing_names = ('', '????', '?', 'none', 'MISSING')
 
     # a shared (among all Assets) dictionary that maps YAML/dict key names
     # to their corresponding column number in the spreadsheet
@@ -81,20 +81,14 @@ class Asset:
         flat = flatten_dict(self.asset)
         
         for key in flat.keys():
-            index = self.key_map.get(key, "NA")
 
-            if index == "NA":
-                value = quoted('MISSING')
-            else:
-                value = quoted(csv_row[index])
+            index = self.key_map.get(key, "")
+            fetched = quoted(csv_row[index]) if index != "" else quoted("")
             
-            # if there actually was a value, but it was something like 'none' or '????'
-            # we still want to mark as 'MISSING'
-            if value in self.missing_names:
-                value = quoted('MISSING')
-            
-            flat[key] = value
-        
+            flat[key] = fetched
+
+        determine_missing(flat)
+
         # finally, unflatten the dictPlug 'nvim-tree/nvim-web-devicons' " optional
         self.asset = unflatten_dict(flat)
 
@@ -103,7 +97,6 @@ class Asset:
 
         self.asset['acquisition']['po'] = quoted(has_po(notes))
         self.asset['acquisition']['fabrication'] = is_fabrication(notes)
-
 
 # for debugging
 def print_dict(d):
@@ -165,6 +158,29 @@ def unflatten_dict(flat):
         sub_dict[tags[-1]] = value
 
     return ret
+
+# for each tag with a value of "", determine whether or not we should
+# complain about it being missing
+#
+# params:
+#   flat_dict: a flattened dictionary representing the asset
+#
+def determine_missing(flat_dict):
+
+    for key, value in flat_dict.items():
+
+        if value in Asset.missing_names:
+            flat_dict[key] = quoted('MISSING')
+
+        if value == "":
+            if key == 'tags.csl' or key == 'tags.morgridge' or key == 'hardware.condo_chassis.identifier':
+                    flat_dict[key] = quoted("")
+
+            elif key == 'hardware.condo_chassis.model':
+                if flat_dict['hardware.condo_chassis.identifier'] in Asset.missing_names: 
+                    flat_dict[key] = quoted("")
+
+
 
 # the default Python yaml module doesn't preserve double quotes :(
 # can change that behavior with a representer
@@ -229,8 +245,8 @@ def gen_yaml(assets):
 
     # TODO surely there is a better way to construct the name??
     # write files with unix (LF) line endings
-    with open(assets[330].hostname + '.' + assets[330].domain + ".yaml", 'w', newline='\n') as testfile:
-        yaml.dump(assets[330].asset, testfile, sort_keys=False)
+    with open(assets[425].hostname + '.' + assets[425].domain + ".yaml", 'w', newline='\n') as testfile:
+        yaml.dump(assets[425].asset, testfile, sort_keys=False)
     
 # having a main function might be a good idea?
 # if this module is ever imported somewhere
