@@ -100,8 +100,17 @@ class Asset:
         flat['hardware.notes'] = quoted(has_po(notes))
         flat['acquisition.fabrication'] = is_fabrication(notes)
 
-        # finally, unflatten the dict
+        # for testing
+        for key in flat.keys():
+            print(key + ' ', end='')
+            print(flat[key])
+        
+        print('\n')
+
+
+        # finally, unflatten the dictPlug 'nvim-tree/nvim-web-devicons' " optional
         self.asset = unflatten_dict(flat)
+    
 
 # for debugging
 def print_dict(d):
@@ -153,13 +162,13 @@ def unflatten_dict(flat):
 
         #re-nest all of the levels - not yet worrying about values
         for tag in tags[:-1]:
-            if tag not in ret.keys():
+            if tag not in ret:
                 sub_dict[tag] = dict()
 
             sub_dict = sub_dict[tag]
 
         # now put the value in
-        sub_dict[len(tags) - 1] = value
+        sub_dict[tags[-1]] = value
 
     return ret
 
