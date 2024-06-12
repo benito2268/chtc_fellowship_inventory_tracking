@@ -153,14 +153,15 @@ def unflatten_dict(flat):
         tags = key.split('.')
         sub_dict = ret
 
-        #re-nest all of the levels - not yet worrying about values
+        # re-nest all of the levels - not yet worrying about values
+        # the last value in the list is the 'leaf' tag - so ignore it for now
         for tag in tags[:-1]:
-            if tag not in ret:
+            if tag not in sub_dict:
                 sub_dict[tag] = dict()
 
             sub_dict = sub_dict[tag]
 
-        # now put the value in
+        # now put the value in the new 'leaf' tag
         sub_dict[tags[-1]] = value
 
     return ret
@@ -228,8 +229,8 @@ def gen_yaml(assets):
 
     # TODO surely there is a better way to construct the name??
     # write files with unix (LF) line endings
-    with open(assets[0].hostname + '.' + assets[0].domain + ".yaml", 'w', newline='\n') as testfile:
-        yaml.dump(assets[0].asset, testfile, sort_keys=False)
+    with open(assets[330].hostname + '.' + assets[330].domain + ".yaml", 'w', newline='\n') as testfile:
+        yaml.dump(assets[330].asset, testfile, sort_keys=False)
     
 # having a main function might be a good idea?
 # if this module is ever imported somewhere
