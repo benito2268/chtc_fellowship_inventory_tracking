@@ -1,4 +1,5 @@
 import sys
+import io
 import csv
 import yaml
 
@@ -83,34 +84,26 @@ class Asset:
             index = self.key_map.get(key, "NA")
 
             if index == "NA":
-                value = "MISSING"
+                value = quoted('MISSING')
             else:
                 value = quoted(csv_row[index])
             
             # if there actually was a value, but it was something like 'none' or '????'
             # we still want to mark as 'MISSING'
             if value in self.missing_names:
-                value = 'MISSING'
+                value = quoted('MISSING')
             
             flat[key] = value
         
+        # finally, unflatten the dictPlug 'nvim-tree/nvim-web-devicons' " optional
+        self.asset = unflatten_dict(flat)
+
         # call any heuristics here to help extract misc. data
         notes = csv_row[self.key_map['hardware.notes']]
 
-        flat['hardware.notes'] = quoted(has_po(notes))
-        flat['acquisition.fabrication'] = is_fabrication(notes)
+        self.asset['acquisition']['po'] = quoted(has_po(notes))
+        self.asset['acquisition']['fabrication'] = is_fabrication(notes)
 
-        # for testing
-        for key in flat.keys():
-            print(key + ' ', end='')
-            print(flat[key])
-        
-        print('\n')
-
-
-        # finally, unflatten the dictPlug 'nvim-tree/nvim-web-devicons' " optional
-        self.asset = unflatten_dict(flat)
-    
 
 # for debugging
 def print_dict(d):
@@ -233,9 +226,10 @@ def gen_yaml(assets):
     # register the yaml representer for double quoted strings
     yaml.add_representer(quoted, quote_representer)
 
-    # todo surely there is a better way to construct the name??
-    with open(assets[0].hostname + '.' + assets[0].domain + ".yaml", 'w') as testfile:
-        yaml.dump(assets[0].asset, testfile)
+    # TODO surely there is a better way to construct the name??
+    # write files with unix (LF) line endings
+    with open(assets[0].hostname + '.' + assets[0].domain + ".yaml", 'w', newline='\n') as testfile:
+        yaml.dump(assets[0].asset, testfile, sort_keys=False)
     
 # having a main function might be a good idea?
 # if this module is ever imported somewhere
