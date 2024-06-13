@@ -184,19 +184,11 @@ def quote_representer(dumper, data):
 
 # a heuristic for trying to determine if an asset
 # is a fabrication from its 'notes' field
-# params:
-#   notes: the notes section from the elevation spreadsheet
-#
-# returns: True if fabrication, false if not
 def is_fabrication(notes):
     return notes.lower().find('fabrication') >= 0
 
 # a heuristic for trying to determine if an asset
 # has a PO # from its 'notes' field
-# params:
-#   notes: the notes section from the elevation spreadsheet
-#
-# returns: the PO # if one was found - 'MISSING' otherwise
 def has_po(notes):
     if notes.lower().find('uw po') >= 0:
         index = notes.find("UW PO")
@@ -207,11 +199,6 @@ def has_po(notes):
         return 'MISSING'
 
 # another (very basic) heuristic to try to fill the owner field from the notes column
-#
-# params:
-#   notes:  the notes column in the inventory spreadsheet
-# returns:
-#   a string containing the owner (CHTC is assumed if none other is found)
 # TODO is there a place that we could find this?? should we even worry?
 def find_owner(notes):
     # look for a couple of names found in the spreadsheet
@@ -224,15 +211,9 @@ def find_owner(notes):
         if owner.lower() in notes.lower():
             return owner
     
-    #otherwise we assume CHTC owns it
     return 'CHTC'
 
 # another heuristic to try to discern the asset's purpose from the notes column
-#
-# params:
-#   notes: the notes column in the inventory spreadsheet
-# returns:  
-#   a string containing the purpose, or 'MISSING if none
 def find_purpose(notes): 
     # some common purposes found in the 'notes' column
     keys = [
@@ -246,7 +227,6 @@ def find_purpose(notes):
         if notes.find(key) >= 0:
             return notes
 
-    # otherwise we'll say we don't know the purpose
     return 'MISSING'
 
 # reads all of the site files in site_dir - do this once
@@ -264,33 +244,30 @@ def get_sitefiles(site_dir):
 
 
 # scans through file read from puppet_data/site_tier_0/ and looks for asset's locations
-#
 # returns: a tuple of the form (Room, Building)
 def find_site(hostname, file_dict):
+
+    pretty_names = {
+        '3370a'   : ('CS3370a', "Computer Sciences"),
+        '2360'    : ('CS2360', 'Computer Sciences'),
+        'b240'    : ('CSB240', "Computer Sciences"),
+        'oneneck' : ('OneNeck', "OneNeck"),
+        'wid'     : ('WID', 'WID'),
+        'fiu'     : ('FIU', 'FIU'),
+        'syra'    : ('Syracuse', 'Syracuse'),
+        'syrb'    : ('CS2360', 'Computer Sciences'),
+        'wisc'    : ('CS2360', 'Computer Sciences'),
+        'unl'     : ('UNL', 'UNL'),
+    }
 
     if hostname + '.yaml' in file_dict:
         sitestr = file_dict[hostname + '.yaml']
 
-        # TODO how to do this better 
-        # this part is not super pretty - but it does work
-        if sitestr.find('3370a') >= 0:
-            return ('CS3370a', "Computer Sciences")
-        elif sitestr.find('b240') >= 0:
-            return ('CSB240', "Computer Sciences")
-        elif sitestr.find('oneneck') >= 0:
-            return ('OneNeck', "OneNeck")
-        elif sitestr.find('wid') >= 0:
-            return ('WID', 'WID')
-        elif sitestr.find('fiu') >= 0:
-            return ('FIU', 'FIU') 
-        elif sitestr.find('2360') or sitestr.find('syrb') >= 0 or sitestr.find('wisc') >= 0:
-            return ('CS2360', 'Computer Sciences')
-        elif sitestr.find('syra') >= 0:
-            return ('Syracuse', 'Syracuse')
-        elif sitestr.find('unl') >= 0:
-            return ('UNL', 'UNL')
-    else:    
-        return ('MISSING', 'MISSING')
+        for key, value in pretty_names.items():
+            if sitestr.find(key) >= 0: 
+                return value
+
+    return ('MISSING', 'MISSING')
 
 # This function is meant to convert the CHTC inventory spreadsheet
 # into an array of Asset objects containing all of it's data
