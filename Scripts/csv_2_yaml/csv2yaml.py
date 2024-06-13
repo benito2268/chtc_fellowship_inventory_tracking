@@ -4,11 +4,6 @@ import io
 import csv
 import yaml
 
-# yet TODO on this script
-# 1. figure out locations
-# 2. tweak some of the heuristics
-# 3. print warnings for bad data
-
 # a wrapper class for quoted yaml string values
 # used instead of str so keys are not also quoted
 class quoted(str):
@@ -315,7 +310,7 @@ def csv_read(csv_name):
 #
 # params:
 #   assets: the list of assets to generate from
-def gen_yaml(assets):
+def gen_yaml(assets, path):
     # register the yaml representer for double quoted strings
     yaml.add_representer(quoted, quote_representer)
 
@@ -341,22 +336,26 @@ def gen_yaml(assets):
         names.append(hostname)
         files += 1
 
-        # TODO remove 'yaml/' 
-        with open('yaml/' + hostname + '.yaml', 'w', newline='\n') as outfile:
+        with open(path + hostname + '.yaml', 'w', newline='\n') as outfile:
             yaml.dump(asset.asset, outfile, sort_keys=False)
         
     print('csv2yaml: generated', files, 'files - skipped', warnings, 'assets with duplicate hostnames')
         
 def main():
     # take csv filename as a command line arg
-    if len(sys.argv) < 2:
-        print("usage: csv2yaml.py <csv_file>")
+    if len(sys.argv) < 3:
+        print("usage: csv2yaml.py <csv_file> <output_path>")
         exit(1)
 
     csv_name = sys.argv[1]
+    output_path = sys.argv[2]
     assets = csv_read(csv_name)
 
-    gen_yaml(assets)
+    # for quality of life sake
+    if output_path[-1] != '/':
+        output_path += '/'
+
+    gen_yaml(assets, output_path)
 
 if __name__ == "__main__":
     main()
