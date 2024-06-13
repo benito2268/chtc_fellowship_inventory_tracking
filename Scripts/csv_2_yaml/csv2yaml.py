@@ -71,17 +71,15 @@ class Asset:
 
         # flatten the dictionary first (with '.' as the seperator)
         # then place place each value according to key_map
-        # TODO find location info in puppet repo
         flat = flatten_dict(self.asset)
         
         for key in flat.keys():
-
             index = self.key_map.get(key, "")
             fetched = quoted(csv_row[index]) if index != "" else quoted("")
             
             flat[key] = fetched
-
             determine_missing(flat)
+
 
         self.asset = unflatten_dict(flat)
 
@@ -100,12 +98,12 @@ class Asset:
 
 # for debugging
 def print_dict(d):
-
     flat = flatten_dict(d)
 
     for key, value in flat.items():
         print(key, ':', value)
-    
+   
+
     print('\n')
 
 # flattens a dictionary with '.' as the seperator
@@ -133,7 +131,8 @@ def flatten_dict(nested, parent_key=''):
         else:
             # otherwise, we've hit the base case - append and return once
             flat.append((newkey, value))
-        
+    
+
     return dict(flat)
 
 # unflattens (nests) a dictionary with '.' as the seperator
@@ -155,6 +154,7 @@ def unflatten_dict(flat):
         # now put the value in the new 'leaf' tag
         sub_dict[tags[-1]] = value
 
+
     return ret
 
 # for each tag with a value of "", determine whether or not we should
@@ -165,12 +165,10 @@ def unflatten_dict(flat):
 #
 def determine_missing(flat_dict):
     for key, value in flat_dict.items():
-
         if value == "":
             # not every asset NEEDS notes
             if key != 'hardware.notes':
                 flat_dict[key] = quoted('MISSING')
-
 
             # for now don't worry about the model unless there's an ID
             # later scripts might do more to decide if this is okay or not
@@ -200,7 +198,6 @@ def is_fabrication(notes):
 #
 # returns: the PO # if one was found - 'MISSING' otherwise
 def has_po(notes):
-        # we assume it is, try to return the PO
     if notes.lower().find('uw po') >= 0:
         index = notes.find("UW PO")
         index += len("UW PO ")
@@ -218,11 +215,16 @@ def has_po(notes):
 # TODO is there a place that we could find this?? should we even worry?
 def find_owner(notes):
     # look for a couple of names found in the spreadsheet
-    if notes.lower().find('yuan ping chassis') >= 0:
-        return 'Yuan Ping'
-    elif notes.lower().find('ben lindley chassis') >= 0:
-        return 'Ben Lindley'
+    owners = [
+        'Yuan Ping',
+        'Ben Lindley'
+    ]
 
+    for owner in owners:
+        if owner.lower() in notes.lower():
+            return owner
+    
+    #otherwise we assume CHTC owns it
     return 'CHTC'
 
 # another heuristic to try to discern the asset's purpose from the notes column
@@ -231,18 +233,26 @@ def find_owner(notes):
 #   notes: the notes column in the inventory spreadsheet
 # returns:  
 #   a string containing the purpose, or 'MISSING if none
-def find_purpose(notes):
-    # some nodes are maked as 'former HPC'
-    if notes.lower().find('former hpc') >= 0:
-        return notes
-    elif notes.lower().find('path facility') >= 0:
-        return notes
+def find_purpose(notes): 
+    # some common purposes found in the 'notes' column
+    keys = [
+        'former hpc',
+        'path facility',
+        'tor',
+        'admin',
+    ]
 
+    for key in keys:
+        if notes.find(key) >= 0:
+            return notes
+
+    # otherwise we'll say we don't know the purpose
     return 'MISSING'
 
-# reads all of the site files in site_dir
+# reads all of the site files in site_dir - do this once
+# at the beginning and store results to avoid a very slow script
 #
-# returns: a dictionary associating filename with the string read
+# returns: a dictionary associating filename with the path string read
 # from that file
 def get_sitefiles(site_dir):
     files = dict()
@@ -261,6 +271,7 @@ def find_site(hostname, file_dict):
     if hostname + '.yaml' in file_dict:
         sitestr = file_dict[hostname + '.yaml']
 
+        # TODO how to do this better 
         # this part is not super pretty - but it does work
         if sitestr.find('3370a') >= 0:
             return ('CS3370a', "Computer Sciences")
@@ -292,7 +303,8 @@ def csv_read(csv_name):
         # I think the csv module considers this the "excel dialect"
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         assets = []
-
+        
+        # TODO what to do about hard coded path
         # generate the dictionary of sites 
         sites = get_sitefiles('../../Puppet/puppet_data/site_tier_0/')
 
@@ -315,34 +327,36 @@ def gen_yaml(assets, path):
     yaml.add_representer(quoted, quote_representer)
 
     files = 0
-    warnings = 0
+    skipped = 0
     names = []
 
-    # write files with unix (LF) line endings
     for asset in assets:
-
         hostname = asset.fqdn
 
         # figure out if we should warn about the hostname
-        # remove this if too slow seems okay
+        # remove this if too slow - seems okay
         if hostname in names:
             print('WARNING: a host with the name', hostname, 'already exists - skipping')
             print('==========================================================================')
             print('[ASSET THAT WAS SKIPPED]')
             print_dict(asset.asset)
-            warnings += 1
+
+            skipped += 1
             continue
 
         names.append(hostname)
         files += 1
 
+        # newline='\n' writes files with unix (LF) line endings
         with open(path + hostname + '.yaml', 'w', newline='\n') as outfile:
             yaml.dump(asset.asset, outfile, sort_keys=False)
-        
-    print('csv2yaml: generated', files, 'files - skipped', warnings, 'assets with duplicate hostnames')
-        
+
+
+    print('csv2yaml: generated', files, 'files - skipped', skipped, 'assets with duplicate hostnames')
+
+
 def main():
-    # take csv filename as a command line arg
+    # take csv filename and output path as command line args
     if len(sys.argv) < 3:
         print("usage: csv2yaml.py <csv_file> <output_path>")
         exit(1)
@@ -351,7 +365,7 @@ def main():
     output_path = sys.argv[2]
     assets = csv_read(csv_name)
 
-    # for quality of life sake
+    # for quality of life's sake
     if output_path[-1] != '/':
         output_path += '/'
 
