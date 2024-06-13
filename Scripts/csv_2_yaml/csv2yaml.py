@@ -34,7 +34,7 @@ class Asset:
     }
 
     # converts an array of strings (row from the csv file) to a dictionary
-    def __init__(self, csv_row):
+    def __init__(self, csv_row, sites):
         # each asset is represented with a nested dictionary
         self.asset = {
             'acquisition' : {
@@ -98,7 +98,7 @@ class Asset:
         self.asset['acquisition']['owner'] = quoted(find_owner(notes))
         self.asset['hardware']['purpose'] = quoted(find_purpose(notes))
 
-        site = find_site(self.fqdn, '../../Puppet/puppet_data/site_tier_0/')
+        site = find_site(self.fqdn, sites)
         self.asset['location']['room'] = quoted(site[0])
         self.asset['location']['building'] = quoted(site[1])
 
@@ -252,9 +252,7 @@ def find_purpose(notes):
 def get_sitefiles(site_dir):
     files = dict()
     for filename in os.listdir(site_dir):
-        if filename == hostname + '.yaml':
-            
-            with open(site_dir + hostname + '.yaml', 'r') as sitefile:
+            with open(site_dir + filename, 'r') as sitefile:
                 sitestr = sitefile.read()
                 files[filename] = sitestr
     return files
@@ -264,7 +262,6 @@ def get_sitefiles(site_dir):
 #
 # returns: a tuple of the form (Room, Building)
 def find_site(hostname, file_dict):
-
 
     if hostname + '.yaml' in file_dict:
         sitestr = file_dict[hostname + '.yaml']
@@ -289,9 +286,6 @@ def find_site(hostname, file_dict):
     else:    
         return ('MISSING', 'MISSING')
 
-
-    
-
 # This function is meant to convert the CHTC inventory spreadsheet
 # into an array of Asset objects containing all of it's data
 # 
@@ -304,11 +298,14 @@ def csv_read(csv_name):
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         assets = []
 
+        # generate the dictionary of sites 
+        sites = get_sitefiles('../../Puppet/puppet_data/site_tier_0/')
+
         # skip labels in the first CSV row
         next(reader)
 
         for row in reader:
-            a = Asset(row)
+            a = Asset(row, sites)
             assets.append(a)
 
         return assets
@@ -329,7 +326,7 @@ def gen_yaml(assets):
     # write files with unix (LF) line endings
     for asset in assets:
 
-        hostname = asset.fqdn 
+        hostname = asset.fqdn
 
         # figure out if we should warn about the hostname
         # remove this if too slow seems okay
