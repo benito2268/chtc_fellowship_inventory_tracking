@@ -1,4 +1,5 @@
 import sys
+import os
 import io
 import csv
 import yaml
@@ -14,15 +15,10 @@ class quoted(str):
     pass
 
 class Asset:
-
-    # strings commonly found in spreadsheet for when a value is missing
-    missing_names = ('', '????', '?', 'none', 'MISSING')
-
     # a shared (among all Assets) dictionary that maps YAML/dict key names
     # to their corresponding column number in the spreadsheet
     # not all tags are mapped because not all come directly from the spreadsheet
     key_map = {
-        'location.room'                     : 0,
         'location.rack'                     : 1,
         'location.elevation'                : 2,
         'hostname'                          : 3,
@@ -76,8 +72,7 @@ class Asset:
             },
         }
 
-        self.hostname = csv_row[self.key_map['hostname']]
-        self.domain = csv_row[self.key_map['domain']]
+        self.fqdn = csv_row[self.key_map['hostname']] + '.' + csv_row[self.key_map['domain']]
 
         # flatten the dictionary first (with '.' as the seperator)
         # then place place each value according to key_map
@@ -91,7 +86,7 @@ class Asset:
             
             flat[key] = fetched
 
-        determine_missing(flat)
+            determine_missing(flat)
 
         self.asset = unflatten_dict(flat)
 
@@ -103,17 +98,20 @@ class Asset:
         self.asset['acquisition']['owner'] = quoted(find_owner(notes))
         self.asset['hardware']['purpose'] = quoted(find_purpose(notes))
 
+        site = find_site(self.fqdn, '../../Puppet/puppet_data/site_tier_0/')
+        self.asset['location']['room'] = quoted(site[0])
+        self.asset['location']['building'] = quoted(site[1])
+
+
 # for debugging
 def print_dict(d):
-    print('\n')
-    for x in d:
-        print(x, end="")
 
-        if isinstance(x, dict):
-            for y in d[x]:
-                print('\t', y, ':', d[x][y])
-        else:
-            print(':', d[x])
+    flat = flatten_dict(d)
+
+    for key, value in flat.items():
+        print(key, ':', value)
+    
+    print('\n')
 
 # flattens a dictionary with '.' as the seperator
 #
@@ -171,21 +169,19 @@ def unflatten_dict(flat):
 #   flat_dict: a flattened dictionary representing the asset
 #
 def determine_missing(flat_dict):
-
     for key, value in flat_dict.items():
 
-        if value in Asset.missing_names:
-            flat_dict[key] = quoted('MISSING')
-
         if value == "":
-            if key == 'tags.csl' or key == 'tags.morgridge' or key == 'hardware.condo_chassis.identifier':
-                    flat_dict[key] = quoted("")
+            # not every asset NEEDS notes
+            if key != 'hardware.notes':
+                flat_dict[key] = quoted('MISSING')
 
+
+            # for now don't worry about the model unless there's an ID
+            # later scripts might do more to decide if this is okay or not
             elif key == 'hardware.condo_chassis.model':
-                if flat_dict['hardware.condo_chassis.identifier'] in Asset.missing_names: 
+                if flat_dict['hardware.condo_chassis.identifier']: 
                     flat_dict[key] = quoted("")
-
-
 
 # the default Python yaml module doesn't preserve double quotes :(
 # can change that behavior with a representer
@@ -251,13 +247,33 @@ def find_purpose(notes):
 
 # scans through the puppet_data/site_tier_0/ directory and looks for asset's locations
 #
-def find_location(name):
-    pass
+# returns a tuple of the form (Room, Building)
+def find_site(hostname, site_dir):
+    for filename in os.listdir(site_dir):
+        if filename == hostname + '.yaml':
+            
+            with open(site_dir + hostname + '.yaml', 'r') as sitefile:
+                sitestr = sitefile.read()
 
-# takes an Asset object and prints warnings about data that
-# may not be quite right ex) the servers with e12XX listed as their hostname
-def warn_missing(asset):
-    pass
+            # this part is not super pretty - but it does work
+            if sitestr.find('3370a') >= 0:
+                return ('CS3370a', "Computer Sciences")
+            elif sitestr.find('b240') >= 0:
+                return ('CSB240', "Computer Sciences")
+            elif sitestr.find('oneneck') >= 0:
+                return ('OneNeck', "OneNeck")
+            elif sitestr.find('wid') >= 0:
+                return ('WID', 'WID')
+            elif sitestr.find('fiu') >= 0:
+                return ('FIU', 'FIU') 
+            elif sitestr.find('2360') or sitestr.find('syrb') >= 0 or sitestr.find('wisc') >= 0:
+                return ('CS2360', 'Computer Sciences')
+            elif sitestr.find('syra') >= 0:
+                return ('Syracuse', 'Syracuse')
+            elif sitestr.find('unl') >= 0:
+                return ('UNL', 'UNL')
+        
+    return ('', '')
 
 # This function is meant to convert the CHTC inventory spreadsheet
 # into an array of Asset objects containing all of it's data
@@ -289,10 +305,27 @@ def gen_yaml(assets):
     # register the yaml representer for double quoted strings
     yaml.add_representer(quoted, quote_representer)
 
+    names = []
+
     # write files with unix (LF) line endings
-    with open(assets[1170].hostname + '.' + assets[1170].domain + ".yaml", 'w', newline='\n') as testfile:
-        yaml.dump(assets[1170].asset, testfile, sort_keys=False)
-    
+    for asset in assets:
+
+        hostname = asset.fqdn 
+
+        # figure out if we should warn about the hostname
+        # remove this if too slow seems okay
+        if hostname in names:
+            print('WARNING: a host with the name', hostname, 'already exists - skipping')
+            print('==========================================================================')
+            print_dict(asset.asset)
+
+        names.append(hostname)
+
+        # TODO remove 'yaml/' 
+        with open('yaml/' + hostname + '.yaml', 'w', newline='\n') as outfile:
+            yaml.dump(asset.asset, outfile, sort_keys=False)
+
+        
 def main():
     # take csv filename as a command line arg
     if len(sys.argv) < 2:
