@@ -245,35 +245,52 @@ def find_purpose(notes):
 
     return 'MISSING'
 
-# scans through the puppet_data/site_tier_0/ directory and looks for asset's locations
+# reads all of the site files in site_dir
 #
-# returns a tuple of the form (Room, Building)
-def find_site(hostname, site_dir):
+# returns: a dictionary associating filename with the string read
+# from that file
+def get_sitefiles(site_dir):
+    files = dict()
     for filename in os.listdir(site_dir):
         if filename == hostname + '.yaml':
             
             with open(site_dir + hostname + '.yaml', 'r') as sitefile:
                 sitestr = sitefile.read()
+                files[filename] = sitestr
+    return files
 
-            # this part is not super pretty - but it does work
-            if sitestr.find('3370a') >= 0:
-                return ('CS3370a', "Computer Sciences")
-            elif sitestr.find('b240') >= 0:
-                return ('CSB240', "Computer Sciences")
-            elif sitestr.find('oneneck') >= 0:
-                return ('OneNeck', "OneNeck")
-            elif sitestr.find('wid') >= 0:
-                return ('WID', 'WID')
-            elif sitestr.find('fiu') >= 0:
-                return ('FIU', 'FIU') 
-            elif sitestr.find('2360') or sitestr.find('syrb') >= 0 or sitestr.find('wisc') >= 0:
-                return ('CS2360', 'Computer Sciences')
-            elif sitestr.find('syra') >= 0:
-                return ('Syracuse', 'Syracuse')
-            elif sitestr.find('unl') >= 0:
-                return ('UNL', 'UNL')
-        
-    return ('', '')
+
+# scans through file read from puppet_data/site_tier_0/ and looks for asset's locations
+#
+# returns: a tuple of the form (Room, Building)
+def find_site(hostname, file_dict):
+
+
+    if hostname + '.yaml' in file_dict:
+        sitestr = file_dict[hostname + '.yaml']
+
+        # this part is not super pretty - but it does work
+        if sitestr.find('3370a') >= 0:
+            return ('CS3370a', "Computer Sciences")
+        elif sitestr.find('b240') >= 0:
+            return ('CSB240', "Computer Sciences")
+        elif sitestr.find('oneneck') >= 0:
+            return ('OneNeck', "OneNeck")
+        elif sitestr.find('wid') >= 0:
+            return ('WID', 'WID')
+        elif sitestr.find('fiu') >= 0:
+            return ('FIU', 'FIU') 
+        elif sitestr.find('2360') or sitestr.find('syrb') >= 0 or sitestr.find('wisc') >= 0:
+            return ('CS2360', 'Computer Sciences')
+        elif sitestr.find('syra') >= 0:
+            return ('Syracuse', 'Syracuse')
+        elif sitestr.find('unl') >= 0:
+            return ('UNL', 'UNL')
+    else:    
+        return ('MISSING', 'MISSING')
+
+
+    
 
 # This function is meant to convert the CHTC inventory spreadsheet
 # into an array of Asset objects containing all of it's data
@@ -305,6 +322,8 @@ def gen_yaml(assets):
     # register the yaml representer for double quoted strings
     yaml.add_representer(quoted, quote_representer)
 
+    files = 0
+    warnings = 0
     names = []
 
     # write files with unix (LF) line endings
@@ -317,14 +336,19 @@ def gen_yaml(assets):
         if hostname in names:
             print('WARNING: a host with the name', hostname, 'already exists - skipping')
             print('==========================================================================')
+            print('[ASSET THAT WAS SKIPPED]')
             print_dict(asset.asset)
+            warnings += 1
+            continue
 
         names.append(hostname)
+        files += 1
 
         # TODO remove 'yaml/' 
         with open('yaml/' + hostname + '.yaml', 'w', newline='\n') as outfile:
             yaml.dump(asset.asset, outfile, sort_keys=False)
-
+        
+    print('csv2yaml: generated', files, 'files - skipped', warnings, 'assets with duplicate hostnames')
         
 def main():
     # take csv filename as a command line arg
