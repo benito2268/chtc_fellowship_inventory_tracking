@@ -1,0 +1,24 @@
+acquisition:
+  po: "MISSING"
+  date: "MISSING"
+  reason: "MISSING"
+  owner: "CHTC"
+  fabrication: false
+hardware:
+  model: "MISSING"
+  serial_number: "ifcndg6q3u"
+  service_tag: "MISSING"
+  purpose: "MISSING"
+  notes: "A node with missing data"
+  condo_chassis:
+    identifier: "MISSING"
+    model: "MISSING"
+location:
+  rack: "B"
+  elevation: "MISSING"
+  room: "MISSING"
+  building: "MISSING"
+tags:
+  csl: "C293847"
+  uw: "MISSING"
+  morgridge: "MISSING"
