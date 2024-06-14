@@ -78,8 +78,6 @@ class Asset:
             fetched = quoted(csv_row[index]) if index != "" else quoted("")
             
             flat[key] = fetched
-            determine_missing(flat)
-
 
         self.asset = unflatten_dict(flat)
 
@@ -155,25 +153,6 @@ def unflatten_dict(flat):
 
     return ret
 
-# for each tag with a value of "", determine whether or not we should
-# complain about it being missing
-#
-# params:
-#   flat_dict: a flattened dictionary representing the asset
-#
-def determine_missing(flat_dict):
-    for key, value in flat_dict.items():
-        if value == "":
-            # not every asset NEEDS notes
-            if key != 'hardware.notes':
-                flat_dict[key] = quoted('MISSING')
-
-            # for now don't worry about the model unless there's an ID
-            # later scripts might do more to decide if this is okay or not
-            elif key == 'hardware.condo_chassis.model':
-                if flat_dict['hardware.condo_chassis.identifier']: 
-                    flat_dict[key] = quoted("")
-
 # the default Python yaml module doesn't preserve double quotes :(
 # can change that behavior with a representer
 # see "Constructors, representers, resolvers" in https://pyyaml.org/wiki/PyYAMLDocumentation
@@ -193,7 +172,7 @@ def has_po(notes):
         index += len("UW PO ")
         return notes[index:]
     
-    return 'MISSING'
+    return ''
 
 # another (very basic) heuristic to try to fill the owner field from the notes column
 # TODO is there a place that we could find this?? should we even worry?
@@ -208,7 +187,7 @@ def find_owner(notes):
         if owner.lower() in notes.lower():
             return owner
     
-    return 'MISSING'
+    return ''
 
 # another heuristic to try to discern the asset's purpose from the notes column
 def find_purpose(notes): 
@@ -264,7 +243,7 @@ def find_site(hostname, file_dict):
             if sitestr.find(key) >= 0: 
                 return value
 
-    return ('MISSING', 'MISSING')
+    return ('', '')
 
 # This function is meant to convert the CHTC inventory spreadsheet
 # into an array of Asset objects containing all of it's data
