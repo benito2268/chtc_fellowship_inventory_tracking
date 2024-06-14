@@ -67,7 +67,7 @@ class Asset:
             },
         }
 
-        self.fqdn = csv_row[self.key_map['hostname']] + '.' + csv_row[self.key_map['domain']]
+        self.fqdn = '.'.join((csv_row[self.key_map['hostname']], csv_row[self.key_map['domain']]))
 
         # flatten the dictionary first (with '.' as the seperator)
         # then place place each value according to key_map
@@ -132,7 +132,6 @@ def flatten_dict(nested, parent_key=''):
             # otherwise, we've hit the base case - append and return once
             flat.append((newkey, value))
     
-
     return dict(flat)
 
 # unflattens (nests) a dictionary with '.' as the seperator
@@ -153,7 +152,6 @@ def unflatten_dict(flat):
 
         # now put the value in the new 'leaf' tag
         sub_dict[tags[-1]] = value
-
 
     return ret
 
@@ -193,10 +191,9 @@ def has_po(notes):
     if notes.lower().find('uw po') >= 0:
         index = notes.find("UW PO")
         index += len("UW PO ")
-
         return notes[index:]
-    else:
-        return 'MISSING'
+    
+    return 'MISSING'
 
 # another (very basic) heuristic to try to fill the owner field from the notes column
 # TODO is there a place that we could find this?? should we even worry?
@@ -211,7 +208,7 @@ def find_owner(notes):
         if owner.lower() in notes.lower():
             return owner
     
-    return 'CHTC'
+    return 'MISSING'
 
 # another heuristic to try to discern the asset's purpose from the notes column
 def find_purpose(notes): 
@@ -289,8 +286,7 @@ def csv_read(csv_name):
         next(reader)
 
         for row in reader:
-            a = Asset(row, sites)
-            assets.append(a)
+            assets.append(Asset(row, sites))
 
         return assets
 
@@ -313,7 +309,7 @@ def gen_yaml(assets, path):
         # figure out if we should warn about the hostname
         # remove this if too slow - seems okay
         if hostname in names:
-            print('WARNING: a host with the name', hostname, 'already exists - skipping')
+            print('WARNING: a host with the name {0} already exists - skipping'.format(hostname))
             print('==========================================================================')
             print('[ASSET THAT WAS SKIPPED]')
             print_dict(asset.asset)
@@ -329,7 +325,7 @@ def gen_yaml(assets, path):
             yaml.dump(asset.asset, outfile, sort_keys=False)
 
 
-    print('csv2yaml: generated', files, 'files - skipped', skipped, 'assets with duplicate hostnames')
+    print('csv2yaml: generated {0} files - skipped {1} assets with duplicate hostnames'.format(files, skipped))
 
 
 def main():
