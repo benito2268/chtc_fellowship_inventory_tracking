@@ -2,11 +2,7 @@ import sys
 import os
 import yaml
 
-# TODO notes:
-# read all .yaml files from a dir?
-#   - this seems right since we will need all for something like a spreadsheet
-#   - could add the option to check integrity of 1 at a time
-
+# TODO add member vars for hostname and domain
 class Asset:
     def __init__(self, filename):
         with open(filename, 'r') as infile:
@@ -16,6 +12,10 @@ class Asset:
             self.asset = yaml.safe_load(infile)
 
 def read_yaml(yaml_dir):
+    # for ease of use
+    if not yaml_dir.endswith('/'):
+        yaml_dir += '/'
+
     ret = []
 
     for file in os.listdir(yaml_dir):
