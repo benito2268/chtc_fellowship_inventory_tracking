@@ -6,9 +6,6 @@ import yaml
 # read all .yaml files from a dir?
 #   - this seems right since we will need all for something like a spreadsheet
 #   - could add the option to check integrity of 1 at a time
-#
-# this will probably only be used as a standalone script when checking yaml
-#   - do we want to seperate script for that? - first impression says yes
 
 class Asset:
     def __init__(self, filename):
