@@ -58,7 +58,7 @@ class Asset:
                 'elevation' : "",
                 'room'      : "",
                 'building'  : "",
-            }, 
+            },
 
             'tags' : {
                 'csl'       : "",
@@ -72,11 +72,11 @@ class Asset:
         # flatten the dictionary first (with '.' as the seperator)
         # then place place each value according to key_map
         flat = flatten_dict(self.asset)
-        
+
         for key in flat.keys():
             index = self.key_map.get(key, "")
             fetched = quoted(csv_row[index]) if index != "" else quoted("")
-            
+
             flat[key] = fetched
 
         self.asset = unflatten_dict(flat)
@@ -100,7 +100,7 @@ def print_dict(d):
 
     for key, value in flat.items():
         print(key, ':', value)
-   
+
 
     print('\n')
 
@@ -122,14 +122,14 @@ def flatten_dict(nested, parent_key=''):
         else:
             # we're somewhere in a nested level
             newkey = parent_key + '.' + key
-        
+
         if isinstance(value, dict):
             # if value is a dictionary - recurse further in
             flat.extend(flatten_dict(value, newkey).items())
         else:
             # otherwise, we've hit the base case - append and return once
             flat.append((newkey, value))
-    
+
     return dict(flat)
 
 # unflattens (nests) a dictionary with '.' as the seperator
@@ -171,7 +171,7 @@ def has_po(notes):
         index = notes.find("UW PO")
         index += len("UW PO ")
         return notes[index:]
-    
+
     return ''
 
 # another (very basic) heuristic to try to fill the owner field from the notes column
@@ -186,11 +186,11 @@ def find_owner(notes):
     for owner in owners:
         if owner.lower() in notes.lower():
             return owner
-    
+
     return ''
 
 # another heuristic to try to discern the asset's purpose from the notes column
-def find_purpose(notes): 
+def find_purpose(notes):
     # some common purposes found in the 'notes' column
     keys = [
         'former hpc',
@@ -200,10 +200,10 @@ def find_purpose(notes):
     ]
 
     for key in keys:
-        if notes.find(key) >= 0:
+        if notes.lower().find(key) >= 0:
             return notes
 
-    return 'MISSING'
+    return ''
 
 # reads all of the site files in site_dir - do this once
 # at the beginning and store results to avoid a very slow script
@@ -212,15 +212,15 @@ def find_purpose(notes):
 # from that file
 def get_sitefiles(site_dir):
     files = dict()
-    for filename in os.listdir(site_dir):
-            with open(site_dir + filename, 'r') as sitefile:
-                sitestr = sitefile.read()
-                files[filename] = sitestr
+    for ln_name in os.listdir(site_dir):
+            filename = os.readlink('/'.join((site_dir, ln_name)))
+            files[ln_name] = filename
     return files
 
 
 # scans through file read from puppet_data/site_tier_0/ and looks for asset's locations
 # returns: a tuple of the form (Room, Building)
+# TODO this should probably change too
 def find_site(hostname, file_dict):
 
     pretty_names = {
@@ -240,7 +240,7 @@ def find_site(hostname, file_dict):
         sitestr = file_dict[hostname + '.yaml']
 
         for key, value in pretty_names.items():
-            if sitestr.find(key) >= 0: 
+            if sitestr.find(key) >= 0:
                 return value
 
     return ('', '')
@@ -250,13 +250,13 @@ def find_site(hostname, file_dict):
 # 
 # params: csv_name - name of the input csv file
 # returns: a list of Asset objects as read from the file
-def csv_read(csv_name): 
+def csv_read(csv_name):
     with open(csv_name, newline="") as csvfile:
 
         # I think the csv module considers this the "excel dialect"
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         assets = []
-        
+
         # TODO what to do about hard coded path
         # generate the dictionary of sites 
         sites = get_sitefiles('../../Puppet/puppet_data/site_tier_0/')
