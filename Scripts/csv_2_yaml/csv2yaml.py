@@ -193,10 +193,10 @@ def find_owner(notes):
 def find_purpose(notes):
     # some common purposes found in the 'notes' column
     keys = [
-        'former hpc',
-        'path facility',
-        'tor',
-        'admin',
+        'former hpc ',
+        'path facility ',
+        'tor ',
+        'admin ',
     ]
 
     for key in keys:
