@@ -66,8 +66,10 @@ class Asset:
                 'morgridge' : "",
             },
         }
-
-        self.fqdn = '.'.join((csv_row[self.key_map['hostname']], csv_row[self.key_map['domain']]))
+        
+        self.fqdn = csv_row[self.key_map['hostname']]
+        if csv_row[self.key_map['domain']] != '': 
+            self.fqdn += '.' + csv_row[self.key_map['domain']]
 
         # flatten the dictionary first (with '.' as the seperator)
         # then place place each value according to key_map
@@ -195,8 +197,8 @@ def find_purpose(notes):
     keys = [
         'former hpc ',
         'path facility ',
-        'tor ',
-        'admin ',
+        ' tor',
+        ' admin',
     ]
 
     for key in keys:
