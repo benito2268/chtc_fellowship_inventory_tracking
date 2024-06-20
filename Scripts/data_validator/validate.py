@@ -45,7 +45,7 @@ def main():
 
     #chk_conflicting(assets)
 
-    m = errors.MissingDataError('test.yaml', 'hardware.serial: none');
+    m = errors.MissingDataError('test.yaml', ['hardware.serial: none', 'tags.uw: ']);
     print(m)
 
 if __name__ == '__main__':

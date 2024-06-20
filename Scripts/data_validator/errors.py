@@ -13,29 +13,30 @@ class DataError:
         
 class MissingDataError(DataError):
 
-    def __init__(self, file, missing_tag, message=''):
-        self.missing_tag = missing_tag
+    def __init__(self, file, missing_tags: list, message=''):
+        self.missing_tags = missing_tags
         self.file = file
         DataError.__init__(self, file, message)
 
     def __str__(self):
         return ' '.join(( DataError.__str__(self),'\n', 
-                          'offending tag:', 
-                          self.missing_tag ))
+                          'offending tag(s):', 
+                          ', '.join(f'"{tag}"' for tag in self.missing_tags) ))
 
 class ConflictingDataError(DataError):
     
     def __init__(self, initial_file, conflicting: list, confl_tag, message=''):
+        self.initial_file = initial_file
         self.conflicting = conflicting
         self.confl_tag = confl_tag
-        DataError.__init__(self, file1, message)
+        DataError.__init__(self, self.initial_file, message)
 
     def __str__(self):
         return ' '.join(( DataError.__str__(self), '\n', 
-                          self.file1,
+                          self.initial_file,
                           'conflicts with',
-                          ' '.join(self.conflicting), '\n',
-                          'offending tag:',
+                          ', '.join(self.conflicting), '\n',
+                          'offending tag --',
                           self.confl_tag ))
 
 
