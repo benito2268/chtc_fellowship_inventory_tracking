@@ -2,7 +2,7 @@
 import sys
 import re
 import os
-sys.path.append(os.path.abspath('../yaml_read/'))
+sys.path.append(os.path.abspath('../shared'))
 
 import yaml_read
 import errors
@@ -17,12 +17,16 @@ def chk_missing(asset):
     missing_rxp = '(?i)none|missing|\?+|\s*'
 
     #TODO insert code here to flatten dict
+    bad_tags = []
 
     for key, value in asset.items():
         if re.search(value, missing_rxp):
-            #TODO return some error here
-            pass
+           bad_tags.append(' '.join((key, value))) 
 
+    if bad_tags:
+        return MissingDataError(asset.fqdn + '.yaml', bad_tags, 'tags are missing values')
+
+    # otherwise no error - return None
     return None
 
 # validates assets with respect to each other
@@ -45,7 +49,7 @@ def main():
 
     #chk_conflicting(assets)
 
-    m = errors.MissingDataError('test.yaml', ['hardware.serial: none', 'tags.uw: ']);
+    m = errors.MissingDataError('test.yaml', ['hardware.serial: none', 'tags.uw:']);
     print(m)
 
 if __name__ == '__main__':

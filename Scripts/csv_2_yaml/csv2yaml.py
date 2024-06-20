@@ -4,6 +4,9 @@ import io
 import csv
 import yaml
 
+sys.path.append(os.path.abspath('../shared'))
+import dict_utils
+
 # a wrapper class for quoted yaml string values
 # used instead of str so keys are not also quoted
 class quoted(str):
@@ -73,7 +76,7 @@ class Asset:
 
         # flatten the dictionary first (with '.' as the seperator)
         # then place place each value according to key_map
-        flat = flatten_dict(self.asset)
+        flat = dict_utils.flatten_dict(self.asset)
 
         for key in flat.keys():
             index = self.key_map.get(key, "")
@@ -81,7 +84,7 @@ class Asset:
 
             flat[key] = fetched
 
-        self.asset = unflatten_dict(flat)
+        self.asset = dict_utils.unflatten_dict(flat)
 
         # call any heuristics here to help extract misc. data
         notes = csv_row[self.key_map['hardware.notes']]
@@ -94,66 +97,6 @@ class Asset:
         site = find_site(self.fqdn, sites)
         self.asset['location']['room'] = quoted(site[0])
         self.asset['location']['building'] = quoted(site[1])
-
-
-# for debugging
-def print_dict(d):
-    flat = flatten_dict(d)
-
-    for key, value in flat.items():
-        print(key, ':', value)
-
-
-    print('\n')
-
-# flattens a dictionary with '.' as the seperator
-#
-# params:
-#   nested - current dictionary to be flattened
-#   parent_key - the (already flattened) path the leads to nested - used by the recursive call only
-# returns:
-#   a dictionary that maps a 'path' to each bottom level value in the original
-#   ex) an entry would look like  "hardware.condo_chassis.model" : "Dell PowerEdge ..." 
-def flatten_dict(nested, parent_key=''):
-    # using a list means we have append() and extend()
-    flat = []
-    for key, value in nested.items():
-        if parent_key == '':
-            # we're at the top level
-            newkey = key
-        else:
-            # we're somewhere in a nested level
-            newkey = parent_key + '.' + key
-
-        if isinstance(value, dict):
-            # if value is a dictionary - recurse further in
-            flat.extend(flatten_dict(value, newkey).items())
-        else:
-            # otherwise, we've hit the base case - append and return once
-            flat.append((newkey, value))
-
-    return dict(flat)
-
-# unflattens (nests) a dictionary with '.' as the seperator
-def unflatten_dict(flat):
-    ret = dict()
-
-    for key, value in flat.items():
-        tags = key.split('.')
-        sub_dict = ret
-
-        # re-nest all of the levels - not yet worrying about values
-        # the last value in the list is the 'leaf' tag - so ignore it for now
-        for tag in tags[:-1]:
-            if tag not in sub_dict:
-                sub_dict[tag] = dict()
-
-            sub_dict = sub_dict[tag]
-
-        # now put the value in the new 'leaf' tag
-        sub_dict[tags[-1]] = value
-
-    return ret
 
 # the default Python yaml module doesn't preserve double quotes :(
 # can change that behavior with a representer
@@ -293,7 +236,7 @@ def gen_yaml(assets, path):
             print('WARNING: a host with the name {0} already exists - skipping'.format(hostname))
             print('==========================================================================')
             print('[ASSET THAT WAS SKIPPED]')
-            print_dict(asset.asset)
+            dict_utils.print_dict(asset.asset)
 
             skipped += 1
             continue
