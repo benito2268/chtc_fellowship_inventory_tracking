@@ -3,28 +3,41 @@ import sys
 import re
 import os
 sys.path.append(os.path.abspath('../shared'))
-
 import yaml_read
-import errors
+import dict_utils
+import errors 
 
 # validates the integrity of a single asset
 # returns an error object if data is missing
 # or None otherwise
 def chk_missing(asset):
 
-    # use a regex for ways 'missing' is said in the speadsheet
-    # i.e. '', 'none', '???', etc.
-    missing_rxp = '(?i)none|missing|\?+|\s*'
+    missing_rxp = "(?i)none|missing|\\?+|^\\s*$"
 
-    #TODO insert code here to flatten dict
+    flat = dict_utils.flatten_dict(asset.asset)
     bad_tags = []
 
-    for key, value in asset.items():
-        if re.search(value, missing_rxp):
-           bad_tags.append(' '.join((key, value))) 
+    # a list of keys that are exempt from validity checks
+    exempt_keys = [
+        'tags.morgridge',
+        'tags.csl',
+        'hardware.notes',
+        'acquisition.reason',
+        'hardware.condo_chassis.identifier',
+    ]
+
+    # condo model is conditional - check it now
+    if re.fullmatch(missing_rxp, flat['hardware.condo_chassis.identifier']):
+        exempt_keys.append('hardware.condo_chassis.model')   
+
+    # use a regex for ways 'missing' is said in the speadsheet
+    # i.e. '', 'none', '???', etc.
+    for key, value in flat.items():
+        if key not in exempt_keys and re.fullmatch(missing_rxp, str(value)):
+            bad_tags.append(': '.join((key, str(value))))
 
     if bad_tags:
-        return MissingDataError(asset.fqdn + '.yaml', bad_tags, 'tags are missing values')
+        return errors.MissingDataError(asset.fqdn + '.yaml', bad_tags, 'tags are missing values')
 
     # otherwise no error - return None
     return None
@@ -42,15 +55,19 @@ def main():
     if not path.endswith('/'):
         path += '/'
 
-    #assets = yaml_read.read_yaml(path)
+    assets = yaml_read.read_yaml(path)
+    missing = 0
 
-    #for asset in assets:
-        #chk_missing(asset)
+    for asset in assets:
+        err = chk_missing(asset)
+        if err:
+            print(err)
+            print()
+            missing += 1
 
-    #chk_conflicting(assets)
+    chk_conflicting(assets)
 
-    m = errors.MissingDataError('test.yaml', ['hardware.serial: none', 'tags.uw:']);
-    print(m)
+    print('found {0} assets with missing tags'.format(missing))
 
 if __name__ == '__main__':
     main()
