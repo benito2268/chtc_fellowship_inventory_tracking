@@ -20,8 +20,8 @@ class MissingDataError(DataError):
 
     def __str__(self):
         return ' '.join(( DataError.__str__(self),'\n', 
-                          'offending tag(s):', 
-                          ', '.join(f'"{tag}"' for tag in self.missing_tags) ))
+                          'offending tag(s):\n', 
+                          ',\n'.join(f'  "{tag}"' for tag in self.missing_tags) ))
 
 class ConflictingDataError(DataError):
     
