@@ -2,7 +2,6 @@ import sys
 import os
 import yaml
 
-# TODO add member vars for hostname and domain
 class Asset:
     def __init__(self, filename):
         with open(filename, 'r') as infile:
@@ -10,6 +9,8 @@ class Asset:
             # as far as I can tell safe_load doesn't have any relevant
             # disadvantages over load() here - maybe it's overkill but might as well
             self.asset = yaml.safe_load(infile)
+            self.fqdn = filename.removesuffix('.yaml')
+
 
 def read_yaml(yaml_dir):
     # for ease of use
@@ -34,10 +35,6 @@ def main():
     yaml_dir = sys.argv[1]
     
     assets = read_yaml(yaml_dir)
-
-    # for testing
-    for asset in assets:
-        print(asset.asset['hardware']['model'])
 
 if __name__ == '__main__':
     main()
