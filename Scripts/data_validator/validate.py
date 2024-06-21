@@ -1,7 +1,10 @@
-# TODO is there a better way to do this?
 import sys
 import re
 import os
+import itertools
+from pprint import pprint
+
+# TODO is there a better way to do this?
 sys.path.append(os.path.abspath('../shared'))
 import yaml_io
 import dict_utils
@@ -48,10 +51,48 @@ def chk_missing(asset):
     # otherwise no error - return None
     return None
 
+# returns a list of lists that contain groups
+# of assets that share the same (non-missing) value
+# for the given key
+def get_key_grp(assets, key):
+    ret_group = []
+    missing_rxp = "(?i)none|missing|\\?+|^\\s*$"
+
+    if key == 'location.rack' or key == 'location.elevation':
+        keyfunc = lambda fd: fd['location.rack'] + fd['location.elevation']
+    else:
+        keyfunc = lambda fd: fd[key]
+
+    # remove assets missing the key
+    # maybe I'm going overboard with the Python one-liners?
+    flats = [dict_utils.flatten_dict(a.asset) for a in assets]
+    grp_list = list(filter(lambda d: not re.fullmatch(missing_rxp, d[key]), flats))
+
+    # now group by each asset by value corresponding to key
+    grp_list = sorted(grp_list, key=keyfunc)
+    for k, g in itertools.groupby(grp_list, keyfunc):
+        group = list(g)
+        if len(group) > 1:
+            ret_group.append(group)
+
+    return ret_group
+
+
 # validates assets with respect to each other
 def chk_conflicting(assets):
-    pass
+ 
+    # group assets by tags they share then check if that's okay
+    # want to check
+    #   - Rack + Elevation
+    #   - PO #
+    #   - Condo parent serial #
+    #   - UW asset tag
 
+    share_location = []
+    share_po_num = []
+    share_condo_id = []
+    share_uw_tag = []
+        
 def main():
     if len(sys.argv) != 2:
         print('usage: validate.py <path-to-yaml-files>')
