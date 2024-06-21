@@ -5,12 +5,8 @@ import csv
 import yaml
 
 sys.path.append(os.path.abspath('../shared'))
+import yaml_io
 import dict_utils
-
-# a wrapper class for quoted yaml string values
-# used instead of str so keys are not also quoted
-class quoted(str):
-    pass
 
 class Asset:
     # a shared (among all Assets) dictionary that maps YAML/dict key names
@@ -80,7 +76,7 @@ class Asset:
 
         for key in flat.keys():
             index = self.key_map.get(key, "")
-            fetched = quoted(csv_row[index]) if index != "" else quoted("")
+            fetched = csv_row[index] if index != "" else ""
 
             flat[key] = fetched
 
@@ -89,20 +85,14 @@ class Asset:
         # call any heuristics here to help extract misc. data
         notes = csv_row[self.key_map['hardware.notes']]
 
-        self.asset['acquisition']['po'] = quoted(has_po(notes))
-        self.asset['acquisition']['fabrication'] = is_fabrication(notes)
-        self.asset['acquisition']['owner'] = quoted(find_owner(notes))
-        self.asset['hardware']['purpose'] = quoted(find_purpose(notes))
+        self.asset['acquisition']['po'] = yaml_io.quoted(has_po(notes))
+        self.asset['acquisition']['fabrication'] = yaml_io.quoted(is_fabrication(notes))
+        self.asset['acquisition']['owner'] = yaml_io.quoted(find_owner(notes))
+        self.asset['hardware']['purpose'] = yaml_io.quoted(find_purpose(notes))
 
         site = find_site(self.fqdn, sites)
-        self.asset['location']['room'] = quoted(site[0])
-        self.asset['location']['building'] = quoted(site[1])
-
-# the default Python yaml module doesn't preserve double quotes :(
-# can change that behavior with a representer
-# see "Constructors, representers, resolvers" in https://pyyaml.org/wiki/PyYAMLDocumentation
-def quote_representer(dumper, data):
-    return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
+        self.asset['location']['room'] = yaml_io.quoted(site[0])
+        self.asset['location']['building'] = yaml_io.quoted(site[1])
 
 # a heuristic for trying to determine if an asset
 # is a fabrication from its 'notes' field
@@ -220,8 +210,6 @@ def csv_read(csv_name):
 # params:
 #   assets: the list of assets to generate from
 def gen_yaml(assets, path):
-    # register the yaml representer for double quoted strings
-    yaml.add_representer(quoted, quote_representer)
 
     files = 0
     skipped = 0
@@ -244,10 +232,7 @@ def gen_yaml(assets, path):
         names.append(hostname)
         files += 1
 
-        # newline='\n' writes files with unix (LF) line endings
-        with open(path + hostname + '.yaml', 'w', newline='\n') as outfile:
-            yaml.dump(asset.asset, outfile, sort_keys=False)
-
+        yaml_io.write_yaml(asset, path + hostname + '.yaml')
 
     print('csv2yaml: generated {0} files - skipped {1} assets with duplicate hostnames'.format(files, skipped))
 

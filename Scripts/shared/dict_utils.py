@@ -1,4 +1,4 @@
-
+import yaml_io
 
 # prints a dictionary (in 'flat' style)
 def print_dict(d):
@@ -54,6 +54,6 @@ def unflatten_dict(flat):
             sub_dict = sub_dict[tag]
 
         # now put the value in the new 'leaf' tag
-        sub_dict[tags[-1]] = value
+        sub_dict[tags[-1]] = yaml_io.quoted(value)
 
     return ret

@@ -3,7 +3,7 @@ import sys
 import re
 import os
 sys.path.append(os.path.abspath('../shared'))
-import yaml_read
+import yaml_io
 import dict_utils
 import errors 
 
@@ -36,7 +36,13 @@ def chk_missing(asset):
         if key not in exempt_keys and re.fullmatch(missing_rxp, str(value)):
             bad_tags.append(': '.join((key, str(value))))
 
+            # MISSING will be the 'magic string'
+            flat[key] = 'MISSING' 
+
     if bad_tags:
+        # unflatten and re-write if we made any changes
+        asset.asset = dict_utils.unflatten_dict(flat)
+        yaml_io.write_yaml(asset, asset.filepath)
         return errors.MissingDataError(asset.fqdn + '.yaml', bad_tags, 'tags are missing values')
 
     # otherwise no error - return None
@@ -55,7 +61,7 @@ def main():
     if not path.endswith('/'):
         path += '/'
 
-    assets = yaml_read.read_yaml(path)
+    assets = yaml_io.read_yaml(path)
     missing = 0
 
     for asset in assets:
@@ -67,7 +73,7 @@ def main():
 
     chk_conflicting(assets)
 
-    print('found {0} assets with missing tags'.format(missing))
+    print('validate: found {0} assets with missing tags'.format(missing))
 
 if __name__ == '__main__':
     main()
