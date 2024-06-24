@@ -2,6 +2,7 @@ import sys
 import re
 import os
 import itertools
+import argparse
 from collections import defaultdict
 from pprint import pprint
 
@@ -14,8 +15,7 @@ import errors
 # validates the integrity of a single asset
 # returns an error object if data is missing
 # or None otherwise
-def chk_missing(asset):
-
+def chk_single_missing(asset):
     missing_rxp = "(?i)none|missing|\\?+|^\\s*$"
 
     flat = dict_utils.flatten_dict(asset.asset)
@@ -110,47 +110,77 @@ def chk_conflicting(assets):
         'tags.uw',
     ]
 
-    groups = defaultdict(list)
-
-    # TODO could probably use a list comprehension here
-    for key in keys:
-        groups[key] = get_key_grp(assets, key)
+    groups = { key:get_key_grp(assets, key) for key in keys}
 
     # run checks to compare groups as follows
     # - a group with the same rack and elevation should all share hardware.condo_chassis.identifier
     # - a group with the same hardware.condo_chassis.identifier should all share rack + elevation
     # - a group with the same UW tag should share a condo chassis OR be part of a fabrication
     # - a group with the same UW PO # should share a condo chassis OR be part of a fabrication
-    
+
+    errs = []
+
     # check rack against condo_chassis.identifier
     # TODO account for elevation 'ranges' instead of checking pure equality
-    errs = get_conflicts(groups['location.rack'], 'hardware.condo_chassis.identifier', 'assets share rack-elevation without common hardware.condo_chassis.identifier')
+    rack_confls = get_conflicts(groups['location.rack'], 
+                                'hardware.condo_chassis.identifier', 
+                                'assets share rack-elevation without common hardware.condo_chassis.identifier')
+
+    if not rack_confls == None:
+        errs.extend(rack_confls)
+
+    # check condo_id against rack
+    condo_id_confls = get_conflicts(groups['hardware.condo_chassis.identifier'], 
+                                           'location.rack', 
+                                           'assets share hardware.condo_chassis.id but show different rack-elevation') 
+    if not condo_id_confls == None:
+        errs.extend(condo_id_confls)
+
+    return errs
+
+def do_chk_missing(assets):
+    missing = 0
+
+    for asset in assets:
+        err = chk_single_missing(asset)
+        if err:
+            print(err)
+            print()
+            missing += 1
+
+    print('validate: found {0} assets with missing tags'.format(missing))
+
+def do_chk_conflicting(assets):
+    errs = chk_conflicting(assets)
+
     for err in errs:
         print(err)
         print()
 
+    print(f'validate: found {len(errs)} conflicting items')
+    
 def main():
-    if len(sys.argv) != 2:
-        print('usage: validate.py <path-to-yaml-files>')
-        exit(1)
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-m', '--missing', help='only check for asset tags that are missing values', action='store_true')
+    group.add_argument('-c', '--conflicting', help='only check for conflicting asset data', action='store_true')
+    parser.add_argument('yaml_path', help='the path to a directory containing YAML asset files to validate', type=str)
 
-    path = sys.argv[1]
-    if not path.endswith('/'):
-        path += '/'
+    args = parser.parse_args()
 
-    assets = yaml_io.read_yaml(path)
+    assets = yaml_io.read_yaml(args.yaml_path)
     missing = 0
 
-    #for asset in assets:
-        #err = chk_missing(asset)
-        #if err:
-            #print(err)
-            #print()
-            #missing += 1
+    if args.missing:
+        do_chk_missing(assets)
 
-    chk_conflicting(assets)
+    elif args.conflicting:
+        do_chk_conflicting(assets)
 
-    print('validate: found {0} assets with missing tags'.format(missing))
+    else:
+        # check for both
+        do_chk_missing(assets)
+        do_chk_conflicting(assets)
 
 if __name__ == '__main__':
     main()
