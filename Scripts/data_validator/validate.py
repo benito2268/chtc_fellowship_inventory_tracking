@@ -60,12 +60,12 @@ def get_key_grp(assets, key):
     missing_rxp = "(?i)none|missing|\\?+|^\\s*$"
 
     if key == 'location.rack' or key == 'location.elevation':
-        keyfunc = lambda a: a.asset['location.rack'] + a.asset['location.elevation']
+        # room, rack, and elevation are kind of tied together
+        keyfunc = lambda a: a.asset['location.room'] + a.asset['location.rack'] + a.asset['location.elevation']
     else:
         keyfunc = lambda a: a.asset[key]
 
     # remove assets missing the key
-    # maybe this is overboard with the Python one-liners?
     flats = assets.copy()
     for asset in flats:
         asset.asset = dict_utils.flatten_dict(asset.asset)
@@ -81,10 +81,28 @@ def get_key_grp(assets, key):
 
     return ret_group
 
+# returns a ConflictingDataError if assets conflict, otherwise returns None
+def get_conflicts(groups, tag, msg):
+    errs = []
+    for group in groups:
+        first = group[0]
+ 
+        conflicting = []
+        for asset in group:
+            # gather all conflicting items
+            if asset.asset[tag] != first.asset[tag]:
+                conflicting.append( (asset.fqdn, asset.asset[tag]) )
+
+        if conflicting:
+            errs.append(errors.ConflictingDataError((first.fqdn, first.asset[tag]), conflicting, msg))
+
+    return errs if errs else None
+
 
 # validates assets with respect to each other
 def chk_conflicting(assets):
- 
+
+    # list of keys we want to grab
     keys = [
         'location.rack',
         'acquisition.po',
@@ -94,6 +112,7 @@ def chk_conflicting(assets):
 
     groups = defaultdict(list)
 
+    # TODO could probably use a list comprehension here
     for key in keys:
         groups[key] = get_key_grp(assets, key)
 
@@ -102,7 +121,14 @@ def chk_conflicting(assets):
     # - a group with the same hardware.condo_chassis.identifier should all share rack + elevation
     # - a group with the same UW tag should share a condo chassis OR be part of a fabrication
     # - a group with the same UW PO # should share a condo chassis OR be part of a fabrication
-     
+    
+    # check rack against condo_chassis.identifier
+    # TODO account for elevation 'ranges' instead of checking pure equality
+    errs = get_conflicts(groups['location.rack'], 'hardware.condo_chassis.identifier', 'assets share rack-elevation without common hardware.condo_chassis.identifier')
+    for err in errs:
+        print(err)
+        print()
+
 def main():
     if len(sys.argv) != 2:
         print('usage: validate.py <path-to-yaml-files>')
@@ -115,12 +141,12 @@ def main():
     assets = yaml_io.read_yaml(path)
     missing = 0
 
-    for asset in assets:
-        err = chk_missing(asset)
-        if err:
-            print(err)
-            print()
-            missing += 1
+    #for asset in assets:
+        #err = chk_missing(asset)
+        #if err:
+            #print(err)
+            #print()
+            #missing += 1
 
     chk_conflicting(assets)
 
