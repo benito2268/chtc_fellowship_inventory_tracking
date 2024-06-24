@@ -9,7 +9,7 @@ class DataError:
         self.file = file
 
     def __str__(self):
-        return ' '.join((self.__class__.__name__, 'in file', self.file, self.message))
+        return ' '.join((self.__class__.__name__, 'in file', self.file, '\n', self.message))
         
 class MissingDataError(DataError):
 
@@ -25,19 +25,16 @@ class MissingDataError(DataError):
 
 class ConflictingDataError(DataError):
     
-    def __init__(self, initial_file, conflicting: list, confl_tag, message=''):
-        self.initial_file = initial_file
+    def __init__(self, initial_confl: tuple, conflicting: list, message=''):
+        self.initial_confl = initial_confl
         self.conflicting = conflicting
-        self.confl_tag = confl_tag
-        DataError.__init__(self, self.initial_file, message)
+        DataError.__init__(self, self.initial_confl[0], message)
 
     def __str__(self):
-        return ' '.join(( DataError.__str__(self), '\n', 
-                          self.initial_file,
+        return ' '.join(( DataError.__str__(self), '\n',
+                          str(self.initial_confl),
                           'conflicts with',
-                          ', '.join(self.conflicting), '\n',
-                          'offending tag --',
-                          self.confl_tag ))
+                          ', '.join(str(confl) for confl in self.conflicting), '\n'))
 
 
 
