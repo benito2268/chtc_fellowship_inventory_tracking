@@ -23,11 +23,13 @@ def chk_single_missing(asset):
 
     # a list of keys that are exempt from 'missing' checks
     exempt_keys = [
+        'acquisition.reason',
         'tags.morgridge',
         'tags.csl',
         'hardware.notes',
-        'acquisition.reason',
+        'hardware.swap_reason',
         'hardware.condo_chassis.identifier',
+        'uuid',
     ]
 
     # condo model is conditional - if condo id not present - ignore it

@@ -1,24 +1,26 @@
 acquisition:
   po: "987654321"
-  date: "MISSING"
-  reason: "MISSING"
-  owner: "CHTC"
-  fabrication: false
+  date: ""
+  reason: ""
+  owner: ""
+  fabrication: "False"
 hardware:
   model: "Dell PowerEdge R640"
   serial_number: "k54xxoaxsh"
   service_tag: "k54xxoaxsh"
-  purpose: "MISSING"
+  purpose: ""
+  swap_reason: ""
   notes: "A rack node with po # - UW PO 987654321"
   condo_chassis:
-    identifier: "MISSING"
-    model: "MISSING"
+    identifier: ""
+    model: ""
 location:
   rack: "B"
   elevation: "3"
-  room: "MISSING"
-  building: "MISSING"
+  room: ""
+  building: ""
 tags:
-  csl: "MISSING"
+  csl: ""
   uw: "U0000001"
-  morgridge: "MISSING"
+  morgridge: ""
+uuid: ""
