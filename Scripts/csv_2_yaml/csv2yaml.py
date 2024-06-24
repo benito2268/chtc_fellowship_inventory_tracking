@@ -44,6 +44,7 @@ class Asset:
                 'serial_number' : "",
                 'service_tag'   : "",
                 'purpose'       : "",
+                'swap_reason'   : "",
                 'notes'         : "",
 
                 'condo_chassis' : {
@@ -64,6 +65,8 @@ class Asset:
                 'uw'        : "",
                 'morgridge' : "",
             },
+
+            'uuid' : ""
         }
         
         self.fqdn = csv_row[self.key_map['hostname']]
