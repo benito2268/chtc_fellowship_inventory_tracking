@@ -2,6 +2,7 @@ import sys
 import re
 import os
 import itertools
+from collections import defaultdict
 from pprint import pprint
 
 # TODO is there a better way to do this?
@@ -59,14 +60,17 @@ def get_key_grp(assets, key):
     missing_rxp = "(?i)none|missing|\\?+|^\\s*$"
 
     if key == 'location.rack' or key == 'location.elevation':
-        keyfunc = lambda fd: fd['location.rack'] + fd['location.elevation']
+        keyfunc = lambda a: a.asset['location.rack'] + a.asset['location.elevation']
     else:
-        keyfunc = lambda fd: fd[key]
+        keyfunc = lambda a: a.asset[key]
 
     # remove assets missing the key
-    # maybe I'm going overboard with the Python one-liners?
-    flats = [dict_utils.flatten_dict(a.asset) for a in assets]
-    grp_list = list(filter(lambda d: not re.fullmatch(missing_rxp, d[key]), flats))
+    # maybe this is overboard with the Python one-liners?
+    flats = assets.copy()
+    for asset in flats:
+        asset.asset = dict_utils.flatten_dict(asset.asset)
+
+    grp_list = list(filter(lambda a: not re.fullmatch(missing_rxp, a.asset[key]), flats))
 
     # now group by each asset by value corresponding to key
     grp_list = sorted(grp_list, key=keyfunc)
@@ -81,18 +85,24 @@ def get_key_grp(assets, key):
 # validates assets with respect to each other
 def chk_conflicting(assets):
  
-    # group assets by tags they share then check if that's okay
-    # want to check
-    #   - Rack + Elevation
-    #   - PO #
-    #   - Condo parent serial #
-    #   - UW asset tag
+    keys = [
+        'location.rack',
+        'acquisition.po',
+        'hardware.condo_chassis.identifier',
+        'tags.uw',
+    ]
 
-    share_location = []
-    share_po_num = []
-    share_condo_id = []
-    share_uw_tag = []
-        
+    groups = defaultdict(list)
+
+    for key in keys:
+        groups[key] = get_key_grp(assets, key)
+
+    # run checks to compare groups as follows
+    # - a group with the same rack and elevation should all share hardware.condo_chassis.identifier
+    # - a group with the same hardware.condo_chassis.identifier should all share rack + elevation
+    # - a group with the same UW tag should share a condo chassis OR be part of a fabrication
+    # - a group with the same UW PO # should share a condo chassis OR be part of a fabrication
+     
 def main():
     if len(sys.argv) != 2:
         print('usage: validate.py <path-to-yaml-files>')
