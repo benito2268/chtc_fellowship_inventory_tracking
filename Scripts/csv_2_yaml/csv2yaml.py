@@ -65,8 +65,6 @@ class Asset:
                 'uw'        : "",
                 'morgridge' : "",
             },
-
-            'uuid' : ""
         }
         
         self.fqdn = csv_row[self.key_map['hostname']]

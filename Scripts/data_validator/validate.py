@@ -29,7 +29,6 @@ def chk_single_missing(asset):
         'hardware.notes',
         'hardware.swap_reason',
         'hardware.condo_chassis.identifier',
-        'uuid',
     ]
 
     # condo model is conditional - if condo id not present - ignore it
