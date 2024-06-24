@@ -6,7 +6,7 @@ import argparse
 from collections import defaultdict
 from pprint import pprint
 
-# TODO is there a better way to do this?
+# finishing touch: is there a better way to do this?
 sys.path.append(os.path.abspath('../shared'))
 import yaml_io
 import dict_utils
@@ -21,7 +21,7 @@ def chk_single_missing(asset):
     flat = dict_utils.flatten_dict(asset.asset)
     bad_tags = []
 
-    # a list of keys that are exempt from validity checks
+    # a list of keys that are exempt from 'missing' checks
     exempt_keys = [
         'tags.morgridge',
         'tags.csl',
@@ -30,7 +30,7 @@ def chk_single_missing(asset):
         'hardware.condo_chassis.identifier',
     ]
 
-    # condo model is conditional - check it now
+    # condo model is conditional - if condo id not present - ignore it
     if re.fullmatch(missing_rxp, flat['hardware.condo_chassis.identifier']):
         exempt_keys.append('hardware.condo_chassis.model')   
 
@@ -103,6 +103,7 @@ def get_conflicts(groups, tag, msg):
 def chk_conflicting(assets):
 
     # list of keys we want to grab
+    # adding a key here will fetch and return its group
     keys = [
         'location.rack',
         'acquisition.po',
@@ -126,16 +127,19 @@ def chk_conflicting(assets):
                                 'hardware.condo_chassis.identifier', 
                                 'assets share rack-elevation without common hardware.condo_chassis.identifier')
 
-    if not rack_confls == None:
+    if rack_confls != None:
         errs.extend(rack_confls)
 
     # check condo_id against rack
     condo_id_confls = get_conflicts(groups['hardware.condo_chassis.identifier'], 
                                            'location.rack', 
                                            'assets share hardware.condo_chassis.id but show different rack-elevation') 
-    if not condo_id_confls == None:
+    if condo_id_confls != None:
         errs.extend(condo_id_confls)
 
+    # check tags.uw against hardware.condo_chassis.identifier OR acquisition.fabrication
+    
+    
     return errs
 
 def do_chk_missing(assets):
