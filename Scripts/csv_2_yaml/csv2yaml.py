@@ -87,7 +87,7 @@ class Asset:
         notes = csv_row[self.key_map['hardware.notes']]
 
         self.asset['acquisition']['po'] = yaml_io.quoted(has_po(notes))
-        self.asset['acquisition']['fabrication'] = yaml_io.quoted(is_fabrication(notes))
+        self.asset['acquisition']['fabrication'] = is_fabrication(notes)
         self.asset['acquisition']['owner'] = yaml_io.quoted(find_owner(notes))
         self.asset['hardware']['purpose'] = yaml_io.quoted(find_purpose(notes))
 
