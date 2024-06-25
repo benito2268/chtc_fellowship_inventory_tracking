@@ -1,6 +1,7 @@
 import sys
 import os
 import yaml
+import dict_utils
 
 # a wrapper class for quoted yaml string values
 # used instead of str so keys are not also quoted
@@ -23,6 +24,27 @@ class Asset:
 
         self.filepath = filename
         self.fqdn = os.path.basename(filename).removesuffix('.yaml')
+
+    # returns a string (most likly used for comparison)
+    # of the assets full location
+    # separated but '.' "elev.rack.room.building"
+    def get_full_location(self):
+        return '.'.join( (self.asset['location']['elevation'], self.asset['location']['rack'], self.asset['location']['room'], self.asset['location']['building']) )
+
+    # returns a data field from it's yaml style path (ex. location.rack)
+    # this function eliminates some need for flattening and un-flattening
+    def get(self, key):
+        flat = dict_utils.flatten_dict(self.asset)
+        ret = flat[key]
+        self.asset = dict_utils.unflatten_dict(flat)
+        return ret
+
+    # stores value in the internal asset dict
+    # takes a 'flat dict' yaml style tag (ex. location.rack)
+    def put(self, key, value):
+        flat = dict_utils.flatten_dict(self.asset)
+        flat[key] = value
+        self.asset = dict_utils.unflatten_dict(flat)
 
 def read_yaml(yaml_dir):
     # for ease of use

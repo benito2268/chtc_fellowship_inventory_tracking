@@ -13,7 +13,7 @@ class DataError:
         
 class MissingDataError(DataError):
 
-    def __init__(self, file, missing_tags: list, message=''):
+    def __init__(self, file, missing_tags: list[str], message=''):
         self.missing_tags = missing_tags
         self.file = file
         DataError.__init__(self, file, message)
@@ -25,7 +25,7 @@ class MissingDataError(DataError):
 
 class ConflictingDataError(DataError):
     
-    def __init__(self, initial_confl: tuple, conflicting: list, message=''):
+    def __init__(self, initial_confl: tuple[str, str], conflicting: list[tuple[str, str]], message=''):
         self.initial_confl = initial_confl
         self.conflicting = conflicting
         DataError.__init__(self, self.initial_confl[0], message)
