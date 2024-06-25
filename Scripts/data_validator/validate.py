@@ -10,7 +10,7 @@ from pprint import pprint
 sys.path.append(os.path.abspath('../shared'))
 import yaml_io
 import dict_utils
-import errors 
+import errortypes
 
 # global regex for missing values
 missing_rxp = "(?i)none|missing|\\?+|^\\s*$"
@@ -48,7 +48,7 @@ def chk_single_missing(asset):
     if bad_tags:
         # unflatten and re-write if we made any changes
         yaml_io.write_yaml(asset, asset.filepath)
-        return errors.MissingDataError(asset.fqdn + '.yaml', bad_tags, 'tags are missing values')
+        return errortypes.MissingDataError(asset.fqdn + '.yaml', bad_tags, 'tags are missing values')
 
     # otherwise no error - return None
     return None
@@ -60,7 +60,6 @@ def get_key_grp(assets, key):
     ret_group = []
 
     if key == 'location.rack' or key == 'location.elevation':
-        # TODO change this I think
         # want to compare location as a whole
         keyfunc = lambda a: a.get_full_location()
     else:
@@ -100,7 +99,7 @@ def get_conflicts(groups, tag, msg):
                 conflicting.append( (asset.fqdn, value) )
 
         if conflicting:
-            errs.append(errors.ConflictingDataError((first.fqdn, first_value), conflicting, msg))
+            errs.append(errortypes.ConflictingGroupError((first.fqdn, first_value), conflicting, msg))
 
     return errs if errs else None
 
@@ -148,9 +147,6 @@ def chk_conflicting(assets):
     condo_tag_confls = get_conflicts(groups['tags.uw'],
                                     'hardware.condo_chassis.identifier',
                                     'assets share UW tags, but do not belong to a common condo or fabrication')
-
-    print(len(condo_tag_confls))
-
     if condo_tag_confls != None:
         for group in groups['tags.uw']:
             for a in group:
