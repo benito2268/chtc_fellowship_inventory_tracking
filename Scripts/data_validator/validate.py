@@ -3,7 +3,6 @@ import re
 import os
 import itertools
 import argparse
-from copy import deepcopy
 from collections import defaultdict
 from pprint import pprint
 
@@ -87,15 +86,14 @@ def get_conflicts(groups, tag, msg):
         conflicting = []
         for asset in group[1:]:
             # gather all conflicting items
-            # TODO stop items from conflicting with themselves
-            # TODO what about location?
             if tag == 'location.rack' or tag == 'location.elevation':
                 first_value = first.get_full_location()
                 value = asset.get_full_location()
             else:
                 first_value = first.get(tag)
                 value = asset.get(tag)
-
+            
+            # do we really want to account for missing things? - UW tags make no sense
             if (value != first_value or 
                re.fullmatch(missing_rxp, value) and re.fullmatch(missing_rxp, first_value)):
 
@@ -151,16 +149,14 @@ def chk_conflicting(assets):
                                     'hardware.condo_chassis.identifier',
                                     'assets share UW tags, but do not belong to a common condo or fabrication')
 
+    print(len(condo_tag_confls))
+
     if condo_tag_confls != None:
-        fab_confls = get_conflicts(groups['tags.uw'],
-                                   'acquisition.fabrication',
-                                   'assets share UW tags but do not belong to a common condo or fabrication')
-
-        # if all conflicting assets belong to a fabrication - we'll say it's okay
-        if fab_confls != None:
-            errs.extend(condo_tag_confls)
-
-    # check PO # against hardware.condo_chassis.identifier OR acquisition.fabrication
+        for group in groups['tags.uw']:
+            for a in group:
+                if a.get('acquisition.fabrication') != True:
+                    errs.extend(condo_tag_confls)
+                    return errs
 
     return errs
 
