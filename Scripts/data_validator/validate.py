@@ -85,7 +85,7 @@ def get_conflicts(groups, tag, msg):
         first = group[0]
  
         conflicting = []
-        for asset in group:
+        for asset in group[1:]:
             # gather all conflicting items
             # TODO stop items from conflicting with themselves
             # TODO what about location?
