@@ -4,7 +4,7 @@
 
 class DataError:
 
-    def __init__(self, file, message=''):
+    def __init__(self, file: str, message=''):
         self.message = message
         self.file = file
 
@@ -13,7 +13,7 @@ class DataError:
         
 class MissingDataError(DataError):
 
-    def __init__(self, file, missing_tags: list[str], message=''):
+    def __init__(self, file: str, missing_tags: list[str], message=''):
         self.missing_tags = missing_tags
         self.file = file
         DataError.__init__(self, file, message)
