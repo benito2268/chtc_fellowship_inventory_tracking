@@ -10,15 +10,19 @@ from pprint import pprint
 sys.path.append(os.path.abspath('../shared'))
 import yaml_io
 import dict_utils
+import validate_tools
 import errortypes
 
-# global regex for missing values
+# regex to match possible ways of saying 'missing'
 missing_rxp = "(?i)none|missing|\\?+|^\\s*$"
 
-# validates the integrity of a single asset
-# returns an error object if data is missing
-# or None otherwise
-def chk_single_missing(asset):
+# checks a single asset for missing data fields
+#
+# params:
+#   asset: a yaml_io.Asset object
+#
+# returns: a a MissingDataError or None
+def chk_single_missing(asset: yaml_io.Asset):
     bad_tags = []
 
     # a list of keys that are exempt from 'missing' checks
@@ -46,62 +50,12 @@ def chk_single_missing(asset):
             asset.put(key, yaml_io.quoted('MISSING'))
 
     if bad_tags:
-        # unflatten and re-write if we made any changes
+        # write back changes we've made and return and error
         yaml_io.write_yaml(asset, asset.filepath)
         return errortypes.MissingDataError(asset.fqdn + '.yaml', bad_tags, 'tags are missing values')
 
     # otherwise no error - return None
     return None
-
-# returns a list of lists that contain groups
-# of assets that share the same (non-missing) value
-# for the given key
-def get_key_grp(assets, key):
-    ret_group = []
-
-    if key == 'location.rack' or key == 'location.elevation':
-        # want to compare location as a whole
-        keyfunc = lambda a: a.get_full_location()
-    else:
-        keyfunc = lambda a: a.get(key)
-
-    grp_list = list(filter(lambda a: not re.fullmatch(missing_rxp, a.get(key)), assets))
-
-    # now group by each asset by value corresponding to key
-    grp_list = sorted(grp_list, key=keyfunc)
-    for k, g in itertools.groupby(grp_list, keyfunc):
-        group = list(g)
-        if len(group) > 1:
-            ret_group.append(group)
-
-    return ret_group
-
-# returns a ConflictingDataError if assets conflict, otherwise returns None
-def get_conflicts(groups, tag, msg):
-    errs = []
-    for group in groups:
-        first = group[0]
- 
-        conflicting = []
-        for asset in group[1:]:
-            # gather all conflicting items
-            if tag == 'location.rack' or tag == 'location.elevation':
-                first_value = first.get_full_location()
-                value = asset.get_full_location()
-            else:
-                first_value = first.get(tag)
-                value = asset.get(tag)
-            
-            # do we really want to account for missing things? - UW tags make no sense
-            if (value != first_value or 
-               re.fullmatch(missing_rxp, value) and re.fullmatch(missing_rxp, first_value)):
-
-                conflicting.append( (asset.fqdn, value) )
-
-        if conflicting:
-            errs.append(errortypes.ConflictingGroupError((first.fqdn, first_value), conflicting, msg))
-
-    return errs if errs else None
 
 
 # validates assets with respect to each other
@@ -116,7 +70,7 @@ def chk_conflicting(assets):
         'tags.uw',
     ]
 
-    groups = { key:get_key_grp(assets, key) for key in keys}
+    groups = { key:validate_tools.group_by_attrib(assets, key) for key in keys}
 
     # run checks to compare groups as follows
     # - a group with the same rack and elevation should all share hardware.condo_chassis.identifier
@@ -128,23 +82,22 @@ def chk_conflicting(assets):
 
     # check rack against condo_chassis.identifier
     # TODO account for elevation 'ranges' instead of checking pure equality
-    # TODO split this up into multiple functions
-    rack_confls = get_conflicts(groups['location.rack'], 
+    location_conflicts = validate_tools.get_conflicts(groups['location.rack'], 
                                 'hardware.condo_chassis.identifier', 
                                 'assets share rack-elevation without common hardware.condo_chassis.identifier')
 
-    if rack_confls != None:
-        errs.extend(rack_confls)
+    if location_conflicts != None:
+        errs.extend(location_conflicts)
 
     # check condo_id against rack
-    condo_id_confls = get_conflicts(groups['hardware.condo_chassis.identifier'], 
+    condo_id_confls = validate_tools.get_conflicts(groups['hardware.condo_chassis.identifier'], 
                                            'location.rack', 
                                            'assets share hardware.condo_chassis.id but show different rack-elevation') 
     if condo_id_confls != None:
         errs.extend(condo_id_confls)
 
     # check tags.uw against hardware.condo_chassis.identifier OR acquisition.fabrication    
-    condo_tag_confls = get_conflicts(groups['tags.uw'],
+    condo_tag_confls = validate_tools.get_conflicts(groups['tags.uw'],
                                     'hardware.condo_chassis.identifier',
                                     'assets share UW tags, but do not belong to a common condo or fabrication')
     if condo_tag_confls != None:
@@ -178,28 +131,31 @@ def do_chk_conflicting(assets):
     print(f'validate: found {len(errs)} conflicting items')
     
 def main():
+
     # set up command line options
     parser = argparse.ArgumentParser()
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument('-m', '--missing', help='only check for asset tags that are missing values', action='store_true')
-    group.add_argument('-c', '--conflicting', help='only check for conflicting asset data', action='store_true')
+
+    # add new options here
+    parser.add_argument('-m', '--missing', help='only check for asset tags that are missing values', action='store_true')
+    parser.add_argument('-c', '--conflicting', help='only check for conflicting asset data', action='store_true')
     parser.add_argument('yaml_path', help='the path to a directory containing YAML asset files to validate', type=str)
 
     args = parser.parse_args()
 
+    # dict of functions called during validate
+    # matches the command line arg with the function
+    # it should invoke
+    validate_funcs = {
+        args.missing     : do_chk_missing,
+        args.conflicting : do_chk_conflicting,
+    }
+
     # read all yaml files from the dir. at yaml_path
     assets = yaml_io.read_yaml(args.yaml_path)
 
-    if args.missing:
-        do_chk_missing(assets)
-
-    elif args.conflicting:
-        do_chk_conflicting(assets)
-
-    else:
-        # check for both
-        do_chk_missing(assets)
-        do_chk_conflicting(assets)
+    for arg in validate_funcs.keys():
+        if arg:
+            validate_funcs[arg](assets)
 
 if __name__ == '__main__':
     main()
