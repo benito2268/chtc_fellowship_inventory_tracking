@@ -89,13 +89,20 @@ def get_conflicts(groups, tag, msg):
             # gather all conflicting items
             # TODO stop items from conflicting with themselves
             # TODO what about location?
-            if (asset.get(tag) != first.get(tag) or 
-               re.fullmatch(missing_rxp, asset.get(tag)) and re.fullmatch(missing_rxp, first.get(tag))):
+            if tag == 'location.rack' or tag == 'location.elevation':
+                first_value = first.get_full_location()
+                value = asset.get_full_location()
+            else:
+                first_value = first.get(tag)
+                value = asset.get(tag)
 
-                conflicting.append( (asset.fqdn, asset.get(tag)) )
+            if (value != first_value or 
+               re.fullmatch(missing_rxp, value) and re.fullmatch(missing_rxp, first_value)):
+
+                conflicting.append( (asset.fqdn, value) )
 
         if conflicting:
-            errs.append(errors.ConflictingDataError((first.fqdn, first.get(tag)), conflicting, msg))
+            errs.append(errors.ConflictingDataError((first.fqdn, first_value), conflicting, msg))
 
     return errs if errs else None
 
