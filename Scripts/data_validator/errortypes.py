@@ -23,18 +23,19 @@ class MissingDataError(DataError):
                           'offending tag(s):\n', 
                           ',\n'.join(f'  "{tag}"' for tag in self.missing_tags) ))
 
-class ConflictingDataError(DataError):
+# TODO replace with named tuples to make more clear?
+class ConflictingGroupError(DataError):
     
-    def __init__(self, initial_confl: tuple[str, str], conflicting: list[tuple[str, str]], message=''):
-        self.initial_confl = initial_confl
+    def __init__(self, initial_group: tuple[str, str], conflicting: list[tuple[str, str]], message=''):
+        self.initial_group = initial_group
         self.conflicting = conflicting
-        DataError.__init__(self, self.initial_confl[0], message)
+        DataError.__init__(self, self.initial_group[0], message)
 
     def __str__(self):
         return ' '.join(( DataError.__str__(self), '\n',
-                          str(self.initial_confl),
-                          'conflicts with',
-                          ', '.join(str(confl) for confl in self.conflicting), '\n'))
+                          str(self.initial_group),
+                          'conflicts with\n',
+                          ',\n'.join(str(confl) for confl in self.conflicting), '\n'))
 
 
 
