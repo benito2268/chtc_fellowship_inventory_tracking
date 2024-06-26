@@ -2,6 +2,7 @@
 # making them throwable and getting a stacktrace and line number
 # just doesn't seem useful here
 
+# base class for all data errors - defines a basic __str__ method
 class DataError:
 
     def __init__(self, file: str, message=''):
@@ -10,7 +11,8 @@ class DataError:
 
     def __str__(self):
         return ' '.join((self.__class__.__name__, 'in file', self.file, '\n', self.message))
-        
+       
+# represents a single item missing 1 or more tags
 class MissingDataError(DataError):
 
     def __init__(self, file: str, missing_tags: list[str], message=''):
@@ -23,22 +25,27 @@ class MissingDataError(DataError):
                           'offending tag(s):\n', 
                           ',\n'.join(f'  "{tag}"' for tag in self.missing_tags) ))
 
-# TODO replace with named tuples to make more clear?
+# a 'helper' class that associates a hostname with 2 of its tags
+# one that makes the asset part of a particular group
+# and another that conflicts with others in the group
+class ConflictItem:
+    def __init__(self, hostname: str, group: str, conflicting: str):
+        self.hostname = hostname
+        self.group = group
+        self.conflicting = conflicting
+
+    def __str__(self):
+        return f'{self.hostname}: ("{self.group}", "{self.conflicting}")'
+
+# represents an error where 1 or more assets in a certain group (ex. same condo_chassis)
+# have other conflicting values (ex. different elevation)
 class ConflictingGroupError(DataError):
     
-    def __init__(self, initial_group: tuple[str, str], conflicting: list[tuple[str, str]], message=''):
-        self.initial_group = initial_group
+    def __init__(self, conflicting: list[ConflictItem], message=''):
         self.conflicting = conflicting
-        DataError.__init__(self, self.initial_group[0], message)
+        DataError.__init__(self, self.conflicting[0].hostname, message)
 
     def __str__(self):
         return ' '.join(( DataError.__str__(self), '\n',
-                          str(self.initial_group),
-                          'conflicts with\n',
+                          'the following items contain conflicts:\n',
                           ',\n'.join(str(confl) for confl in self.conflicting), '\n'))
-
-
-
-
-
-

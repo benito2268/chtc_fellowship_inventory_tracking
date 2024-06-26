@@ -82,7 +82,7 @@ def chk_conflicting(assets):
 
     # check rack against condo_chassis.identifier
     # TODO account for elevation 'ranges' instead of checking pure equality
-    location_conflicts = validate_tools.get_conflicts(groups['location.rack'], 
+    location_conflicts = validate_tools.get_conflicts('location.rack', groups, 
                                 'hardware.condo_chassis.identifier', 
                                 'assets share rack-elevation without common hardware.condo_chassis.identifier')
 
@@ -90,14 +90,15 @@ def chk_conflicting(assets):
         errs.extend(location_conflicts)
 
     # check condo_id against rack
-    condo_id_confls = validate_tools.get_conflicts(groups['hardware.condo_chassis.identifier'], 
+    condo_id_confls = validate_tools.get_conflicts('hardware.condo_chassis.identifier', groups, 
                                            'location.rack', 
                                            'assets share hardware.condo_chassis.id but show different rack-elevation') 
     if condo_id_confls != None:
         errs.extend(condo_id_confls)
 
+    
     # check tags.uw against hardware.condo_chassis.identifier OR acquisition.fabrication    
-    condo_tag_confls = validate_tools.get_conflicts(groups['tags.uw'],
+    condo_tag_confls = validate_tools.get_conflicts('tags.uw', groups,
                                     'hardware.condo_chassis.identifier',
                                     'assets share UW tags, but do not belong to a common condo or fabrication')
     if condo_tag_confls != None:
