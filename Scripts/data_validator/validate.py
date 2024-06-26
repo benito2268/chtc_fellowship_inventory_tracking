@@ -131,7 +131,6 @@ def do_chk_conflicting(assets):
     print(f'validate: found {len(errs)} conflicting items')
     
 def main():
-
     # set up command line options
     parser = argparse.ArgumentParser()
 
@@ -143,19 +142,25 @@ def main():
     args = parser.parse_args()
 
     # dict of functions called during validate
-    # matches the command line arg with the function
+    # keys match the long command-line options
     # it should invoke
     validate_funcs = {
-        args.missing     : do_chk_missing,
-        args.conflicting : do_chk_conflicting,
+        'missing'     : do_chk_missing,
+        'conflicting' : do_chk_conflicting,
     }
 
     # read all yaml files from the dir. at yaml_path
     assets = yaml_io.read_yaml(args.yaml_path)
 
-    for arg in validate_funcs.keys():
-        if arg:
-            validate_funcs[arg](assets)
+    # if no optional arguments are specified - run all checks
+    opts = vars(args)
+    if len(sys.argv) < 3: 
+        for value in validate_funcs.values():
+            value(assets) 
+    else:
+        for key, value in validate_funcs.items():
+            if opts[key]:
+                value(assets)
 
 if __name__ == '__main__':
     main()
