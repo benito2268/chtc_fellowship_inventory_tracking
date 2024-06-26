@@ -156,7 +156,6 @@ def get_sitefiles(site_dir):
 
 # scans through file read from puppet_data/site_tier_0/ and looks for asset's locations
 # returns: a tuple of the form (Room, Building)
-# TODO this should probably change too
 def find_site(hostname, file_dict):
 
     pretty_names = {

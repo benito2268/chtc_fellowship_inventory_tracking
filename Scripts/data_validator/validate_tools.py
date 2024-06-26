@@ -50,28 +50,23 @@ def group_by_attrib(assets: list, key: str):
 #
 # returns: a list of ConflictingGroupErrors or None if no conflicts are found
 #
-def get_conflicts(groups: list[list[yaml_io.Asset]], tag: str, msg: str):
+def get_conflicts(shared_tag: str, groups: list, tag: str, msg: str):
+   
     errs = []
-    for group in groups:
-        first = group[0]
- 
+    for group in groups[shared_tag]:
         conflicting = []
-        for asset in group[1:]:
+        for asset in group:
             # gather all conflicting items
             if tag == 'location.rack' or tag == 'location.elevation':
-                first_value = first.get_full_location()
                 value = asset.get_full_location()
             else:
-                first_value = first.get(tag)
                 value = asset.get(tag)
             
             # do we really want to account for missing things? - UW tags make no sense
-            if (value != first_value or 
-               re.fullmatch(missing_rxp, value) and re.fullmatch(missing_rxp, first_value)):
-
-                conflicting.append( (asset.fqdn, value) )
+            if (re.fullmatch(missing_rxp, value)):
+                conflicting.append(errortypes.ConflictItem(asset.fqdn, asset.get(shared_tag) , value))
 
         if conflicting:
-            errs.append(errortypes.ConflictingGroupError((first.fqdn, first_value), conflicting, msg))
+            errs.append(errortypes.ConflictingGroupError(conflicting, msg))
 
     return errs if errs else None
