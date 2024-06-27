@@ -1,11 +1,14 @@
 import sys
 import re
 import os
+import io
 import itertools
 import argparse
 import datetime
+import smtplib
+import email
 from collections import defaultdict
-from pprint import pprint
+from typing import Callable
 
 # finishing touch: is there a better way to do this?
 sys.path.append(os.path.abspath('../shared'))
@@ -13,7 +16,7 @@ import yaml_io
 import dict_utils
 import validate_tools
 import errortypes
-
+f
 # regex to match possible ways of saying 'missing'
 missing_rxp = "(?i)none|missing|\\?+|^\\s*$"
 
@@ -59,9 +62,18 @@ def chk_single_missing(asset: yaml_io.Asset):
     # otherwise no error - return None
     return None
 
+def chk_all_missing(assets: list):
+    errs = []
+    
+    for asset in assets:
+        err = chk_single_asset(asset)
+        if err:
+            errs.append(err)
 
+    return errs
+        
 # validates assets with respect to each other
-def chk_conflicting(assets):
+def chk_conflicting(assets: list):
 
     # list of keys we want to grab
     # adding a key here will make the next expression groups for it
@@ -112,7 +124,7 @@ def chk_conflicting(assets):
 
     return errs
 
-def chk_uw_tag(assets):
+def chk_uw_tag(assets: list):
     errs = []
 
     for asset in assets:
@@ -135,36 +147,30 @@ def chk_uw_tag(assets):
 
     return errs
 
-def do_chk_missing(assets):
-    missing = 0
+# performs the validation and outputs the results
+# if email_addr is '' - will output to stdout otherwise
+# will send and email to the specified address
+#
+# params:
+#   assets: list of assets to check
+#   chk_fun: the checking function - returns a list of DataError
+#   email_addr: email address to send to - if any
+#
+def do_chk(assets: list, chk_fun: Callable[list, list], email_addr: str=''):
+    errs = chk_fun(assets)
 
-    for asset in assets:
-        err = chk_single_missing(asset)
-        if err:
-            print(err)
-            print()
-            missing += 1
-
-    print('validate: found {0} assets with missing tags'.format(missing))
-
-def do_chk_conflicting(assets):
-    errs = chk_conflicting(assets)
-
+    output = io.StringIO
     for err in errs:
-        print(err)
-        print()
+        print(err, file=output)
+        print('\n', file=output)
 
-    print(f'validate: found {len(errs)} conflicting items')
+    if email_addr:
+        
 
-def do_check_uw(assets):
-    errs = chk_uw_tag(assets)
+    else:
+        print(output)
 
-    for err in errs:
-        print(err)
-        print()
 
-    print(f'validate: found {len(errs)} assets missing UW tags')
-    
 def main():
     # set up command line options
     parser = argparse.ArgumentParser()
