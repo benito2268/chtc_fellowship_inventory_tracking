@@ -3,6 +3,7 @@ import re
 import os
 import itertools
 import argparse
+import datetime
 from collections import defaultdict
 from pprint import pprint
 
@@ -28,6 +29,7 @@ def chk_single_missing(asset: yaml_io.Asset):
     # a list of keys that are exempt from 'missing' checks
     exempt_keys = [
         'acquisition.reason',
+        'tags.uw',
         'tags.morgridge',
         'tags.csl',
         'hardware.notes',
@@ -110,6 +112,29 @@ def chk_conflicting(assets):
 
     return errs
 
+def chk_uw_tag(assets):
+    errs = []
+
+    for asset in assets:
+        if re.fullmatch(missing_rxp, asset.get('tags.uw')):
+            asset_date = asset.get('acquisition.date')
+            if re.fullmatch(missing_rxp, asset_date):
+                errs.append(errortypes.MissingDataError(asset.fqdn + '.yaml', ['tags.uw'], 'asset with no purchase date lacks UW tag'))
+                continue
+
+            # uses ISO 8601 date format (aka. yyyy-mm-dd)
+            fmt = '%Y-%m-%d'
+            currdate = datetime.datetime.today()
+            olddate = datetime.datetime.strptime(asset_date, fmt)
+
+            diff = currdate - olddate
+
+            # warn about a missing UW tag if it's been more than 180 days
+            if diff.days >= 180:
+                errs.append(errortypes.MissingDataError(asset.fqdn + '.yaml', ['tags.uw'], f'asset with PO: "{asset.get("acquisition.po")}" purchased on {asset_date} lacks UW tag'))
+
+    return errs
+
 def do_chk_missing(assets):
     missing = 0
 
@@ -130,6 +155,15 @@ def do_chk_conflicting(assets):
         print()
 
     print(f'validate: found {len(errs)} conflicting items')
+
+def do_check_uw(assets):
+    errs = chk_uw_tag(assets)
+
+    for err in errs:
+        print(err)
+        print()
+
+    print(f'validate: found {len(errs)} assets missing UW tags')
     
 def main():
     # set up command line options
@@ -138,6 +172,7 @@ def main():
     # add new options here
     parser.add_argument('-m', '--missing', help='only check for asset tags that are missing values', action='store_true')
     parser.add_argument('-c', '--conflicting', help='only check for conflicting asset data', action='store_true')
+    parser.add_argument('-u', '--uwtag', help='check for missing UW tags on assets older than 180 days', action='store_true')
     parser.add_argument('yaml_path', help='the path to a directory containing YAML asset files to validate', type=str)
 
     args = parser.parse_args()
@@ -148,6 +183,7 @@ def main():
     validate_funcs = {
         'missing'     : do_chk_missing,
         'conflicting' : do_chk_conflicting,
+        'uwtag'       : do_check_uw,
     }
 
     # read all yaml files from the dir. at yaml_path

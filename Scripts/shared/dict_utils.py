@@ -54,7 +54,6 @@ def unflatten_dict(flat):
             sub_dict = sub_dict[tag]
 
         # now put the value in the new 'leaf' tag
-        # TODO what happens if I remove quoted()
         if isinstance(value, str):
             value = yaml_io.quoted(value)
 
