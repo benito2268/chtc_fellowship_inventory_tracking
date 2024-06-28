@@ -64,7 +64,7 @@ def get_conflicts(shared_tag: str, groups: list, tag: str, msg: str):
             
             # do we really want to account for missing things? - UW tags make no sense
             if (re.fullmatch(missing_rxp, value)):
-                conflicting.append(errortypes.ConflictItem(asset.fqdn, asset.get(shared_tag) , value))
+                conflicting.append(errortypes.ConflictItem(asset.fqdn + '.yaml', asset.get(shared_tag) , value))
 
         if conflicting:
             errs.append(errortypes.ConflictingGroupError(conflicting, msg))
