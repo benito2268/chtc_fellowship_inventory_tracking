@@ -21,9 +21,10 @@ class MissingDataError(DataError):
         DataError.__init__(self, file, message)
 
     def __str__(self):
-        return ' '.join(( DataError.__str__(self),'\n', 
-                          'offending tag(s):\n', 
-                          ',\n'.join(f'  "{tag}"' for tag in self.missing_tags) ))
+        return ''.join(( DataError.__str__(self),'\n', 
+                          'offending tag(s):\n\t', 
+                          ',\n\t'.join(f'  "{tag}"' for tag in self.missing_tags), '\n',
+                          '_____________________________________________________', '\n'))
 
 # a 'helper' class that associates a hostname with 2 of its tags
 # one that makes the asset part of a particular group
@@ -46,6 +47,7 @@ class ConflictingGroupError(DataError):
         DataError.__init__(self, self.conflicting[0].hostname, message)
 
     def __str__(self):
-        return ' '.join(( DataError.__str__(self), '\n',
-                          'the following items contain conflicts:\n',
-                          ',\n'.join(str(confl) for confl in self.conflicting), '\n'))
+        return ''.join(( DataError.__str__(self), '\n',
+                          'the following items contain conflicts:\n\t',
+                          ',\n\t'.join(str(confl) for confl in self.conflicting), '\n',
+                          '_____________________________________________________', '\n'))
