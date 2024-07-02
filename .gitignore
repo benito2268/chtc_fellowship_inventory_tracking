@@ -5,5 +5,5 @@ Scripts/csv_2_yaml/yaml/
 Scripts/csv_2_yaml/main*.csv
 **/__pycache__
 *.swp
-
+*.json
 
