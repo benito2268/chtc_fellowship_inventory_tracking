@@ -1,24 +1,24 @@
 import os.path
+from datetime import datetime
 
 from google.auth.transport.requests import Request
 from google.oauth2.service_account import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# sheet is read-only for now
-SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
+# Google APIs we expect to be able to access
+# the API token will be the final judge, any scopes
+# listed here that the token says we don't have access to are ignored
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive",
+]
 
-# TODO: idea for the future - could parse sheet id from inputted URL
-SHEET_ID = "1rKCtBd7QMCOEc3gdyKp5XzHVwlVmf-EFgtt7sFdBVgA"
+# path to api token
+SERVICE_ACCOUNT_FILE = "token-7-3-24.json"
 
-# Range is specified in A1 notation
-# the format is 'sheetname!cell1:cell2'
-# where 'sheet' refers to a tab within a larger spreasheet
-SAMPLE_RANGE = "Sheet1!A1:7"
-
-# TODO probably not the best idea to have this - what to do with it
-SERVICE_ACCOUNT_FILE = 'token-7-3-24.json'
+def spreadsheet_auth():
+    pass
 
 def main():
     creds = None
@@ -27,23 +27,40 @@ def main():
         creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 
         # try is used to catch HttpError during the API call
-        try:
-            service = build('sheets', 'v4', credentials=creds)
+        try: 
+            # startup required services
+            drive_service = build("drive", "v3", credentials=creds)
+            sheets_service = build("sheets", "v4", credentials=creds)
  
-            # call the sheets API to get some data
-            sheet = service.spreadsheets()
-            result = (
-                sheet.values().get(spreadsheetId=SHEET_ID, range=SAMPLE_RANGE).execute()
+            # create a spreadsheet
+            date = datetime.now()
+            sheet_data = {"properties" : {"title" : f"CHTC Inventory {date.strftime('%Y-%m-%d %H:%M')}"}}
+            sheet = sheets_service.spreadsheets().create(body=sheet_data)
+
+            sheet_response = sheet.execute()
+    
+            # share the service with the specified user
+            perm_data = {
+                "type" : "user",
+                "role" : "writer",
+                "emailAddress" : "insert_email_here"
+            }
+
+            perm = drive_service.permissions().create(
+                fileId=sheet_response.get("spreadsheetId"),
+                body=perm_data
             )
+            perm_response = perm.execute()
 
-            values = result.get('values', [])
-            if not values:
-                print('no data in spreadsheet range')
-                exit(1)
+            # print the spreadsheet URL
+            print(sheet_response.get("spreadsheetUrl"))
 
-            # print the fetched values
-            for value in values:
-                print(value)
+            #TODO remove
+            drive = drive_service.files().list()
+            drive_response = drive.execute()
+
+            for filestr in drive_response.get('files'):
+                print(filestr)
 
         except HttpError as err:
             print(err) 
