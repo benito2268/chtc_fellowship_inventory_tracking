@@ -20,6 +20,14 @@ SCOPES = [
 # path to api token
 SERVICE_ACCOUNT_FILE = "token-7-3-24.json"
 
+# api versions
+SHEETS_API_VER = "v4"
+DRIVE_API_VER = "v3"
+
+# generates a Credentials object from the key in SERVICE_ACCOUNT_FILE
+# or produces an error if the file does not exist
+#
+# returns: the produced Credentials object
 def get_creds():
     if os.path.exists(SERVICE_ACCOUNT_FILE):
         return Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
@@ -27,10 +35,28 @@ def get_creds():
         print(f'ERROR: path not found: {SERVICE_ACCOUT_FILE}')
         exit(1)    
 
-# returns a Google API Resource object with methods to call into
+# starts up a Google API Resource object with methods to call into
 # the sheets API
+#
+# returns: the API Resource object - or HttpError 
 def get_sheets_service():
-    pass
+    try:
+        creds = get_creds()
+        return build("sheets", SHEETS_API_VER, credentials=creds)
 
+    except HttpError as err:
+        raise err
+
+# produces a Resource object with methods to call the Google
+# Drive API
+#
+# returns: a Drive API resource - or HttpError
 def get_drive_service():
-    pass
+    try:
+        creds = get_creds()
+        return build("drive", DRIVE_API_VER, credentials=creds)
+
+    except HttpError as err:
+        raise err
+
+
