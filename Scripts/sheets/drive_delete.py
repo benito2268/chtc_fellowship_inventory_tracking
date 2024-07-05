@@ -1,8 +1,12 @@
 # a helper script to interactivly delete files from the service account's Drive
 # just a temporary thing for testing :)
+#
+# NOTE: depending on what we do - it might be useful to add a feature
+# for recovering files and emptying the trash
 import os
 import sys
 
+from pprint import pprint 
 from api_helpers import get_drive_service
 from googleapiclient.errors import HttpError
 
@@ -13,14 +17,14 @@ def main():
 
         files = drive_service.files().list().execute()
         for filestr in files.get('files'):
-            print(filestr)
+            pprint(filestr)
+            print()
 
         cmd = ""
         while(True):
             cmd = input("paste a file ID to delete it or type 'q' to quit: ")
             
             if cmd == 'q': break
-
             drive_service.files().delete(fileId=cmd.replace('\n', '')).execute()
             
     except HttpError as err:

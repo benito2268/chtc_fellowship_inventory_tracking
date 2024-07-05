@@ -59,4 +59,31 @@ def get_drive_service():
     except HttpError as err:
         raise err
 
+# shares a Google Drive file with the specified email
+#
+# params:
+#   fileId - the Google Drive ID of the file to share
+#   email_addr - the person with whom to share
+#   read_only - if true will share as 'viewer'
+def share_file(fileId: str, email_addr: str, read_only: bool):
+    try:
+        drive_service = get_drive_service()
+
+        perm_str = "reader" if read_only else "writer"
+
+        perm_data = {
+            "type" : "user",
+            "role" : perm_str,
+            "emailAddress" : email_addr,
+        }
+
+        perm = drive_service.permissions().create( 
+            fileId=fileId,
+            body=perm_data
+        )
+
+        response = perm.execute()
+
+    except HttpError as err:
+        raise err
 

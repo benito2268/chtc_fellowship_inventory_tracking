@@ -1,6 +1,7 @@
 import os.path
 from api_helpers import get_sheets_service
 from api_helpers import get_drive_service
+from api_helpers import share_file
 from datetime import datetime
 from google.auth.transport.requests import Request
 from googleapiclient.errors import HttpError
@@ -19,17 +20,7 @@ def main():
         sheet_response = sheet.execute()
     
         # share the service with the specified user
-        perm_data = {
-            "type" : "user",
-            "role" : "writer",
-            "emailAddress" : "insert_email_here"
-        }
-
-        perm = drive_service.permissions().create(
-            fileId=sheet_response.get("spreadsheetId"),
-            body=perm_data
-        )
-        perm_response = perm.execute()
+        share_file(sheet_response.get('spreadsheetId'), 'benstaehle@gmail.com', True) 
 
         # print the spreadsheet URL
         print(sheet_response.get("spreadsheetUrl"))
