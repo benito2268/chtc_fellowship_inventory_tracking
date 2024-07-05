@@ -1,12 +1,18 @@
 import os.path
+import argparse
 from api_helpers import get_sheets_service
 from api_helpers import get_drive_service
 from api_helpers import share_file
 from datetime import datetime
-from google.auth.transport.requests import Request
 from googleapiclient.errors import HttpError
 
 def main():
+    # use argparse to get the email to share with
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("email_address", help="the email address that the script will share the sheet with", type=str)
+    args = parser.parse_args()
+
     # try is used to catch HttpError during the API call
     try:   
         drive_service = get_drive_service()
@@ -14,23 +20,19 @@ def main():
 
         # create a spreadsheet
         date = datetime.now()
-        sheet_data = {"properties" : {"title" : f"CHTC Inventory {date.strftime('%Y-%m-%d %H:%M')}"}}
+        title = f"CHTC Inventory {date.strftime('%Y-%m-%d %H:%M')}"
+        sheet_data = {"properties" : {"title" : title}}
         sheet = sheets_service.spreadsheets().create(body=sheet_data)
 
         sheet_response = sheet.execute()
     
         # share the service with the specified user
-        share_file(sheet_response.get('spreadsheetId'), 'benstaehle@gmail.com', True) 
+        share_file(sheet_response.get('spreadsheetId'), args.email_address, True) 
 
         # print the spreadsheet URL
+        print(f"A spreadsheet \"{title}\" was created and shared: ")
         print(sheet_response.get("spreadsheetUrl"))
-
-        #TODO remove
-        drive = drive_service.files().list()
-        drive_response = drive.execute()
-
-        for filestr in drive_response.get('files'):
-            print(filestr)
+        print()
 
     except HttpError as err:
         print(err) 
