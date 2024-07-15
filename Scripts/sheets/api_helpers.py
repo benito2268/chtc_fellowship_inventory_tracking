@@ -28,7 +28,7 @@ DRIVE_API_VER = "v3"
 # or produces an error if the file does not exist
 #
 # returns: the produced Credentials object
-def get_creds():
+def get_creds() -> Credentials:
     if os.path.exists(SERVICE_ACCOUNT_FILE):
         return Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
     else:
@@ -38,8 +38,8 @@ def get_creds():
 # starts up a Google API Resource object with methods to call into
 # the sheets API
 #
-# returns: the API Resource object - or HttpError 
-def get_sheets_service():
+# returns: the API Resource object - or causes HttpError 
+def get_sheets_service() -> Resource:
     try:
         creds = get_creds()
         return build("sheets", SHEETS_API_VER, credentials=creds)
@@ -51,7 +51,7 @@ def get_sheets_service():
 # Drive API
 #
 # returns: a Drive API resource - or HttpError
-def get_drive_service():
+def get_drive_service() -> Resource:
     try:
         creds = get_creds()
         return build("drive", DRIVE_API_VER, credentials=creds)
