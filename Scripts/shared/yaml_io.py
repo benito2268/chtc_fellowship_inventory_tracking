@@ -15,7 +15,7 @@ def quote_representer(dumper, data):
     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
 
 class Asset:
-    def __init__(self, filename):
+    def __init__(self, filename: str):
         with open(filename, 'r') as infile:
 
             # as far as I can tell safe_load doesn't have any relevant
@@ -33,7 +33,7 @@ class Asset:
 
     # returns a data field from it's yaml style path (ex. location.rack)
     # this function eliminates some need for flattening and un-flattening
-    def get(self, key):
+    def get(self, key: str):
         flat = dict_utils.flatten_dict(self.asset)
         ret = flat[key]
         self.asset = dict_utils.unflatten_dict(flat)
@@ -41,13 +41,19 @@ class Asset:
 
     # stores value in the internal asset dict
     # takes a 'flat dict' yaml style tag (ex. location.rack)
-    def put(self, key, value):
+    def put(self, key: str, value: str):
         flat = dict_utils.flatten_dict(self.asset)
         flat[key] = value
         self.asset = dict_utils.unflatten_dict(flat)
 
-def read_yaml(yaml_dir):
-    # for ease of use
+# reads YAML data from all .yaml files in yaml_dir
+#
+# params:
+#   yaml_dir - the directory to read YAML from
+#
+# returns: a list of Asset objects corresponding to each file
+def read_yaml(yaml_dir: str) -> list[Asset]:
+    # allow dirs to be typed without the '/'
     if not yaml_dir.endswith('/'):
         yaml_dir += '/'
 
@@ -59,8 +65,12 @@ def read_yaml(yaml_dir):
 
     return ret
 
-def write_yaml(asset, filepath):
-
+# writes Asset objects to YAML files
+#
+# params:
+#   asset - the Asset object to write
+#   filepath - where to output the yaml file
+def write_yaml(asset: Asset, filepath: str):
     # register the yaml representer for double quoted strings
     yaml.add_representer(quoted, quote_representer)
 
@@ -70,7 +80,6 @@ def write_yaml(asset, filepath):
 
 
 def main():
-
     if len(sys.argv) != 2:
         print('usage: yaml_read.py <yaml_dir>')
         exit(1)

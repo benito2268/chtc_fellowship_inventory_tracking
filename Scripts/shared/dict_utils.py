@@ -1,11 +1,10 @@
 import yaml_io
 
 # prints a dictionary (in 'flat' style)
-def print_dict(d):
+def print_dict(d: dict):
     flat = flatten_dict(d) 
     for key, value in flat.items():
         print(key, ':', value)
-
 
     print('\n')
 
@@ -17,7 +16,7 @@ def print_dict(d):
 # returns:
 #   a dictionary that maps a 'path' to each bottom level value in the original
 #   ex) an entry would look like  "hardware.condo_chassis.model" : "Dell PowerEdge ..." 
-def flatten_dict(nested, parent_key=''):
+def flatten_dict(nested: dict, parent_key: str='') -> dict:
     # using a list means we have append() and extend()
     flat = []
     for key, value in nested.items():
@@ -38,7 +37,12 @@ def flatten_dict(nested, parent_key=''):
     return dict(flat)
 
 # unflattens (nests) a dictionary with '.' as the seperator
-def unflatten_dict(flat):
+#
+# params:
+#   flat - the (flat) dict to re-nest
+#
+# returns: a 'regular' nested dict representing the original flat one
+def unflatten_dict(flat: dict) -> dict:
     ret = dict()
 
     for key, value in flat.items():
