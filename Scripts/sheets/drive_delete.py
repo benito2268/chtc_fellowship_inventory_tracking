@@ -7,6 +7,7 @@ import os
 import sys
 
 from pprint import pprint 
+from googleapiclient.discovery import Resource
 from api_helpers import get_drive_service
 from googleapiclient.errors import HttpError
 

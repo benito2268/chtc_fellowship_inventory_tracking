@@ -4,6 +4,7 @@
 import os.path
  
 from google.oauth2.service_account import Credentials
+from googleapiclient.discovery import Resource
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
@@ -11,7 +12,7 @@ from googleapiclient.errors import HttpError
 # the API token will be the final judge, any scopes
 # listed here that the token says we don't have access to are ignored
 #
-# NOTE: new additions must be enabled in Google Cloud Platform under "Enabled APIs and Services"
+# NOTE: new API additions must be enabled in Google Cloud Platform under "Enabled APIs and Services"
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive",
