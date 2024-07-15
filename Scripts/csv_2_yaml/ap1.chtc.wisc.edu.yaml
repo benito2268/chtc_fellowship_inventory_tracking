@@ -1,24 +1,24 @@
 acquisition:
-  po: ""
-  date: ""
-  reason: ""
-  owner: ""
+  po: "1234566"
+  date: "2021-07-2"
+  reason: "new server"
+  owner: "CHTC"
   fabrication: "False"
 hardware:
   model: "Dell PowerEdge C6525"
   serial_number: "mmacepcjd6"
   service_tag: "mmacepcjd6"
-  purpose: ""
+  purpose: "HTC access point"
   swap_reason: ""
   notes: "A condo node"
   condo_chassis:
     identifier: "o7sbhukrp1"
-    model: ""
+    model: "Dell PowerEdge C6400"
 location:
   rack: "A"
   elevation: "1-2"
-  room: ""
-  building: ""
+  room: "CS B240"
+  building: "Computer Sciences"
 tags:
   csl: ""
   uw: "U0000000"
