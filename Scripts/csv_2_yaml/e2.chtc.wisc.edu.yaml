@@ -1,14 +1,14 @@
 acquisition:
-  po: ""
-  date: ""
+  po: "MISSING"
+  date: "MISSING"
   reason: ""
-  owner: ""
+  owner: "MISSING"
   fabrication: "False"
 hardware:
-  model: ""
+  model: "MISSING"
   serial_number: "ifcndg6q3u"
-  service_tag: ""
-  purpose: ""
+  service_tag: "MISSING"
+  purpose: "MISSING"
   swap_reason: ""
   notes: "A node with missing data"
   condo_chassis:
@@ -16,9 +16,9 @@ hardware:
     model: ""
 location:
   rack: "B"
-  elevation: ""
-  room: ""
-  building: ""
+  elevation: "MISSING"
+  room: "MISSING"
+  building: "MISSING"
 tags:
   csl: "C293847"
   uw: ""

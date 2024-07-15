@@ -66,7 +66,7 @@ def main():
 
         # update the title to reflect the time the sheet was updated
         date = datetime.now()
-        title = f"CHTC Inventory {date.strftime('%Y-%m-%d %H:%M')}"
+        title = f"CHTC Inventory - updated {date.strftime('%Y-%m-%d %H:%M')}"
         title_body = {
             "requests" : {
                 "updateSpreadsheetProperties" : {

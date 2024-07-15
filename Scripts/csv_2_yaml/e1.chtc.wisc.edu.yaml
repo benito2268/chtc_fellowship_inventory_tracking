@@ -1,14 +1,14 @@
 acquisition:
   po: "987654321"
-  date: ""
-  reason: ""
-  owner: ""
+  date: "2019-04-17"
+  reason: "old server broke"
+  owner: "CHTC"
   fabrication: "False"
 hardware:
   model: "Dell PowerEdge R640"
   serial_number: "k54xxoaxsh"
   service_tag: "k54xxoaxsh"
-  purpose: ""
+  purpose: "HTC execute point"
   swap_reason: ""
   notes: "A rack node with po # - UW PO 987654321"
   condo_chassis:
@@ -17,8 +17,8 @@ hardware:
 location:
   rack: "B"
   elevation: "3"
-  room: ""
-  building: ""
+  room: "WID"
+  building: "WID"
 tags:
   csl: ""
   uw: "U0000001"
