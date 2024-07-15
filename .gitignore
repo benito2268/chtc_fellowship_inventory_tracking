@@ -3,6 +3,7 @@ Testing/
 Tutorials/
 Scripts/csv_2_yaml/yaml/
 Scripts/csv_2_yaml/main*.csv
+Scripts/sheets/sheet_id.txt
 **/__pycache__
 *.swp
 *.json
