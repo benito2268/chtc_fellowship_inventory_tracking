@@ -24,14 +24,11 @@ def gen_data(assets: list[Asset]) -> list[dict]:
     for asset in assets:
         # create the range string
         range_str = f"Sheet1!A{row}:T{row}"
-
         flat = flatten_dict(asset.asset)
 
         vals = [
             [flat[key] for key in flat.keys()],
         ]
-
-        print(vals)
 
         data.append({"range" : range_str, "values" : vals})
         row += 1
@@ -45,20 +42,35 @@ def main():
         sheets_service = get_sheets_service()
         drive_service = get_drive_service()
 
+        # update the title to reflect the time the sheet was updated
+        date = datetime.now()
+        title = f"CHTC Inventory {date.strftime('%Y-%m-%d %H:%M')}"
+        title_body = {
+            "requests" : {
+                "updateSpreadsheetProperties" : {
+                    "properties" : {"title" : title},
+                    "fields" : "title",
+                }
+            }
+        }
+
+        title_request = (
+            sheets_service.spreadsheets()
+            .batchUpdate(spreadsheetId=get_id(), body=title_body)
+        )
+
+        title_request.execute()
+
         # write the data
-        body = {"valueInputOption" : "USER_ENTERED", "data" : gen_data(assets)}
+        # "RAW" means google sheets treats the data exactly as is - no evaluating formulas or anything
+        data_body = {"valueInputOption" : "RAW", "data" : gen_data(assets)}
         write_request = (
             sheets_service.spreadsheets()
             .values()
-            .batchUpdate(spreadsheetId=get_id(), body=body)
+            .batchUpdate(spreadsheetId=get_id(), body=data_body)
         )
 
         result = write_request.execute()
-
-        # change the name of the sheet to reflect update time
-        date = datetime.now()
-        title = f"CHTC Inventory {date.strftime('%Y-%m-%d %H:%M')}"
-
 
     except HttpError as err:
         print(err)
