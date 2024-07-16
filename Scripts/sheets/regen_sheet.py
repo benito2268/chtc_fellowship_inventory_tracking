@@ -68,6 +68,7 @@ def main():
 
         # sheet only has 1000 rows by default
         # we'll round up to the nearest thousand
+        # also calculate the number of colunms we need
         nearest_k_rows = math.ceil(len(assets) / 1000) * 1000
 
         # update the title to reflect the time the sheet was updated
@@ -88,7 +89,7 @@ def main():
                         "sheetId" : MAIN_SHEET_ID,
                         "gridProperties" : {
                             "rowCount" : nearest_k_rows,
-                            "columnCount" : 26,
+                            "columnCount" : len(COLUMN_MAP),
                         }
                     },
 
@@ -113,7 +114,7 @@ def main():
         ]
 
         data = gen_data(assets)
-        data.insert(0, {"range" : "Sheet1!A1:T1", "values" : headings})
+        data.insert(0, {"range" : f"Sheet1!A1:{ord('A') + len(COLUMN_MAP)}1", "values" : headings})
 
         # write the data
         # "RAW" means google sheets treats the data exactly as is - no evaluating formulas or anything
