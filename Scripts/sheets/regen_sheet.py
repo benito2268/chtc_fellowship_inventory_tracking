@@ -23,13 +23,13 @@ COLUMN_MAP = [
     "hardware.model",
     "hardware.serial_number",
     "hardware.service_tag",
-    "hardware.purpose",
     "hardware.condo_chassis.model",
     "hardware.condo_chassis.identifier",
     "tags.uw",
     "tags.csl",
     "tags.morgridge",
     "hardware.notes",
+    "hardware.purpose",
 ]
 
 # TODO is there a better way to store these?
@@ -40,6 +40,11 @@ MAIN_SHEET_ID = 0
 
 # a generator functions that creates a spreasheet row
 # for each asset in the asset list
+#
+# params:
+#    assets - the list of assets read in from files
+#
+# returns: a list of dicts containing row data for the spreadsheet
 def gen_data(assets: list[Asset]) -> list[dict]:
     # row 1 contains the column headings
     data = []
@@ -59,12 +64,41 @@ def gen_data(assets: list[Asset]) -> list[dict]:
 
     return data
 
+def write_data(sheets_srv: Resource):
+    # write the column headings - they will apprear in the order they are in the list
+    # sheets API requires a 2D list - but in this case the outer list contains only the inner list
+    headings = [
+        [header for header in COLUMN_MAP],
+    ]
+
+    data = gen_data(assets)
+    data.insert(0, {"range" : f"Sheet1!A1:{ord('A') + len(COLUMN_MAP)}1", "values" : headings})
+
+    # write the data
+    # "RAW" means google sheets treats the data exactly as is - no evaluating formulas or anything
+    # TODO could/should this be replaced with UpdateCellsRequest??
+    # ^^ that way I might be able to put everything into one batch request
+    data_body = {"valueInputOption" : "RAW", "data" : data}
+    write_request = (
+        sheets_service.spreadsheets()
+        .values()
+        .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=data_body)
+    )
+
+    result = write_request.execute()
+
+
+
 def main():
+    # read asset data from each YAML file in given dir
     assets = read_yaml("../csv_2_yaml/yaml/")
 
     try:
         sheets_service = get_sheets_service()
         drive_service = get_drive_service()
+
+        # write the sheet data first
+        write_data(sheets_service)
 
         # sheet only has 1000 rows by default
         # we'll round up to the nearest thousand
@@ -89,8 +123,9 @@ def main():
                         "sheetId" : MAIN_SHEET_ID,
                         "gridProperties" : {
                             "rowCount" : nearest_k_rows,
+                            "frozenRowCount" : 1,
                             "columnCount" : len(COLUMN_MAP),
-                        }
+                        },
                     },
 
                     "fields" : "gridProperties",
@@ -117,26 +152,6 @@ def main():
         )
 
         setup_request.execute()
-
-        # write the column headings - they will apprear in the order they are in the list
-        # sheets API requires a 2D list - but in this case the outer list contains only the inner list
-        headings = [
-            [header for header in COLUMN_MAP],
-        ]
-
-        data = gen_data(assets)
-        data.insert(0, {"range" : f"Sheet1!A1:{ord('A') + len(COLUMN_MAP)}1", "values" : headings})
-
-        # write the data
-        # "RAW" means google sheets treats the data exactly as is - no evaluating formulas or anything
-        data_body = {"valueInputOption" : "RAW", "data" : data}
-        write_request = (
-            sheets_service.spreadsheets()
-            .values()
-            .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=data_body)
-        )
-
-        result = write_request.execute()
 
     except HttpError as err:
         print(err)
