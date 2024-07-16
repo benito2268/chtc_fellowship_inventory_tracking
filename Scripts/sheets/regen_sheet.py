@@ -15,6 +15,7 @@ from dict_utils import flatten_dict
 # a list the specifies the order 
 # this also filters what appears in the spreadsheeti
 # anything that doesn't appear here also won't in the sheet
+# TODO need a less hacky way to include fqdn 
 COLUMN_MAP = [
     "location.building",
     "location.room",
@@ -52,24 +53,31 @@ def gen_data(assets: list[Asset]) -> list[dict]:
 
     for asset in assets:
         # create the range string
-        range_str = f"Sheet1!A{row}:T{row}"
+        range_str = f"Sheet1!A{row}:{ord('A') + len(COLUMN_MAP)}{row}"
         flat = flatten_dict(asset.asset)
 
         vals = [
             [flat[key] for key in COLUMN_MAP],
         ]
+    
+        # prepend the hostname
+        vals[0].insert(0, asset.fqdn)
 
         data.append({"range" : range_str, "values" : vals})
         row += 1
 
     return data
 
-def write_data(sheets_srv: Resource):
+# write asset data to the body of the spreadsheet
+def write_data(sheets_srv: Resource, assets: list):
     # write the column headings - they will apprear in the order they are in the list
     # sheets API requires a 2D list - but in this case the outer list contains only the inner list
     headings = [
         [header for header in COLUMN_MAP],
     ]
+
+    # fqdn goes in column 1 - but is not in the YAML
+    headings[0].insert(0, "Hostname")
 
     data = gen_data(assets)
     data.insert(0, {"range" : f"Sheet1!A1:{ord('A') + len(COLUMN_MAP)}1", "values" : headings})
@@ -80,13 +88,12 @@ def write_data(sheets_srv: Resource):
     # ^^ that way I might be able to put everything into one batch request
     data_body = {"valueInputOption" : "RAW", "data" : data}
     write_request = (
-        sheets_service.spreadsheets()
+        sheets_srv.spreadsheets()
         .values()
         .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=data_body)
     )
 
     result = write_request.execute()
-
 
 
 def main():
@@ -98,7 +105,7 @@ def main():
         drive_service = get_drive_service()
 
         # write the sheet data first
-        write_data(sheets_service)
+        write_data(sheets_service, assets)
 
         # sheet only has 1000 rows by default
         # we'll round up to the nearest thousand
@@ -110,6 +117,7 @@ def main():
         date = datetime.now()
         title = f"CHTC Inventory - Updated {date.strftime('%Y-%m-%d %H:%M')}"
         requests = [
+            # set the spreadsheet title
             {
                 "updateSpreadsheetProperties" : {
                     "properties" : {"title" : title},
@@ -117,6 +125,7 @@ def main():
                 }
             },
 
+            # round the number of rows to the nearest 1000
             {
                 "updateSheetProperties" : {
                     "properties" : {
@@ -132,6 +141,7 @@ def main():
                 }
             },
 
+            # auto size each row to fit the longest line of text
             {
                 "autoResizeDimensions" : {
                     "dimensions" : {
@@ -140,6 +150,29 @@ def main():
                         "startIndex" : 0,
                         "endIndex" : len(COLUMN_MAP),
                     }
+                },
+            },
+
+            # bold the header
+            {
+                "repeatCell" : {
+                    "range" : {
+                        "startRowIndex" : 0,
+                        "endRowIndex" : 1,
+                        "startColumnIndex" : 0,
+                        "sheetId" : MAIN_SHEET_ID,
+                    },
+
+                    "cell" : {
+                        "userEnteredFormat" : {
+                            "horizontalAlignment" : "CENTER",
+                            "textFormat" : {
+                                "bold" : True
+                            }
+                        }
+                    },
+
+                    "fields" : "userEnteredFormat"
                 },
             },
         ]
