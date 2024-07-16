@@ -74,7 +74,7 @@ def main():
         # update the title to reflect the time the sheet was updated
         # and also make sure there are enough rows for our data
         date = datetime.now()
-        title = f"CHTC Inventory - updated {date.strftime('%Y-%m-%d %H:%M')}"
+        title = f"CHTC Inventory - Updated {date.strftime('%Y-%m-%d %H:%M')}"
         requests = [
             {
                 "updateSpreadsheetProperties" : {
@@ -95,6 +95,17 @@ def main():
 
                     "fields" : "gridProperties",
                 }
+            },
+
+            {
+                "autoResizeDimensions" : {
+                    "dimensions" : {
+                        "sheetId" : MAIN_SHEET_ID,
+                        "dimension" : "COLUMNS",
+                        "startIndex" : 0,
+                        "endIndex" : len(COLUMN_MAP),
+                    }
+                },
             },
         ]
 
