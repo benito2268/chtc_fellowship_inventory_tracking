@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 from datetime import datetime
 from googleapiclient.discovery import Resource
 from googleapiclient.errors import HttpError
@@ -31,9 +32,11 @@ COLUMN_MAP = [
     "hardware.notes",
 ]
 
-def get_id() -> str:
-    with open("sheet_id.txt", "r") as id:
-        return id.read().strip()
+# TODO is there a better way to store these?
+# otherwise they have to be changed if the spreadsheet
+# is recreated
+SPREADSHEET_ID = "18f5BtIll56LJlMf0drmebz5ooyEmGPwAtGteKWEvX90"
+MAIN_SHEET_ID = 0
 
 # a generator functions that creates a spreasheet row
 # for each asset in the asset list
@@ -57,32 +60,51 @@ def gen_data(assets: list[Asset]) -> list[dict]:
     return data
 
 def main():
-    assets = read_yaml("../csv_2_yaml/")
+    assets = read_yaml("../csv_2_yaml/yaml/")
 
     try:
         sheets_service = get_sheets_service()
         drive_service = get_drive_service()
 
+        # sheet only has 1000 rows by default
+        # we'll round up to the nearest thousand
+        nearest_k_rows = math.ceil(len(assets) / 1000) * 1000
 
         # update the title to reflect the time the sheet was updated
+        # and also make sure there are enough rows for our data
         date = datetime.now()
         title = f"CHTC Inventory - updated {date.strftime('%Y-%m-%d %H:%M')}"
-        title_body = {
-            "requests" : {
+        requests = [
+            {
                 "updateSpreadsheetProperties" : {
                     "properties" : {"title" : title},
                     "fields" : "title",
                 }
-            }
-        }
+            },
+
+            {
+                "updateSheetProperties" : {
+                    "properties" : {
+                        "sheetId" : MAIN_SHEET_ID,
+                        "gridProperties" : {
+                            "rowCount" : nearest_k_rows,
+                            "columnCount" : 26,
+                        }
+                    },
+
+                    "fields" : "gridProperties",
+                }
+            },
+        ]
 
         # as far as I can tell - the spreadsheet itself only has batchUpdate() and not update()?
-        title_request = (
+        body = {"requests" : requests}
+        setup_request = (
             sheets_service.spreadsheets()
-            .batchUpdate(spreadsheetId=get_id(), body=title_body)
+            .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
         )
 
-        title_request.execute()
+        setup_request.execute()
 
         # write the column headings - they will apprear in the order they are in the list
         # sheets API requires a 2D list - but in this case the outer list contains only the inner list
@@ -99,7 +121,7 @@ def main():
         write_request = (
             sheets_service.spreadsheets()
             .values()
-            .batchUpdate(spreadsheetId=get_id(), body=data_body)
+            .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=data_body)
         )
 
         result = write_request.execute()
