@@ -55,24 +55,50 @@ NUM_COLUMNS = len(COLUMN_MAP) + 1
 # TODO is there a better way to store these?
 # otherwise they have to be changed if the spreadsheet
 # is recreated
-SPREADSHEET_ID = "18f5BtIll56LJlMf0drmebz5ooyEmGPwAtGteKWEvX90"
+SPREADSHEET_ID = "1RCwoAF58f5f323vbvGpcPun8x6jUJc3tRYyyhcGhsn8"
 MAIN_SHEET_ID = 0
 
-# a generator functions that creates a spreasheet row
-# for each asset in the asset list
+# reads asset data from the sheet to compare against what is in the
+# canonical data - will be used for finding the 'diff' of the sheet and the YAML
+#
+# params: sheet_srv - an initialized Google Sheets API service
+#
+# returns a list of rows (list[str]) read from the sheet
+def read_spreadsheet(sheet_srv: Resource):
+    # want to specifiy the entire sheet
+    result = (
+        sheet_srv.spreadsheets()
+        .values()
+        .get(spreadsheetId=SPREADSHEET_ID, range="Sheet1")
+        .execute()
+    )
+
+    return result.get("values", [])
+
+def do_deletions(rows: list[list[str]], yaml_data: list[list[str]]):
+    pass 
+
+def do_additions():
+    pass
+
+def do_changes():
+    pass
+
+# a function that updates the spreadsheet by comparing
+# to the parsed YAML
 #
 # params:
 #    assets - the list of assets read in from files
 #
 # returns: a list of dicts containing row data for the spreadsheet
-def gen_data(assets: list[Asset]) -> list[dict]:
+def diff_data(assets: list[Asset]) -> list[dict]:
     # row 1 contains the column headings
     data = []
     row = 2
 
     for asset in assets:
         # create the range string
-        range_str = f"Sheet1!A{row}:{ord('A') + NUM_COLUMNS}{row}"
+        range_str = f"Sheet1!A{row}:{chr(ord('A') + NUM_COLUMNS)}{row}"
         flat = flatten_dict(asset.asset)
 
         vals = [
@@ -98,8 +124,8 @@ def write_data(sheets_srv: Resource, assets: list):
     # fqdn goes in column 1 - but is not in the YAML
     headings[0].insert(0, "Hostname")
 
-    data = gen_data(assets)
-    data.insert(0, {"range" : f"Sheet1!A1:{ord('A') + NUM_COLUMNS}1", "values" : headings})
+    data = diff_data(assets)
+    data.insert(0, {"range" : f"Sheet1!A1:{chr(ord('A') + NUM_COLUMNS)}1", "values" : headings})
 
     # write the data
     # "RAW" means google sheets treats the data exactly as is - no evaluating formulas or anything
@@ -123,9 +149,6 @@ def main():
         sheets_service = get_sheets_service()
         drive_service = get_drive_service()
 
-        # write the sheet data first
-        write_data(sheets_service, assets)
-
         # sheet only has 1000 rows by default
         # we'll round up to the nearest thousand
         # also calculate the number of colunms we need
@@ -144,7 +167,21 @@ def main():
                 }
             },
 
+            # make the sheet protected so it cannot be edited
+            {
+                "addProtectedRange" : {
+                    "protectedRange" : {
+                        "range" : {
+                            "sheetId" : MAIN_SHEET_ID,
+                        },
+                        "warningOnly" : False,
+                        "requestingUserCanEdit" : False,
+                    }
+                }
+            },
+
             # round the number of rows to the nearest 1000
+            # should we check this first??
             {
                 "updateSheetProperties" : {
                     "properties" : {
@@ -204,6 +241,9 @@ def main():
         )
 
         setup_request.execute()
+
+        # write the sheet data 
+        write_data(sheets_service, assets)
 
     except HttpError as err:
         print(err)

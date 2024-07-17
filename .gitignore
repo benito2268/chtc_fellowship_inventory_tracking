@@ -7,4 +7,5 @@ Scripts/sheets/sheet_id.txt
 **/__pycache__
 *.swp
 *.json
+*test.py
 

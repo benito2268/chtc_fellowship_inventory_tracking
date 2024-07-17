@@ -27,7 +27,7 @@ def main():
         sheet_response = sheet.execute()
     
         # share the service with the specified user
-        share_file(sheet_response.get('spreadsheetId'), args.email_address, True) 
+        share_file(sheet_response.get('spreadsheetId'), args.email_address) 
 
         # print the spreadsheet URL
         print(f"A spreadsheet \"{title}\" was created and shared: ")
