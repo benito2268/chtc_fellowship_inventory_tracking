@@ -66,15 +66,16 @@ def get_drive_service() -> Resource:
 #   fileId - the Google Drive ID of the file to share
 #   email_addr - the person with whom to share
 #   read_only - if true will share as 'viewer'
-def share_file(fileId: str, email_addr: str, read_only: bool):
+def share_file(fileId: str, email_addr: str):
     try:
         drive_service = get_drive_service()
 
-        perm_str = "reader" if read_only else "writer"
-
+        # have to give edit (writer) access in order to allow
+        # someone to view history
+        # the editing problem is solved by making the sheets "protected"
         perm_data = {
             "type" : "user",
-            "role" : perm_str,
+            "role" : "writer",
             "emailAddress" : email_addr,
         }
 
