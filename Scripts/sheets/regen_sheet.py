@@ -55,7 +55,7 @@ NUM_COLUMNS = len(COLUMN_MAP) + 1
 # TODO is there a better way to store these?
 # otherwise they have to be changed if the spreadsheet
 # is recreated
-SPREADSHEET_ID = "1RCwoAF58f5f323vbvGpcPun8x6jUJc3tRYyyhcGhsn8"
+SPREADSHEET_ID = "1FUFVVVgNXOj14wYMsNTwmU15kzQTduUfFefo_o5iWGE"
 MAIN_SHEET_ID = 0
 
 # reads asset data from the sheet to compare against what is in the
@@ -164,19 +164,6 @@ def main():
                 "updateSpreadsheetProperties" : {
                     "properties" : {"title" : title},
                     "fields" : "title",
-                }
-            },
-
-            # make the sheet protected so it cannot be edited
-            {
-                "addProtectedRange" : {
-                    "protectedRange" : {
-                        "range" : {
-                            "sheetId" : MAIN_SHEET_ID,
-                        },
-                        "warningOnly" : False,
-                        "requestingUserCanEdit" : False,
-                    }
                 }
             },
 
