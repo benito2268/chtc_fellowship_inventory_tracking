@@ -15,7 +15,6 @@ from dict_utils import flatten_dict
 # a list the specifies the order 
 # this also filters what appears in the spreadsheeti
 # anything that doesn't appear here also won't in the sheet
-# TODO need a less hacky way to include fqdn 
 COLUMN_MAP = [
     "location.building",
     "location.room",
@@ -32,6 +31,26 @@ COLUMN_MAP = [
     "hardware.notes",
     "hardware.purpose",
 ]
+
+PRETTY_COL_NAMES = [
+    "Building",
+    "Room",
+    "Rack",
+    "Elevation",
+    "Model",
+    "Serial Number",
+    "Service Tag",
+    "Condo Model",
+    "Condo Serial",
+    "UW Tag",
+    "CSL Tag",
+    "Morgridge Tag",
+    "Notes",
+    "Purpose",
+]
+
+# + 1 because we need a column for the hostname
+NUM_COLUMNS = len(COLUMN_MAP) + 1
 
 # TODO is there a better way to store these?
 # otherwise they have to be changed if the spreadsheet
@@ -53,7 +72,7 @@ def gen_data(assets: list[Asset]) -> list[dict]:
 
     for asset in assets:
         # create the range string
-        range_str = f"Sheet1!A{row}:{ord('A') + len(COLUMN_MAP)}{row}"
+        range_str = f"Sheet1!A{row}:{ord('A') + NUM_COLUMNS}{row}"
         flat = flatten_dict(asset.asset)
 
         vals = [
@@ -73,14 +92,14 @@ def write_data(sheets_srv: Resource, assets: list):
     # write the column headings - they will apprear in the order they are in the list
     # sheets API requires a 2D list - but in this case the outer list contains only the inner list
     headings = [
-        [header for header in COLUMN_MAP],
+        [header for header in PRETTY_COL_NAMES],
     ]
 
     # fqdn goes in column 1 - but is not in the YAML
     headings[0].insert(0, "Hostname")
 
     data = gen_data(assets)
-    data.insert(0, {"range" : f"Sheet1!A1:{ord('A') + len(COLUMN_MAP)}1", "values" : headings})
+    data.insert(0, {"range" : f"Sheet1!A1:{ord('A') + NUM_COLUMNS}1", "values" : headings})
 
     # write the data
     # "RAW" means google sheets treats the data exactly as is - no evaluating formulas or anything
@@ -133,7 +152,7 @@ def main():
                         "gridProperties" : {
                             "rowCount" : nearest_k_rows,
                             "frozenRowCount" : 1,
-                            "columnCount" : len(COLUMN_MAP),
+                            "columnCount" : NUM_COLUMNS,
                         },
                     },
 
@@ -148,7 +167,7 @@ def main():
                         "sheetId" : MAIN_SHEET_ID,
                         "dimension" : "COLUMNS",
                         "startIndex" : 0,
-                        "endIndex" : len(COLUMN_MAP),
+                        "endIndex" : NUM_COLUMNS,
                     }
                 },
             },
