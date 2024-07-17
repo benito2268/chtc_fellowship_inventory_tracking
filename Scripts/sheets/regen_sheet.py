@@ -60,11 +60,12 @@ MAIN_SHEET_ID = 0
 
 # reads asset data from the sheet to compare against what is in the
 # canonical data - will be used for finding the 'diff' of the sheet and the YAML
+# note: does NOT read the first (header row)
 #
 # params: sheet_srv - an initialized Google Sheets API service
 #
 # returns a list of rows (list[str]) read from the sheet
-def read_spreadsheet(sheet_srv: Resource):
+def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
     # want to specifiy the entire sheet
     result = (
         sheet_srv.spreadsheets()
@@ -73,19 +74,58 @@ def read_spreadsheet(sheet_srv: Resource):
         .execute()
     )
 
-    return result.get("values", [])
+    ret = result.get("values", [])
+    
+    #remove the first (header) row
+    del ret[0]
 
-def do_deletions(rows: list[list[str]], yaml_data: list[list[str]]):
-    pass 
+    return ret
 
-def do_additions():
+def do_deletions(sheet_srv: Resource, assets: list[Asset]):
+    rows = read_spreadsheet(sheet_srv)
+
+    # the + 1 is because spreasheets start indexing at 1
+    sheet_hostnames = {rows[i][0] : i + 1 for i in range(len(rows))}
+    yaml_hostnames = {asset.fqdn for asset in assets}
+    
+    # pick out elements in sheet_data but not in file_data
+    delete_hosts = set(sheet_hostnames.keys()) - yaml_hostnames
+    api_requests = []
+
+    if len(delete_hosts) == 0:
+        return
+
+    for hn in delete_hosts:
+        api_requests.append (
+            {
+                "deleteDimension" : {
+                    "range" : {
+                        "sheetId" : MAIN_SHEET_ID,
+                        "dimension" : "ROWS",
+                        "startIndex" : sheet_hostnames[hn],
+                        "endIndex" : sheet_hostnames[hn] + 1,
+                    }
+                }
+            }
+        )
+
+    # make the api request
+    body = {"requests" : api_requests}
+    response = (
+        sheet_srv.spreadsheets().
+        batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
+        .execute()
+    )
+
+
+def do_additions(rows: list[list[str]], yaml_data: list[list[str]]):
     pass
 
-def do_changes():
+def do_changes(rows: list[list[str]], yaml_data: list[list[str]]):
     pass
 
 # a function that updates the spreadsheet by comparing
-# to the parsed YAML
+# to the parsed YAML. Handles additions, deletions, and modifications
 #
 # params:
 #    assets - the list of assets read in from files
@@ -148,6 +188,8 @@ def main():
     try:
         sheets_service = get_sheets_service()
         drive_service = get_drive_service()
+
+        do_deletions(sheets_service, assets)
 
         # sheet only has 1000 rows by default
         # we'll round up to the nearest thousand
