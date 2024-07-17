@@ -27,7 +27,35 @@ def main():
         sheet_response = sheet.execute()
     
         # share the service with the specified user
-        share_file(sheet_response.get('spreadsheetId'), args.email_address) 
+        share_file(sheet_response.get('spreadsheetId'), args.email_address)
+
+        requests = []
+
+        # make the sheet protected so it cannot be edited
+        requests.append({
+            "addProtectedRange" : {
+                "protectedRange" : {
+                    "range" : {
+                        "sheetId" : 0,
+                    },
+                    "warningOnly" : False,
+                    "requestingUserCanEdit" : False,
+                    "editors" : {
+                        "users" : None,
+                        "groups" : None,
+                    }
+
+                }
+            }
+        })
+
+        body = {"requests" : requests}
+
+        response = (
+            sheets_service.spreadsheets()
+            .batchUpdate(spreadsheetId=sheet_response.get("spreadsheetId"), body=body)
+            .execute()
+        )
 
         # print the spreadsheet URL
         print(f"A spreadsheet \"{title}\" was created and shared: ")
