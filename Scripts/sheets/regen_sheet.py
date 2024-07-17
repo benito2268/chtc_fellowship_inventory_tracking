@@ -55,7 +55,7 @@ NUM_COLUMNS = len(COLUMN_MAP) + 1
 # TODO is there a better way to store these?
 # otherwise they have to be changed if the spreadsheet
 # is recreated
-SPREADSHEET_ID = "1FUFVVVgNXOj14wYMsNTwmU15kzQTduUfFefo_o5iWGE"
+SPREADSHEET_ID = "1iiO1wxjhs8rrgyi4dBWAjIsymgdKxVtbjzVHK-7cLjY"
 MAIN_SHEET_ID = 0
 
 # reads asset data from the sheet to compare against what is in the
@@ -77,33 +77,34 @@ def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
     ret = result.get("values", [])
     
     #remove the first (header) row
-    del ret[0]
+    if ret:
+        del ret[0]
 
     return ret
 
 def do_deletions(sheet_srv: Resource, assets: list[Asset]):
     rows = read_spreadsheet(sheet_srv)
 
-    # the + 1 is because spreasheets start indexing at 1
-    sheet_hostnames = {rows[i][0] : i + 1 for i in range(len(rows))}
+    sheet_hostnames = {rows[i][0] : i for i in range(len(rows))}
     yaml_hostnames = {asset.fqdn for asset in assets}
     
     # pick out elements in sheet_data but not in file_data
-    delete_hosts = set(sheet_hostnames.keys()) - yaml_hostnames
+    delete_assets = set(sheet_hostnames.keys()) - yaml_hostnames
     api_requests = []
 
-    if len(delete_hosts) == 0:
+    # if no deletions - don't bother calling the API
+    if not delete_assets:
         return
 
-    for hn in delete_hosts:
+    for hn in delete_assets:
         api_requests.append (
             {
                 "deleteDimension" : {
                     "range" : {
                         "sheetId" : MAIN_SHEET_ID,
                         "dimension" : "ROWS",
-                        "startIndex" : sheet_hostnames[hn],
-                        "endIndex" : sheet_hostnames[hn] + 1,
+                        "startIndex" : sheet_hostnames[hn] + 1, # semi-frustratingly spreadsheets are '1-indexed'
+                        "endIndex" : sheet_hostnames[hn] + 2,
                     }
                 }
             }
@@ -118,25 +119,30 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
     )
 
 
-def do_additions(rows: list[list[str]], yaml_data: list[list[str]]):
-    pass
+def do_additions(sheet_srv: Resource, assets: list[Asset]):
+    rows = read_spreadsheet(sheet_srv)
 
-def do_changes(rows: list[list[str]], yaml_data: list[list[str]]):
-    pass
+    # the + 1 is because spreasheets start indexing at 1
+    sheet_hostnames = {row[0] for row in rows}
+    yaml_hostnames = {assets[i].fqdn : i for i in range(len(assets))}
 
-# a function that updates the spreadsheet by comparing
-# to the parsed YAML. Handles additions, deletions, and modifications
-#
-# params:
-#    assets - the list of assets read in from files
-#
-# returns: a list of dicts containing row data for the spreadsheet
-def diff_data(assets: list[Asset]) -> list[dict]:
-    # row 1 contains the column headings
+    # seperate assets that are in the YAML but not the sheet
+    new_assets = set(yaml_hostnames.keys()) - sheet_hostnames
+
+    # if no additions - don't bother calling the API
+    if not new_assets:
+        return
+
+    # generate rows for the new assets
+    # for now append to the list
     data = []
-    row = 2
 
-    for asset in assets:
+    # row number starts at 2 since sheets uses '1-indexing' and the header takes up row 1
+    row = len(sheet_hostnames) + 2
+
+    for hostname in new_assets:
+        asset = assets[yaml_hostnames[hostname]]
+
         # create the range string
         range_str = f"Sheet1!A{row}:{chr(ord('A') + NUM_COLUMNS)}{row}"
         flat = flatten_dict(asset.asset)
@@ -151,10 +157,6 @@ def diff_data(assets: list[Asset]) -> list[dict]:
         data.append({"range" : range_str, "values" : vals})
         row += 1
 
-    return data
-
-# write asset data to the body of the spreadsheet
-def write_data(sheets_srv: Resource, assets: list):
     # write the column headings - they will apprear in the order they are in the list
     # sheets API requires a 2D list - but in this case the outer list contains only the inner list
     headings = [
@@ -163,8 +165,6 @@ def write_data(sheets_srv: Resource, assets: list):
 
     # fqdn goes in column 1 - but is not in the YAML
     headings[0].insert(0, "Hostname")
-
-    data = diff_data(assets)
     data.insert(0, {"range" : f"Sheet1!A1:{chr(ord('A') + NUM_COLUMNS)}1", "values" : headings})
 
     # write the data
@@ -173,13 +173,26 @@ def write_data(sheets_srv: Resource, assets: list):
     # ^^ that way I might be able to put everything into one batch request
     data_body = {"valueInputOption" : "RAW", "data" : data}
     write_request = (
-        sheets_srv.spreadsheets()
+        sheet_srv.spreadsheets()
         .values()
         .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=data_body)
     )
 
     result = write_request.execute()
+        
 
+def do_changes(rows: list[list[str]], yaml_data: list[list[str]]):
+    pass
+
+# a function that updates the spreadsheet by comparing
+# to the parsed YAML. Handles additions, deletions, and modifications
+#
+# params:
+#    assets - the list of assets read in from files
+#
+# returns: a list of dicts containing row data for the spreadsheet
+def diff_data(assets: list[Asset]) -> list[dict]:
+    pass  
 
 def main():
     # read asset data from each YAML file in given dir
@@ -188,8 +201,6 @@ def main():
     try:
         sheets_service = get_sheets_service()
         drive_service = get_drive_service()
-
-        do_deletions(sheets_service, assets)
 
         # sheet only has 1000 rows by default
         # we'll round up to the nearest thousand
@@ -271,8 +282,8 @@ def main():
 
         setup_request.execute()
 
-        # write the sheet data 
-        write_data(sheets_service, assets)
+        do_deletions(sheets_service, assets)
+        do_additions(sheets_service, assets)
 
     except HttpError as err:
         print(err)
