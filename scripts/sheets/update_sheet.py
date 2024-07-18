@@ -17,7 +17,7 @@ from dict_utils import flatten_dict
 # TODO is there a better way to store these?
 # otherwise they have to be changed if the spreadsheet
 # is recreated
-SPREADSHEET_ID = "1PHGbghofa6CjwPPxiMMGqBzjVyQ6qmKMr1u9synIY0w"
+SPREADSHEET_ID = "1xZRvDJuK3rg9ArR8-WCrSdWUTTVZUIDIAUDgNKPB06M"
 MAIN_SHEET_ID = 0
 
 # reads asset data from the sheet to compare against what is in the
@@ -193,7 +193,7 @@ def main():
         # and also make sure there are enough rows for our data
         date = datetime.now()
         title = f"CHTC Inventory - Updated {date.strftime('%Y-%m-%d %H:%M')}"
-        requests = [
+        pre_format_requests = [
             # set the spreadsheet title
             {
                 "updateSpreadsheetProperties" : {
@@ -218,7 +218,25 @@ def main():
                     "fields" : "gridProperties",
                 }
             },
+        ]
 
+        # as far as I can tell - the spreadsheet itself only has batchUpdate() and not update()?
+        body = {"requests" : pre_format_requests}
+        pre_format_request = (
+            sheets_service.spreadsheets()
+            .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
+        )
+
+        pre_format_request.execute()
+
+        # do the actual updating
+        do_deletions(sheets_service, assets)
+        do_additions(sheets_service, assets)
+        do_changes(sheets_service, assets)
+
+        # post format requests get called after the data is written
+        # for example, changing the cell size to fit the data
+        post_format_requests = [
             # auto size each row to fit the longest line of text
             {
                 "autoResizeDimensions" : {
@@ -232,19 +250,13 @@ def main():
             },
         ]
 
-        # as far as I can tell - the spreadsheet itself only has batchUpdate() and not update()?
-        body = {"requests" : requests}
-        setup_request = (
+        body = {"requests" : post_format_requests}
+        post_format_request = (
             sheets_service.spreadsheets()
             .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
         )
 
-        setup_request.execute()
-
-        # do the actual updating
-        do_deletions(sheets_service, assets)
-        do_additions(sheets_service, assets)
-        do_changes(sheets_service, assets)
+        post_format_request.execute()
 
     except HttpError as err:
         print(err)
