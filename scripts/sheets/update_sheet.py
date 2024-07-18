@@ -44,6 +44,11 @@ def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
 
     return ret
 
+# handles deleting rows whose underlying YAML no longer exists
+#
+# params:
+#   sheet_srv - a Google Sheets API service
+#   assets - a list of Asset objects read from underlaying YAML
 def do_deletions(sheet_srv: Resource, assets: list[Asset]):
     rows = read_spreadsheet(sheet_srv)
 
@@ -80,7 +85,12 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
         .execute()
     )
 
-
+# handles adding spreadsheet rows for new underlying
+# YAML files
+#
+# params:
+#   sheet_srv - a Google Sheets API service
+#   assets - a list of asset objects read from underlying YAML
 def do_additions(sheet_srv: Resource, assets: list[Asset]):
     rows = read_spreadsheet(sheet_srv)
 
@@ -121,8 +131,6 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
 
     # write the data
     # "RAW" means google sheets treats the data exactly as is - no evaluating formulas or anything
-    # TODO could/should this be replaced with UpdateCellsRequest??
-    # ^^ that way I might be able to put everything into one batch request
     data_body = {"valueInputOption" : "RAW", "data" : data}
     write_request = (
         sheet_srv.spreadsheets()
@@ -132,7 +140,11 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
 
     result = write_request.execute()
 
-
+# handles updating (only) spreadsheet rows whose underlying YAML has changed
+#
+# params:
+#   sheet_srv - a Google Sheets API service
+#   assets - a list of Asset objects read from underlying YAML
 def do_changes(sheet_srv: Resource, assets: list[Asset]):
     rows = read_spreadsheet(sheet_srv)
 
@@ -165,16 +177,6 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
     )
 
     request.execute()
-
-# a function that updates the spreadsheet by comparing
-# to the parsed YAML. Handles additions, deletions, and modifications
-#
-# params:
-#    assets - the list of assets read in from files
-#
-# returns: a list of dicts containing row data for the spreadsheet
-def diff_data(assets: list[Asset]) -> list[dict]:
-    pass
 
 def main():
     # read asset data from each YAML file in given dir
