@@ -6,6 +6,8 @@ from api_helpers import share_file
 from datetime import datetime
 from googleapiclient.errors import HttpError
 
+import format_vars
+
 def main():
     # use argparse to get the email to share with
     parser = argparse.ArgumentParser()
@@ -14,7 +16,7 @@ def main():
     args = parser.parse_args()
 
     # try is used to catch HttpError during the API call
-    try:   
+    try:
         drive_service = get_drive_service()
         sheets_service = get_sheets_service()
 
@@ -25,11 +27,31 @@ def main():
         sheet = sheets_service.spreadsheets().create(body=sheet_data)
 
         sheet_response = sheet.execute()
-    
+
         # share the service with the specified user
         share_file(sheet_response.get('spreadsheetId'), args.email_address)
 
         requests = []
+
+        # write the column headings - they will apprear in the order they are in the list
+        # sheets API requires a 2D list - but in this case the outer list contains only the inner list
+        headings = [
+            [header for header in format_vars.PRETTY_COL_NAMES],
+        ]
+
+        # fqdn goes in column 1 - but is not in the YAML
+        headings[0].insert(0, "Hostname")
+        data = [ {"range" : f"Sheet1!A1:{chr(ord('A') + format_vars.NUM_COLUMNS)}1", "values" : headings} ]
+
+        data_body = {"valueInputOption" : "RAW", "data" : data}
+
+        title_request = (
+            sheets_service.spreadsheets()
+            .values()
+            .batchUpdate(spreadsheetId=sheet_response.get('spreadsheetId'), body=data_body)
+        )
+
+        title_request.execute()
 
         # make the sheet protected so it cannot be edited
         requests.append({
@@ -49,6 +71,31 @@ def main():
             }
         })
 
+        requests.append(
+             # bold the header
+            {
+                "repeatCell" : {
+                    "range" : {
+                        "startRowIndex" : 0,
+                        "endRowIndex" : 1,
+                        "startColumnIndex" : 0,
+                        "sheetId" : 0,
+                    },
+
+                    "cell" : {
+                        "userEnteredFormat" : {
+                            "horizontalAlignment" : "CENTER",
+                            "textFormat" : {
+                                "bold" : True
+                            }
+                        }
+                    },
+
+                    "fields" : "userEnteredFormat"
+                },
+            },
+        )
+
         body = {"requests" : requests}
 
         response = (
@@ -63,7 +110,7 @@ def main():
         print()
 
     except HttpError as err:
-        print(err) 
+        print(err)
 
 if __name__ == "__main__":
     main()

@@ -8,54 +8,16 @@ from api_helpers import get_drive_service
 from api_helpers import get_sheets_service
 
 sys.path.append(os.path.abspath('../shared/'))
+import format_vars
 from yaml_io import read_yaml
 from yaml_io import Asset
 from dict_utils import flatten_dict
 
-# a list the specifies the order 
-# this also filters what appears in the spreadsheeti
-# anything that doesn't appear here also won't in the sheet
-COLUMN_MAP = [
-    "location.building",
-    "location.room",
-    "location.rack",
-    "location.elevation",
-    "hardware.model",
-    "hardware.serial_number",
-    "hardware.service_tag",
-    "hardware.condo_chassis.model",
-    "hardware.condo_chassis.identifier",
-    "tags.uw",
-    "tags.csl",
-    "tags.morgridge",
-    "hardware.notes",
-    "hardware.purpose",
-]
-
-PRETTY_COL_NAMES = [
-    "Building",
-    "Room",
-    "Rack",
-    "Elevation",
-    "Model",
-    "Serial Number",
-    "Service Tag",
-    "Condo Model",
-    "Condo Serial",
-    "UW Tag",
-    "CSL Tag",
-    "Morgridge Tag",
-    "Notes",
-    "Purpose",
-]
-
-# + 1 because we need a column for the hostname
-NUM_COLUMNS = len(COLUMN_MAP) + 1
 
 # TODO is there a better way to store these?
 # otherwise they have to be changed if the spreadsheet
 # is recreated
-SPREADSHEET_ID = "1iiO1wxjhs8rrgyi4dBWAjIsymgdKxVtbjzVHK-7cLjY"
+SPREADSHEET_ID = "1PHGbghofa6CjwPPxiMMGqBzjVyQ6qmKMr1u9synIY0w"
 MAIN_SHEET_ID = 0
 
 # reads asset data from the sheet to compare against what is in the
@@ -144,11 +106,11 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
         asset = assets[yaml_hostnames[hostname]]
 
         # create the range string
-        range_str = f"Sheet1!A{row}:{chr(ord('A') + NUM_COLUMNS)}{row}"
+        range_str = f"Sheet1!A{row}:{chr(ord('A') + format_vars.NUM_COLUMNS)}{row}"
         flat = flatten_dict(asset.asset)
 
         vals = [
-            [flat[key] for key in COLUMN_MAP],
+            [flat[key] for key in format_vars.COLUMN_MAP],
         ]
 
         # prepend the hostname
@@ -156,16 +118,6 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
 
         data.append({"range" : range_str, "values" : vals})
         row += 1
-
-    # write the column headings - they will apprear in the order they are in the list
-    # sheets API requires a 2D list - but in this case the outer list contains only the inner list
-    headings = [
-        [header for header in PRETTY_COL_NAMES],
-    ]
-
-    # fqdn goes in column 1 - but is not in the YAML
-    headings[0].insert(0, "Hostname")
-    data.insert(0, {"range" : f"Sheet1!A1:{chr(ord('A') + NUM_COLUMNS)}1", "values" : headings})
 
     # write the data
     # "RAW" means google sheets treats the data exactly as is - no evaluating formulas or anything
@@ -185,7 +137,7 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
     rows = read_spreadsheet(sheet_srv)
 
     # the nested comprehension is a bit gross - maybe I should find a cleaner way
-    yaml_data = {asset.fqdn : [flatten_dict(asset.asset)[key] for key in COLUMN_MAP] for asset in assets}
+    yaml_data = {asset.fqdn : [flatten_dict(asset.asset)[key] for key in format_vars.COLUMN_MAP] for asset in assets}
     row_nums = {rows[i][0] : i + 2 for i in range(len(rows))}
     new_data = []
 
@@ -259,7 +211,7 @@ def main():
                         "gridProperties" : {
                             "rowCount" : nearest_k_rows,
                             "frozenRowCount" : 1,
-                            "columnCount" : NUM_COLUMNS,
+                            "columnCount" : format_vars.NUM_COLUMNS,
                         },
                     },
 
@@ -274,31 +226,8 @@ def main():
                         "sheetId" : MAIN_SHEET_ID,
                         "dimension" : "COLUMNS",
                         "startIndex" : 0,
-                        "endIndex" : NUM_COLUMNS,
+                        "endIndex" : format_vars.NUM_COLUMNS,
                     }
-                },
-            },
-
-            # bold the header
-            {
-                "repeatCell" : {
-                    "range" : {
-                        "startRowIndex" : 0,
-                        "endRowIndex" : 1,
-                        "startColumnIndex" : 0,
-                        "sheetId" : MAIN_SHEET_ID,
-                    },
-
-                    "cell" : {
-                        "userEnteredFormat" : {
-                            "horizontalAlignment" : "CENTER",
-                            "textFormat" : {
-                                "bold" : True
-                            }
-                        }
-                    },
-
-                    "fields" : "userEnteredFormat"
                 },
             },
         ]
