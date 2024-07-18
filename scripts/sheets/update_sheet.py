@@ -75,7 +75,7 @@ def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
     )
 
     ret = result.get("values", [])
-    
+
     #remove the first (header) row
     if ret:
         del ret[0]
@@ -87,7 +87,7 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
 
     sheet_hostnames = {rows[i][0] : i for i in range(len(rows))}
     yaml_hostnames = {asset.fqdn for asset in assets}
-    
+
     # pick out elements in sheet_data but not in file_data
     delete_assets = set(sheet_hostnames.keys()) - yaml_hostnames
     api_requests = []
@@ -150,7 +150,7 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
         vals = [
             [flat[key] for key in COLUMN_MAP],
         ]
-    
+
         # prepend the hostname
         vals[0].insert(0, asset.fqdn)
 
@@ -179,10 +179,40 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
     )
 
     result = write_request.execute()
-        
 
-def do_changes(rows: list[list[str]], yaml_data: list[list[str]]):
-    pass
+
+def do_changes(sheet_srv: Resource, assets: list[Asset]):
+    rows = read_spreadsheet(sheet_srv)
+
+    # the nested comprehension is a bit gross - maybe I should find a cleaner way
+    yaml_data = {asset.fqdn : [flatten_dict(asset.asset)[key] for key in COLUMN_MAP] for asset in assets}
+    row_nums = {rows[i][0] : i + 2 for i in range(len(rows))}
+    new_data = []
+
+    # update the sheet with per-cell granularity
+    for row in rows:
+        for i in range(1, len(row)):
+            # something changed in this file - update the sheet
+            # note: if a hostname changes the script will process it as
+            # a deletion and addition, not a change
+            if not row[i] == yaml_data[row[0]][i - 1]:
+                # track down what cell the change will occur in
+                range_str = f"Sheet1!{chr(ord('A') + i)}{row_nums[row[0]]}"
+
+                # google sheets needs it in a 2D list
+                to_append = [ [yaml_data[row[0]][i - 1] ] ]
+                new_data.append({"range" : range_str, "values" : to_append})
+
+    # make the API request
+    body = {"valueInputOption" : "RAW", "data" : new_data}
+
+    request = (
+        sheet_srv.spreadsheets()
+        .values()
+        .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
+    )
+
+    request.execute()
 
 # a function that updates the spreadsheet by comparing
 # to the parsed YAML. Handles additions, deletions, and modifications
@@ -192,7 +222,7 @@ def do_changes(rows: list[list[str]], yaml_data: list[list[str]]):
 #
 # returns: a list of dicts containing row data for the spreadsheet
 def diff_data(assets: list[Asset]) -> list[dict]:
-    pass  
+    pass
 
 def main():
     # read asset data from each YAML file in given dir
@@ -282,8 +312,10 @@ def main():
 
         setup_request.execute()
 
+        # do the actual updating
         do_deletions(sheets_service, assets)
         do_additions(sheets_service, assets)
+        do_changes(sheets_service, assets)
 
     except HttpError as err:
         print(err)
