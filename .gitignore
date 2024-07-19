@@ -10,4 +10,5 @@ scripts/sheets/sheet_id.txt
 *test/
 *test.py
 spreadsheet_id.txt
+empty_trash.py
 

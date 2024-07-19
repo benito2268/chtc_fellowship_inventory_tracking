@@ -77,6 +77,11 @@ def share_file(fileId: str, email_addr: str):
             "type" : "user",
             "role" : "writer",
             "emailAddress" : email_addr,
+
+            # if you're testing - set this to False!
+            # sending lots of notification emails is an easy way to
+            # (a. annoy people) and (b. hit the API rate limit)!
+            "sendNotificationEmail" : False,
         }
 
         perm = drive_service.permissions().create( 
