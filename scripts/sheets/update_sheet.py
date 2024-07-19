@@ -14,11 +14,7 @@ from yaml_io import read_yaml
 from yaml_io import Asset
 from dict_utils import flatten_dict
 
-
-# TODO is there a better way to store these?
-# otherwise they have to be changed if the spreadsheet
-# is recreated
-SPREADSHEET_ID = ""
+SPREADSHEET_ID = "1UmvOqKMPUaUrlemsdMRqicoeNx-y3fJY1Q98AXoUZ_k"
 MAIN_SHEET_ID = 0
 
 # reads asset data from the sheet to compare against what is in the
@@ -47,40 +43,51 @@ def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
 
 # finds the index of a new spreadsheet element
 # in a sorted spreadsheet and inserts a new row at the proper place
-def find_sorted_pos(sheet_srv: Resource, rows: list[list[str]], new_row: list[str]) -> int:
+def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: list[list[str]]):
     # the key to sort by
     key = "location.room"
-    key_index = format_vars.COLUMN_MAP.index(key)
+    key_index = format_vars.COLUMN_MAP.index(key) + 1
 
-    index = 0
-    while index < len(rows) and new_row[key_index] > rows[index][key_index]:
-        index += 1
+    rows_cpy = copy.deepcopy(rows)
+    requests = []
 
-    # insert a new row at index + 2 (+1 for 1-indexing, +1 to account for the header)
-    requests = [
-        {
-            "insertDimension" : {
-                "range" : {
-                    "sheetId" : MAIN_SHEET_ID,
-                    "dimension" : "ROWS",
-                    "startIndex" : index + 1,
-                    "endIndex" : index + 2,
+    for new_row in new_rows:
+        row = new_row[0]
+
+        index = 0
+        while index < len(rows_cpy) and row[key_index] > rows_cpy[index][key_index]:
+            index += 1
+
+        # insert a new row at index + 2 (+1 for 1-indexing, +1 to account for the header)
+        requests.append(
+            {
+                "insertDimension" : {
+                    "range" : {
+                        "sheetId" : MAIN_SHEET_ID,
+                        "dimension" : "ROWS",
+                        "startIndex" : index + 1,
+                        "endIndex" : index + 2,
+                    }
                 }
-            }
-        },
+            },
+        )
 
-        {
-            "pasteData" : {
-                "coordinate" : {
-                    "sheetId" : MAIN_SHEET_ID,
-                    "rowIndex" : index + 1,
-                },
-                "data" : f"{',,,'.join(new_row)}\n",
-                "type" : "PASTE_NORMAL",
-                "delimiter" : ",,,",
-            }
-        },
-    ]
+        requests.append(
+            {
+                "pasteData" : {
+                    "coordinate" : {
+                        "sheetId" : MAIN_SHEET_ID,
+                        "rowIndex" : index + 1,
+                    },
+
+                    "data" : f"{',,,'.join(row)}\n",
+                    "type" : "PASTE_NORMAL",
+                    "delimiter" : ",,,",
+                }
+            },
+        )
+
+        rows_cpy.insert(index, row)
 
     body = {"requests" : requests}
     request = (
@@ -88,9 +95,6 @@ def find_sorted_pos(sheet_srv: Resource, rows: list[list[str]], new_row: list[st
         .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
     )
     request.execute()
-
-    rows.insert(index, new_row)
-    return index + 1
 
 # handles deleting rows whose underlying YAML no longer exists
 #
@@ -141,24 +145,23 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
 #   assets - a list of asset objects read from underlying YAML
 def do_additions(sheet_srv: Resource, assets: list[Asset]):
     rows = read_spreadsheet(sheet_srv)
-    rows_cpy = copy.deepcopy(rows)
 
     # the + 1 is because spreasheets start indexing at 1
     sheet_hostnames = {row[0] for row in rows}
     yaml_hostnames = {assets[i].fqdn : i for i in range(len(assets))}
 
     # seperate assets that are in the YAML but not the sheet
-    new_assets = set(yaml_hostnames.keys()) - sheet_hostnames
+    new_hostnames = set(yaml_hostnames.keys()) - sheet_hostnames
 
     # if no additions - don't bother calling the API
-    if not new_assets:
+    if not new_hostnames:
         return
 
     # generate rows for the new assets
     # for now append to the list
-    data = []
+    new_assets = []
 
-    for hostname in new_assets:
+    for hostname in new_hostnames:
         asset = assets[yaml_hostnames[hostname]]
         flat = flatten_dict(asset.asset)
         vals = [
@@ -168,29 +171,9 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
         # prepend the hostname
         vals[0].insert(0, asset.fqdn)
 
-        # create the range string
-        row = find_sorted_pos(sheet_srv, rows_cpy, vals[0])
+        new_assets.append(vals)
 
-    # sort the sheet alphabetically
-    #requests = [
-    #    {
-    #        "sortRange" : {
-    #            "range" : {"startRowIndex" : 2},
-    #            "sortSpecs" : {
-    #                "sortOrder" : "ASCENDING",
-    #                "dimensionIndex" : 2,
-    #            }
-    #        },
-    #    },
-    #]
-
-    #body = {"requests" : requests}
-    #request =  (
-    #    sheet_srv.spreadsheets()
-    #    .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
-    #)
-
-    #request.execute()
+    insert_batch_sorted(sheet_srv, rows, new_assets)
 
 # handles updating (only) spreadsheet rows whose underlying YAML has changed
 #
@@ -232,12 +215,13 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
 
 def main():
     # read asset data from each YAML file in given dir
-    assets = read_yaml("../csv_2_yaml/yaml_test/")
+    assets = read_yaml("../csv_2_yaml/yaml/")
 
     # read the new spreadsheet id
     global SPREADSHEET_ID
     with open("spreadsheet_id.txt", "r") as infile:
-        SPREADSHEET_ID = infile.read()
+        # SPREADSHEET_ID = infile.read()
+        pass
 
     try:
         sheets_service = get_sheets_service()
