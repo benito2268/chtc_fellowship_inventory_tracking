@@ -17,7 +17,7 @@ hardware:
 location:
   rack: "B"
   elevation: "MISSING"
-  room: "MISSING"
+  room: "CS2360"
   building: "MISSING"
 tags:
   csl: "C293847"

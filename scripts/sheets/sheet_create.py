@@ -109,6 +109,10 @@ def main():
         print(sheet_response.get("spreadsheetUrl"))
         print()
 
+        # write the spreadsheet id to a file
+        with open("spreadsheet_id.txt", "w+") as outfile:
+            outfile.write(sheet_response.get("spreadsheetId"))
+
     except HttpError as err:
         print(err)
 

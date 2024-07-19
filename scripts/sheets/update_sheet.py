@@ -1,6 +1,7 @@
 import os
 import sys
 import math
+import copy
 from datetime import datetime
 from googleapiclient.discovery import Resource
 from googleapiclient.errors import HttpError
@@ -17,7 +18,7 @@ from dict_utils import flatten_dict
 # TODO is there a better way to store these?
 # otherwise they have to be changed if the spreadsheet
 # is recreated
-SPREADSHEET_ID = "1xZRvDJuK3rg9ArR8-WCrSdWUTTVZUIDIAUDgNKPB06M"
+SPREADSHEET_ID = ""
 MAIN_SHEET_ID = 0
 
 # reads asset data from the sheet to compare against what is in the
@@ -43,6 +44,53 @@ def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
         del ret[0]
 
     return ret
+
+# finds the index of a new spreadsheet element
+# in a sorted spreadsheet and inserts a new row at the proper place
+def find_sorted_pos(sheet_srv: Resource, rows: list[list[str]], new_row: list[str]) -> int:
+    # the key to sort by
+    key = "location.room"
+    key_index = format_vars.COLUMN_MAP.index(key)
+
+    index = 0
+    while index < len(rows) and new_row[key_index] > rows[index][key_index]:
+        index += 1
+
+    # insert a new row at index + 2 (+1 for 1-indexing, +1 to account for the header)
+    requests = [
+        {
+            "insertDimension" : {
+                "range" : {
+                    "sheetId" : MAIN_SHEET_ID,
+                    "dimension" : "ROWS",
+                    "startIndex" : index + 1,
+                    "endIndex" : index + 2,
+                }
+            }
+        },
+
+        {
+            "pasteData" : {
+                "coordinate" : {
+                    "sheetId" : MAIN_SHEET_ID,
+                    "rowIndex" : index + 1,
+                },
+                "data" : f"{',,,'.join(new_row)}\n",
+                "type" : "PASTE_NORMAL",
+                "delimiter" : ",,,",
+            }
+        },
+    ]
+
+    body = {"requests" : requests}
+    request = (
+        sheet_srv.spreadsheets()
+        .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
+    )
+    request.execute()
+
+    rows.insert(index, new_row)
+    return index + 1
 
 # handles deleting rows whose underlying YAML no longer exists
 #
@@ -93,6 +141,7 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
 #   assets - a list of asset objects read from underlying YAML
 def do_additions(sheet_srv: Resource, assets: list[Asset]):
     rows = read_spreadsheet(sheet_srv)
+    rows_cpy = copy.deepcopy(rows)
 
     # the + 1 is because spreasheets start indexing at 1
     sheet_hostnames = {row[0] for row in rows}
@@ -109,16 +158,9 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
     # for now append to the list
     data = []
 
-    # row number starts at 2 since sheets uses '1-indexing' and the header takes up row 1
-    row = len(sheet_hostnames) + 2
-
     for hostname in new_assets:
         asset = assets[yaml_hostnames[hostname]]
-
-        # create the range string
-        range_str = f"Sheet1!A{row}:{chr(ord('A') + format_vars.NUM_COLUMNS)}{row}"
         flat = flatten_dict(asset.asset)
-
         vals = [
             [flat[key] for key in format_vars.COLUMN_MAP],
         ]
@@ -126,19 +168,29 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
         # prepend the hostname
         vals[0].insert(0, asset.fqdn)
 
-        data.append({"range" : range_str, "values" : vals})
-        row += 1
+        # create the range string
+        row = find_sorted_pos(sheet_srv, rows_cpy, vals[0])
 
-    # write the data
-    # "RAW" means google sheets treats the data exactly as is - no evaluating formulas or anything
-    data_body = {"valueInputOption" : "RAW", "data" : data}
-    write_request = (
-        sheet_srv.spreadsheets()
-        .values()
-        .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=data_body)
-    )
+    # sort the sheet alphabetically
+    #requests = [
+    #    {
+    #        "sortRange" : {
+    #            "range" : {"startRowIndex" : 2},
+    #            "sortSpecs" : {
+    #                "sortOrder" : "ASCENDING",
+    #                "dimensionIndex" : 2,
+    #            }
+    #        },
+    #    },
+    #]
 
-    result = write_request.execute()
+    #body = {"requests" : requests}
+    #request =  (
+    #    sheet_srv.spreadsheets()
+    #    .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
+    #)
+
+    #request.execute()
 
 # handles updating (only) spreadsheet rows whose underlying YAML has changed
 #
@@ -180,7 +232,12 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
 
 def main():
     # read asset data from each YAML file in given dir
-    assets = read_yaml("../csv_2_yaml/yaml/")
+    assets = read_yaml("../csv_2_yaml/yaml_test/")
+
+    # read the new spreadsheet id
+    global SPREADSHEET_ID
+    with open("spreadsheet_id.txt", "r") as infile:
+        SPREADSHEET_ID = infile.read()
 
     try:
         sheets_service = get_sheets_service()
