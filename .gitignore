@@ -11,4 +11,5 @@ scripts/sheets/sheet_id.txt
 *test.py
 spreadsheet_id.txt
 empty_trash.py
+config.yaml
 

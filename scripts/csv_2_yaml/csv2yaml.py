@@ -66,7 +66,7 @@ class Asset:
                 'morgridge' : "",
             },
         }
-        
+
         self.fqdn = csv_row[self.key_map['hostname']]
         if csv_row[self.key_map['domain']] != '': 
             self.fqdn += '.' + csv_row[self.key_map['domain']]
@@ -187,7 +187,6 @@ def find_site(hostname, file_dict):
 # returns: a list of Asset objects as read from the file
 def csv_read(csv_name):
     with open(csv_name, newline="") as csvfile:
-
         # I think the csv module considers this the "excel dialect"
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         assets = []
