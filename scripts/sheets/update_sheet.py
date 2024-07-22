@@ -59,6 +59,8 @@ def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: li
             index += 1
 
         # insert a new row at index + 2 (+1 for 1-indexing, +1 to account for the header)
+        inherit = True if index != 0 else False
+
         requests.append(
             {
                 "insertDimension" : {
@@ -67,7 +69,9 @@ def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: li
                         "dimension" : "ROWS",
                         "startIndex" : index + 1,
                         "endIndex" : index + 2,
-                    }
+                    },
+
+                    "inheritFromBefore" : inherit,
                 }
             },
         )
@@ -221,7 +225,6 @@ def main():
     global SPREADSHEET_ID
     with open("spreadsheet_id.txt", "r") as infile:
         SPREADSHEET_ID = infile.read()
-        pass
 
     try:
         sheets_service = get_sheets_service()
@@ -244,23 +247,6 @@ def main():
                     "fields" : "title",
                 }
             },
-
-            # round the number of rows to the nearest 1000
-            # should we check this first??
-            {
-                "updateSheetProperties" : {
-                    "properties" : {
-                        "sheetId" : MAIN_SHEET_ID,
-                        "gridProperties" : {
-                            "rowCount" : nearest_k_rows,
-                            "frozenRowCount" : 1,
-                            "columnCount" : format_vars.NUM_COLUMNS,
-                        },
-                    },
-
-                    "fields" : "gridProperties",
-                }
-            },
         ]
 
         # as far as I can tell - the spreadsheet itself only has batchUpdate() and not update()?
@@ -276,6 +262,7 @@ def main():
         do_deletions(sheets_service, assets)
         do_additions(sheets_service, assets)
         do_changes(sheets_service, assets)
+
 
         # post format requests get called after the data is written
         # for example, changing the cell size to fit the data
