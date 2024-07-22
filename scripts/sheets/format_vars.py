@@ -37,3 +37,6 @@ PRETTY_COL_NAMES = [
 
 # + 1 because we need a column for the hostname
 NUM_COLUMNS = len(COLUMN_MAP) + 1
+
+MAIN_SHEET_NAME = "Inventory"
+SWAP_SHEET_NAME = "Swapped"

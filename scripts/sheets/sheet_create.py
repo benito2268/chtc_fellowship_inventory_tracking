@@ -96,6 +96,20 @@ def main():
             },
         )
 
+        # rename the main sheet from 'Sheet1'
+        requests.append(
+            {
+                "updateSheetProperties" : {
+                    "properties" : {
+                        "sheetId" : 0,
+                        "title" : format_vars.MAIN_SHEET_NAME,
+                    },
+
+                    "fields" : "title",
+                }
+            }
+        )
+
         body = {"requests" : requests}
 
         response = (
