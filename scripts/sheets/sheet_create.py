@@ -28,9 +28,6 @@ def main():
 
         sheet_response = sheet.execute()
 
-        # share the service with the specified user
-        share_file(sheet_response.get('spreadsheetId'), args.email_address)
-
         requests = []
 
         # write the column headings - they will apprear in the order they are in the list
@@ -72,6 +69,26 @@ def main():
         })
 
         requests.append(
+             # center text
+            {
+                "repeatCell" : {
+                    "range" : {
+                        "startRowIndex" : 0,
+                        "startColumnIndex" : 0,
+                    },
+
+                    "cell" : {
+                        "userEnteredFormat" : {
+                            "horizontalAlignment" : "CENTER",
+                        }
+                    },
+
+                    "fields" : "userEnteredFormat"
+                },
+            },
+        )
+
+        requests.append(
              # bold the header
             {
                 "repeatCell" : {
@@ -110,6 +127,38 @@ def main():
             }
         )
 
+        requests.append(
+            {
+                "addConditionalFormatRule" : {
+                    "rule" : {
+                        "ranges" : [{
+                            "sheetId" : 0,
+                            "startRowIndex" : 0,
+                            "startColumnIndex" : 0,
+                        }],
+                        "booleanRule" : {
+                            "condition" : {
+                                "type" : "CUSTOM_FORMULA",
+                                "values" : [{
+                                    "userEnteredValue" : "=ISODD(ROW())"
+                                }],
+                            },
+
+                            "format" : {
+                                "backgroundColor" : {
+                                    "red" : 0.9,
+                                    "green" : 0.9,
+                                    "blue" : 0.9,
+                                    "alpha" : 1,
+                                }
+                            },
+                        },
+                    },
+                    "index" : 0,
+                }
+            }
+        )
+
         body = {"requests" : requests}
 
         response = (
@@ -126,6 +175,9 @@ def main():
         # write the spreadsheet id to a file
         with open("spreadsheet_id.txt", "w+") as outfile:
             outfile.write(sheet_response.get("spreadsheetId"))
+
+        # share the service with the specified user
+        share_file(sheet_response.get('spreadsheetId'), args.email_address)
 
     except HttpError as err:
         print(err)
