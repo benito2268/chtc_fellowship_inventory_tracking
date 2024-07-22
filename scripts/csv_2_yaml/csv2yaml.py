@@ -193,7 +193,7 @@ def csv_read(csv_name):
 
         # TODO what to do about hard coded path
         # generate the dictionary of sites 
-        sites = get_sitefiles('../../Puppet/puppet_data/site_tier_0/')
+        sites = get_sitefiles('../../puppet/puppet_data/site_tier_0/')
 
         # skip labels in the first CSV row
         next(reader)
@@ -208,19 +208,18 @@ def csv_read(csv_name):
 #
 # params:
 #   assets: the list of assets to generate from
-def gen_yaml(assets, path):
-
+def gen_yaml(assets, path, **kwargs):
     files = 0
     skipped = 0
     names = []
 
     for asset in assets:
-        hostname = asset.fqdn
+        hostname = kwargs.get('filename', asset.fqdn)
 
         # figure out if we should warn about the hostname
         # remove this if too slow - seems okay
         if hostname in names:
-            print('WARNING: a host with the name {0} already exists - skipping'.format(hostname))
+            print(f'WARNING: a host with the name {hostname} already exists - skipping')
             print('==========================================================================')
             print('[ASSET THAT WAS SKIPPED]')
             dict_utils.print_dict(asset.asset)
@@ -231,9 +230,9 @@ def gen_yaml(assets, path):
         names.append(hostname)
         files += 1
 
-        yaml_io.write_yaml(asset, path + hostname + '.yaml')
+        yaml_io.write_yaml(asset, f"{path}{hostname}.yaml")
 
-    print('csv2yaml: generated {0} files - skipped {1} assets with duplicate hostnames'.format(files, skipped))
+    print(f"csv2yaml: generated {files} files - skipped {skipped} assets with duplicate hostnames")
 
 
 def main():
