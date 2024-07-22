@@ -14,7 +14,7 @@ from yaml_io import read_yaml
 from yaml_io import Asset
 from dict_utils import flatten_dict
 
-SPREADSHEET_ID = "1UmvOqKMPUaUrlemsdMRqicoeNx-y3fJY1Q98AXoUZ_k"
+SPREADSHEET_ID = ""
 MAIN_SHEET_ID = 0
 
 # reads asset data from the sheet to compare against what is in the
@@ -29,7 +29,7 @@ def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
     result = (
         sheet_srv.spreadsheets()
         .values()
-        .get(spreadsheetId=SPREADSHEET_ID, range="Sheet1")
+        .get(spreadsheetId=SPREADSHEET_ID, range=format_vars.MAIN_SHEET_NAME)
         .execute()
     )
 
@@ -196,7 +196,7 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
             # a deletion and addition, not a change
             if not row[i] == yaml_data[row[0]][i - 1]:
                 # track down what cell the change will occur in
-                range_str = f"Sheet1!{chr(ord('A') + i)}{row_nums[row[0]]}"
+                range_str = f"{format_vars.MAIN_SHEET_NAME}!{chr(ord('A') + i)}{row_nums[row[0]]}"
 
                 # google sheets needs it in a 2D list
                 to_append = [ [yaml_data[row[0]][i - 1] ] ]
@@ -220,7 +220,7 @@ def main():
     # read the new spreadsheet id
     global SPREADSHEET_ID
     with open("spreadsheet_id.txt", "r") as infile:
-        # SPREADSHEET_ID = infile.read()
+        SPREADSHEET_ID = infile.read()
         pass
 
     try:
