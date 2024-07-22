@@ -1,3 +1,5 @@
+#!/bin/python3
+
 # ingests assets into the system
 #
 # asset addition can be done 3 ways
@@ -13,39 +15,56 @@ import subprocess
 #sys.path.append(os.path.abspath("../chtc_fellowship_inventory_tracking/scripts/csv_2_yaml/"))
 #import csv2yaml
 
-def ingest_file(path: str):
-    print("file")
+def chk_subproc(result: subprocess.CompletedProcess):
+    if result.returncode != 0:
+        print(f"{result.args.join(' ')} failed")
+        exit(1)
+
+def ingest_file(newname: str, path: str):
+    # make sure that cp doesn't fail if path and ./newname are the same file
+    if os.path.abspath(path) == os.path.abspath(newname):
+        return
+
+    # copy the file into the YAML directory
+    # from the config fill
+    result = subprocess.run(["cp", path, f"./{newname}"])
+    chk_subproc(result)
 
 # TODO make a column map in the config
 def ingest_csv(path: str):
     # convert the CSV file into Asset objects
-    #assets = csv2yaml.csv_read(path)
+    assets = csv2yaml.csv_read(path)
 
     # generate the yaml files in the current directory
-    #csv2yaml.gen_yaml(assets, ".")
+    # TODO change this dir once the config is set up
+    csv2yaml.gen_yaml(assets, ".")
     pass
 
 def ingest_interactive():
     print("interactive")
 
 def add(filename: str, args: list):
-    # git pull
-    subprocess.run(["git", "pull"])
+    # do a pull first
+    result = subprocess.run(["git", "pull"])
+    chk_subproc(result)
 
     # add the new file(s)
     if args.file:
-        ingest_file("./")
+        ingest_file(filename, "./test.chtc.wisc.edu.yaml")
     elif args.csv:
         ingest_csv()
     elif args.interactive:
         ingest_interactive()
 
-    # git add/commit
-    subprocess.run(["git", "add", filename])
-    subprocess.run(["git", "commit", "-m", f"\"Added asset {filename}\""])
+    # git add/commit/push sequence
+    result = subprocess.run(["git", "add", filename])
+    chk_subproc(result)
 
-    # git push
-    subprocess.run(["git", "push"])
+    result = subprocess.run(["git", "commit", "-m", f"\"Added asset {filename}\""])
+    chk_subproc(result)
+
+    result = subprocess.run(["git", "push"])
+    chk_subproc(result)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -63,6 +82,7 @@ def main():
     parser.add_argument("-d", "--domain", help="the domain of the new asset - set to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
 
     args = parser.parse_args()
+
     add(f"{args.name}.{args.domain}.yaml", args)
 
 if __name__ == "__main__":
