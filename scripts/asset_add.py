@@ -23,15 +23,18 @@ def chk_subproc(result: subprocess.CompletedProcess):
         print(f"{result.args.join(' ')} failed")
         exit(1)
 
-def ingest_file(yamlname: str, path: str):
-    # make sure that cp doesn't fail if path and ./newname are the same file
-    if os.path.abspath(path) == os.path.abspath(yamlname):
+def ingest_file(path: str):
+    # TODO should there be a way to ingest multiple files??
+    # ^ that seems like a job for the CSV function
+    # TODO change the dir once the config is set up
+    # make sure that cp doesn't fail if path and ./path are the same file
+    if os.path.abspath(path) == os.path.abspath(f"./{path}"):
+        print(f"added an asset {path}")
         return
 
     # copy the file into the YAML directory
     # from the config fill
-    # TODO change the dir once the config is set up
-    result = subprocess.run(["cp", path, f"./{yamlname}"])
+    result = subprocess.run(["cp", path, f"./{path}"])
     chk_subproc(result)
 
 # TODO make a column map in the config
@@ -43,30 +46,30 @@ def ingest_csv(path: str):
     # TODO change this dir once the config is set up
     csv2yaml.gen_yaml(assets, ".")
 
-def ingest_interactive(yamlname: str):
+def ingest_interactive():
     print("interactive")
 
-def add(filename: str, args: list):
+def add(args: list):
     # do a pull first
     result = subprocess.run(["git", "pull"])
     chk_subproc(result)
 
     # add the new file(s)
     if args.file:
-        ingest_file(filename, args.file)
+        filenames = ingest_file(args.file)
     elif args.csv:
-        ingest_csv(args.csv)
+        filenames = ingest_csv(args.csv)
     elif args.interactive:
-        ingest_interactive()
+        filenames = ingest_interactive()
 
     # TODO remove for testing we never want to push :)
     exit(0)
 
     # git add/commit/push sequence
-    result = subprocess.run(["git", "add", filename])
+    result = subprocess.run(["git", "add", f"{filenames.join(' ')}"])
     chk_subproc(result)
 
-    result = subprocess.run(["git", "commit", "-m", f"\"Added asset {filename}\""])
+    result = subprocess.run(["git", "commit", "-m", f"\"Added asset(s) {filenames.join(' ')}\""])
     chk_subproc(result)
 
     result = subprocess.run(["git", "push"])
@@ -74,9 +77,6 @@ def add(filename: str, args: list):
 
 def main():
     parser = argparse.ArgumentParser()
-
-    required = parser.add_argument_group(title="required")
-    required.add_argument("-n", "--name", help="the asset's name", action="store", required=True)
 
     # the ingestion method are mutually exclusive
     group = parser.add_mutually_exclusive_group(required=True)
@@ -88,7 +88,7 @@ def main():
     parser.add_argument("-d", "--domain", help="the domain of the new asset - set to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
 
     args = parser.parse_args()
-    add(f"{args.name}.{args.domain}.yaml", args)
+    add(args)
 
 if __name__ == "__main__":
     main()
