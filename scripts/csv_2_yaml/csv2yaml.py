@@ -216,7 +216,9 @@ def csv_read(csv_name: str, sites_from_puppet: bool):
 #
 # params:
 #   assets: the list of assets to generate from
-def gen_yaml(assets, path, **kwargs):
+#
+# returns: a list of names of generated asset files
+def gen_yaml(assets, path, **kwargs) -> list[str]:
     files = 0
     skipped = 0
     names = []
@@ -244,7 +246,7 @@ def gen_yaml(assets, path, **kwargs):
         yaml_io.write_yaml(asset, f"{path}/{hostname}.yaml")
 
     print(f"csv2yaml: generated {files} files - skipped {skipped} assets with duplicate hostnames")
-
+    return names
 
 def main():
     # take csv filename and output path as command line args
@@ -254,7 +256,7 @@ def main():
 
     csv_name = sys.argv[1]
     output_path = sys.argv[2]
-    assets = csv_read(csv_name)
+    assets = csv_read(csv_name, True)
 
     # for quality of life's sake
     if output_path[-1] != '/':
