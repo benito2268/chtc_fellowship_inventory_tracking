@@ -12,8 +12,11 @@ import os
 import argparse
 import subprocess
 
-#sys.path.append(os.path.abspath("../chtc_fellowship_inventory_tracking/scripts/csv_2_yaml/"))
-#import csv2yaml
+sys.path.append(os.path.abspath("csv_2_yaml/"))
+sys.path.append(os.path.abspath("shared/"))
+
+import yaml_io
+import csv2yaml
 
 def chk_subproc(result: subprocess.CompletedProcess):
     if result.returncode != 0:
@@ -34,7 +37,7 @@ def ingest_file(yamlname: str, path: str):
 # TODO make a column map in the config
 def ingest_csv(path: str):
     # convert the CSV file into Asset objects
-    assets = csv2yaml.csv_read(path)
+    assets = csv2yaml.csv_read(path, False)
 
     # generate the yaml files in the current directory
     # TODO change this dir once the config is set up
@@ -52,7 +55,7 @@ def add(filename: str, args: list):
     if args.file:
         ingest_file(filename, args.file)
     elif args.csv:
-        ingest_csv(filename, args.csv)
+        ingest_csv(args.csv)
     elif args.interactive:
         ingest_interactive()
 
@@ -85,7 +88,6 @@ def main():
     parser.add_argument("-d", "--domain", help="the domain of the new asset - set to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
 
     args = parser.parse_args()
-
     add(f"{args.name}.{args.domain}.yaml", args)
 
 if __name__ == "__main__":

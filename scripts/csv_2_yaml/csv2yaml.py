@@ -8,6 +8,10 @@ sys.path.append(os.path.abspath('../shared'))
 import yaml_io
 import dict_utils
 
+# the path to puppet site files if that's where site data comes from
+# if site data is supplied in the CSV - this is not used
+PUPPET_SITE_PATH = "../../puppet/puppet_data/site_tier_0/"
+
 class Asset:
     # a shared (among all Assets) dictionary that maps YAML/dict key names
     # to their corresponding column number in the spreadsheet
@@ -28,7 +32,7 @@ class Asset:
     }
 
     # converts an array of strings (row from the csv file) to a dictionary
-    def __init__(self, csv_row, sites):
+    def __init__(self, csv_row: list[str], sites: list):
         # each asset is represented with a nested dictionary
         self.asset = {
             'acquisition' : {
@@ -68,7 +72,7 @@ class Asset:
         }
 
         self.fqdn = csv_row[self.key_map['hostname']]
-        if csv_row[self.key_map['domain']] != '': 
+        if csv_row[self.key_map['domain']] != '':
             self.fqdn += '.' + csv_row[self.key_map['domain']]
 
         # flatten the dictionary first (with '.' as the seperator)
@@ -91,9 +95,10 @@ class Asset:
         self.asset['acquisition']['owner'] = yaml_io.quoted(find_owner(notes))
         self.asset['hardware']['purpose'] = yaml_io.quoted(find_purpose(notes))
 
-        site = find_site(self.fqdn, sites)
-        self.asset['location']['room'] = yaml_io.quoted(site[0])
-        self.asset['location']['building'] = yaml_io.quoted(site[1])
+        if sites:
+            site = find_site(self.fqdn, sites)
+            self.asset['location']['room'] = yaml_io.quoted(site[0])
+            self.asset['location']['building'] = yaml_io.quoted(site[1])
 
 # a heuristic for trying to determine if an asset
 # is a fabrication from its 'notes' field
@@ -185,15 +190,18 @@ def find_site(hostname, file_dict):
 # 
 # params: csv_name - name of the input csv file
 # returns: a list of Asset objects as read from the file
-def csv_read(csv_name):
+def csv_read(csv_name: str, sites_from_puppet: bool):
     with open(csv_name, newline="") as csvfile:
         # I think the csv module considers this the "excel dialect"
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         assets = []
 
         # TODO what to do about hard coded path
-        # generate the dictionary of sites 
-        sites = get_sitefiles('../../puppet/puppet_data/site_tier_0/')
+        # generate the dictionary of sites
+        if sites_from_puppet:
+            sites = get_sitefiles(PUPPET_SITE_PATH)
+        else:
+            sites = None
 
         # skip labels in the first CSV row
         next(reader)
@@ -230,7 +238,10 @@ def gen_yaml(assets, path, **kwargs):
         names.append(hostname)
         files += 1
 
-        yaml_io.write_yaml(asset, f"{path}{hostname}.yaml")
+        if not path.endswith("/"):
+            path += "/"
+
+        yaml_io.write_yaml(asset, f"{path}/{hostname}.yaml")
 
     print(f"csv2yaml: generated {files} files - skipped {skipped} assets with duplicate hostnames")
 
