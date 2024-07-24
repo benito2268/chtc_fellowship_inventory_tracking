@@ -55,7 +55,23 @@ def ingest_csv(path: str):
 def ingest_interactive():
     print("interactive")
 
-def add(args: list):
+def setup_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+
+    # the ingestion method are mutually exclusive
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-f", "--file", help="ingest an asset via a YAML file", action="store")
+    group.add_argument("-c", "--csv", help="ingest one or many assets via a CSV file", action="store")
+    group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store_true")
+
+    # an optional argument if the domain is different than 'chtc.wisc.edu'
+    parser.add_argument("-d", "--domain", help="the domain of the new asset - set to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
+
+    return parser.parse_args()
+
+def main():
+    args = setup_args()
+
     # do a pull first
     result = subprocess.run(["git", "pull"])
     chk_subproc(result)
@@ -76,27 +92,10 @@ def add(args: list):
     # git add/commit/push sequence
     result = subprocess.run(["git", "add", f"{filenames.join(' ')}"])
     chk_subproc(result)
-
     result = subprocess.run(["git", "commit", "-m", f"\"Added asset(s) {filenames.join(' ')}\""])
     chk_subproc(result)
-
     result = subprocess.run(["git", "push"])
     chk_subproc(result)
-
-def main():
-    parser = argparse.ArgumentParser()
-
-    # the ingestion method are mutually exclusive
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("-f", "--file", help="ingest an asset via a YAML file", action="store")
-    group.add_argument("-c", "--csv", help="ingest one or many assets via a CSV file", action="store")
-    group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store_true")
-
-    # an optional argument if the domain is different than 'chtc.wisc.edu'
-    parser.add_argument("-d", "--domain", help="the domain of the new asset - set to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
-
-    args = parser.parse_args()
-    add(args)
 
 if __name__ == "__main__":
     main()

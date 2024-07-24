@@ -22,7 +22,7 @@ def chk_subproc(result: subprocess.CompletedProcess):
         print(f"{result.args.join(' ')} failed")
         exit(1)
 
-def main():
+def setup_args() -> argparse.Namespace:
     # set up argparse
     parser = argparse.ArgumentParser()
 
@@ -33,24 +33,26 @@ def main():
     # optional domain arg
     parser.add_argument("-d", "--domain", help="the domain of the asset - defaults to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
 
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    # get the filename of the asset
+
+def main():
+    args = setup_args()
     filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
 
-    # do a git pull before we do anything
     result = subprocess.run(["git", "pull"])
     chk_subproc(result)
 
+    # set the swap reason
     asset = yaml_io.Asset(filename)
     asset.put("hardware.swap_reason", args.reason)
     yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
 
+    # add the date to the new name and move the file
     date = datetime.now()
     newname = f"{os.path.basename(filename.removesuffix('.yaml'))}-{date.strftime('%Y-%m-%d')}.yaml"
     os.rename(filename, newname)
 
-    # move the file
     shutil.move(newname, SWAP_DIR)
 
     # TODO remove - for testing don't commit anything :)
@@ -59,11 +61,8 @@ def main():
     # git add + commit + push
     result = subprocess.run(["git", "add", f"{SWAP_DIR}/{newname}"])
     chk_subproc(result)
-
-    # TODO should the reason be in the commit message?
     result = subprocess.run(["git", "commit", "-m", f"swappped {args.name} on {date.strftime('%Y-%m-%d')}"])
     chk_subproc(result)
-
     result = subprocess.run(["git", "push"])
     chk_subproc(result)
 
