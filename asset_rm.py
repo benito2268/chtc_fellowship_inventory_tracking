@@ -42,11 +42,6 @@ def main():
     result = subprocess.run(["git", "pull"])
     chk_subproc(result)
 
-    # add the swap reason to the YAML and swap date to the filename
-    with open(filename, 'r') as yamlfile:
-        yamldata = yaml.safe_load(yamlfile)
-
-    # TODO this may break
     asset = yaml_io.Asset(filename)
     asset.put("hardware.swap_reason", args.reason)
     yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
