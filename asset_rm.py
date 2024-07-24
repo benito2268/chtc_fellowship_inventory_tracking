@@ -2,11 +2,16 @@
 
 # removes (moves to swap) an asset from the system
 import os
+import sys
 import argparse
 import subprocess
 import shutil
 import yaml
 from datetime import datetime
+
+sys.path.append(os.path.abspath("scripts/shared/"))
+import yaml_io
+import dict_utils
 
 # TODO move this into the config
 YAML_DIR = "./"
@@ -38,10 +43,13 @@ def main():
     chk_subproc(result)
 
     # add the swap reason to the YAML and swap date to the filename
-    with open(filename, 'r+') as yamlfile:
+    with open(filename, 'r') as yamlfile:
         yamldata = yaml.safe_load(yamlfile)
-        yamldata["hardware"]["swap_reason"] = args.reason
-        yaml.dump(yamldata, yamlfile)
+
+    # TODO this may break
+    asset = yaml_io.Asset(filename)
+    asset.put("hardware.swap_reason", args.reason)
+    yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
 
     date = datetime.now()
     newname = f"{os.path.basename(filename.removesuffix('.yaml'))}-{date.strftime('%Y-%m-%d')}.yaml"
