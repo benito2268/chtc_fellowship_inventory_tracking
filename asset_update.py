@@ -19,7 +19,7 @@ def chk_subproc(result: subprocess.CompletedProcess):
         print(f"{result.args.join(' ')} failed")
         exit(1)
 
-def main():
+def setup_args() -> argsparse.Namespace:
     parser = argparse.ArgumentParser()
 
     # required args
@@ -33,9 +33,12 @@ def main():
     parser.add_argument("-d", "--domain", help="defaults to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
     parser.add_argument("-a", "--add", help="if the tag isn't found, add it to the YAML in this file", action="store_true")
 
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    # git pull
+def main():
+    args = setup_args()
+
+    # git pull before anything
     result = subprocess.run(["git", "pull"])
     chk_subproc(result)
 
@@ -53,9 +56,8 @@ def main():
             print(f"YAML tag not found (pass '-a/--add' if you wish to add it to the file)")
             exit(1)
 
-    asset.put(args.key, args.value)
-
     # write out to the file
+    asset.put(args.key, args.value)
     yaml_io.write_yaml(asset, filename)
 
     # TODO remove once testing done
@@ -64,13 +66,10 @@ def main():
     # git add, commit, push
     result = subprocess.run(["git", "add", filename])
     chk_subproc(result)
-
     result = subprocess.run(["git", "commit", "-m", f"changed '{args.key}' to '{args.value}' in {filename}"])
     chk_subproc(result)
-
     result = subprocess.run(["git", "push"])
     chk_subproc(result)
-
 
 if __name__ == "__main__":
     main()
