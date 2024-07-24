@@ -1,6 +1,7 @@
 #!/bin/python3
 
 # updates fields in an assets YAML file
+# TODO should this have a batch update option?
 import sys
 import os
 import subprocess
@@ -30,7 +31,7 @@ def main():
 
     # optional args
     parser.add_argument("-d", "--domain", help="defaults to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
-    parser.add_argument("-a", "--add", help="if the key isn't found, add it to the file?", action="store_true")
+    parser.add_argument("-a", "--add", help="if the tag isn't found, add it to the YAML in this file", action="store_true")
 
     args = parser.parse_args()
 
@@ -64,8 +65,7 @@ def main():
     result = subprocess.run(["git", "add", filename])
     chk_subproc(result)
 
-    # TODO better commit message
-    result = subprocess.run(["git", "commit", "-m", f"modified {filename}"])
+    result = subprocess.run(["git", "commit", "-m", f"changed '{args.key}' to '{args.value}' in {filename}"])
     chk_subproc(result)
 
     result = subprocess.run(["git", "push"])
