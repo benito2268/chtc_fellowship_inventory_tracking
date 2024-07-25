@@ -23,7 +23,7 @@ YAML_DIR = "./"
 
 def chk_subproc(result: subprocess.CompletedProcess):
     if result.returncode != 0:
-        print(f"{result.args.join(' ')} failed")
+        print(f"{' '.join(result.args)} failed")
         exit(1)
 
 def ingest_file(path: str):

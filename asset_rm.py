@@ -19,7 +19,7 @@ SWAP_DIR = "swapped/"
 
 def chk_subproc(result: subprocess.CompletedProcess):
     if result.returncode != 0:
-        print(f"{result.args.join(' ')} failed")
+        print(f"{' '.join(result.args)} failed")
         exit(1)
 
 def setup_args() -> argparse.Namespace:
