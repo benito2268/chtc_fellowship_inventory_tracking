@@ -61,7 +61,7 @@ def main():
     # git add + commit + push
     result = subprocess.run(["git", "add", f"{SWAP_DIR}{newname}"])
     chk_subproc(result)
-    result = subprocess.run(["git", "commit", "-m", f"swappped {args.name} on {date.strftime('%Y-%m-%d')}"])
+    result = subprocess.run(["git", "commit", "-m", f"decomissioned {args.name} on {date.strftime('%Y-%m-%d')}"])
     chk_subproc(result)
     result = subprocess.run(["git", "push"])
     chk_subproc(result)
