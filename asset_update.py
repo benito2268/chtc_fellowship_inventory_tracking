@@ -61,7 +61,7 @@ def main():
     # git add, commit, push
     result = subprocess.run(["git", "add", filename])
     chk_subproc(result)
-    result = subprocess.run(["git", "commit", "-m", f"changed '{args.key}' to '{args.value}' in {filename}"])
+    result = subprocess.run(["git", "commit", "-m", f"changed {args.name}\'s '{args.key}' to '{args.value}'"])
     chk_subproc(result)
     result = subprocess.run(["git", "push"])
     chk_subproc(result)

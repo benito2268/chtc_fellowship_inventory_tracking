@@ -27,8 +27,6 @@ def chk_subproc(result: subprocess.CompletedProcess):
         exit(1)
 
 def ingest_file(path: str):
-    # TODO should there be a way to ingest multiple files??
-    # ^ that seems like a job for the CSV function
     # make sure that cp doesn't fail if path and ./path are the same file
     newpath = f"{YAML_DIR}{os.path.basename(path)}"
 
@@ -70,6 +68,18 @@ def setup_args() -> argparse.Namespace:
 
     return parser.parse_args()
 
+# stages and commits many new asset files
+# assets are listed individually in the commit body
+def git_add_commit_many(filenames: list[str]):
+    # git add each file
+    result = subprocess.run(["git", "add", f"{filenames.join(' ')}"])
+    chk_subproc(result)
+
+    # commit with a long message
+    newline = '\n' # because f-strings don't support the backslash char :(
+    result = subprocess.run(["git", "commit", "-m", f"added {len(filenames)} new assets", "-m", f"added {newline}{newline.join(filenames)}"])
+    chk_subproc(result)
+
 def main():
     args = setup_args()
 
@@ -77,24 +87,25 @@ def main():
     result = subprocess.run(["git", "pull"])
     chk_subproc(result)
 
-    filenames = []
-
     # add the new file(s)
     if args.file:
-        filenames = ingest_file(args.file)
+        filename = ingest_file(args.file)
+
+        # git add/commit
+        result = subprocess.run(["git", "add", filename])
+        chk_subproc(result)
+        result = subprocess.run(["git", "commit", "-m", f"Added an asset: {filename}"])
+        chk_subproc(result)
+
     elif args.csv:
         filenames = ingest_csv(args.csv)
+        git_add_commit_many(filenames)
+
     elif args.interactive:
         filenames = ingest_interactive()
+        git_add_commit_many(filenames)
 
-    # TODO remove for testing we never want to push :)
-    exit(0)
-
-    # git add/commit/push sequence
-    result = subprocess.run(["git", "add", f"{filenames.join(' ')}"])
-    chk_subproc(result)
-    result = subprocess.run(["git", "commit", "-m", f"\"Added asset(s) {filenames.join(' ')}\""])
-    chk_subproc(result)
+    # git push
     result = subprocess.run(["git", "push"])
     chk_subproc(result)
 
