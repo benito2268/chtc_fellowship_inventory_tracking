@@ -23,11 +23,9 @@ def setup_args() -> argsparse.Namespace:
     parser = argparse.ArgumentParser()
 
     # required args
+    parser.add_argument("name", help="the name of the asset to swap. ex) 'ap2002'", action="store")
     parser.add_argument("key", help="the fully qualified YAML key (tag) to modify. ex) 'hardware.model'", action="store")
     parser.add_argument("value", help="the new value to store", action="store")
-
-    required = parser.add_argument_group(title="required arguments")
-    required.add_argument("-n", "--name", help="the name of the asset to swap. ex) 'ap2002'", action="store", required=True)
 
     # optional args
     parser.add_argument("-d", "--domain", help="defaults to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")

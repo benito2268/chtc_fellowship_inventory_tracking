@@ -59,6 +59,7 @@ def setup_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
 
     # the ingestion method are mutually exclusive
+    # TODO probably tweak the CLI here
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-f", "--file", help="ingest an asset via a YAML file", action="store")
     group.add_argument("-c", "--csv", help="ingest one or many assets via a CSV file", action="store")
