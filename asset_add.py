@@ -47,8 +47,8 @@ def ingest_csv(path: str):
     assets = csv2yaml.csv_read(path, False)
 
     # generate the yaml files in the current directory
-    # TODO change this dir once the config is set up
-    return csv2yaml.gen_yaml(assets, YAML_DIR)
+    names = csv2yaml.gen_yaml(assets, YAML_DIR)
+    return [f"{name}.yaml" for name in names]
 
 def ingest_interactive():
     print("interactive")
@@ -72,7 +72,11 @@ def setup_args() -> argparse.Namespace:
 # assets are listed individually in the commit body
 def git_add_commit_many(filenames: list[str]):
     # git add each file
-    result = subprocess.run(["git", "add", f"{filenames.join(' ')}"])
+    cmd = ["git", "add"]
+    for filename in filenames:
+        cmd.append(filename)
+
+    result = subprocess.run(cmd)
     chk_subproc(result)
 
     # commit with a long message
