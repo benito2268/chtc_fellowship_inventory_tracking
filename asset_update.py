@@ -19,7 +19,7 @@ def chk_subproc(result: subprocess.CompletedProcess):
         print(f"{result.args.join(' ')} failed")
         exit(1)
 
-def setup_args() -> argsparse.Namespace:
+def setup_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
 
     # required args
@@ -57,9 +57,6 @@ def main():
     # write out to the file
     asset.put(args.key, args.value)
     yaml_io.write_yaml(asset, filename)
-
-    # TODO remove once testing done
-    exit(0)
 
     # git add, commit, push
     result = subprocess.run(["git", "add", filename])
