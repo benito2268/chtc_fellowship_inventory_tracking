@@ -27,7 +27,7 @@ def setup_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
 
     required = parser.add_argument_group(title="required arguments")
-    required.add_argument("-n", "--name", help="the name of the asset to swap ex) 'ap2002'", action="store", required=True)
+    required.add_argument("name", help="the hostname of the asset to swap ex) 'ap2002'", action="store")
     required.add_argument("-r", "--reason", help="why the asset is being swapped", action="store", required=True)
 
     # optional domain arg
@@ -59,7 +59,7 @@ def main():
     exit(0)
 
     # git add + commit + push
-    result = subprocess.run(["git", "add", f"{SWAP_DIR}/{newname}"])
+    result = subprocess.run(["git", "add", f"{SWAP_DIR}{newname}"])
     chk_subproc(result)
     result = subprocess.run(["git", "commit", "-m", f"swappped {args.name} on {date.strftime('%Y-%m-%d')}"])
     chk_subproc(result)
