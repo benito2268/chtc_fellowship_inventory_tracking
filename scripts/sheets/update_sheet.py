@@ -17,6 +17,10 @@ from dict_utils import flatten_dict
 SPREADSHEET_ID = ""
 MAIN_SHEET_ID = 0
 
+# the key the spreadsheet will be sorted
+# (alphanumerically) by
+SORT_BY = "location.room"
+
 # reads asset data from the sheet to compare against what is in the
 # canonical data - will be used for finding the 'diff' of the sheet and the YAML
 # note: does NOT read the first (header row)
@@ -44,9 +48,7 @@ def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
 # finds the index of a new spreadsheet element
 # in a sorted spreadsheet and inserts a new row at the proper place
 def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: list[list[str]]):
-    # the key to sort by
-    key = "location.room"
-    key_index = format_vars.COLUMN_MAP.index(key) + 1
+    key_index = format_vars.COLUMN_MAP.index(SORT_BY) + 1
 
     rows_cpy = copy.deepcopy(rows)
     requests = []
@@ -108,30 +110,34 @@ def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: li
 def do_deletions(sheet_srv: Resource, assets: list[Asset]):
     rows = read_spreadsheet(sheet_srv)
 
-    sheet_hostnames = {rows[i][0] : i for i in range(len(rows))}
-    yaml_hostnames = {asset.fqdn for asset in assets}
+    # rows should be sorted in reverse order so when batch deletions happen
+    # the row number shifts won't mess things up
+    sheet_hostnames = [(rows[i][0], i) for i in reversed(range(len(rows)))]
+    yaml_hostnames = [asset.fqdn for asset in assets]
 
     # pick out elements in sheet_data but not in file_data
-    delete_assets = set(sheet_hostnames.keys()) - yaml_hostnames
+    # sadly, these need to be ordered so can't use my beloved python sets :(
+    delete_assets = []
+    for row in sheet_hostnames:
+        if row[0] not in yaml_hostnames:
+            delete_assets.append(row)
+
     api_requests = []
 
     # if no deletions - don't bother calling the API
     if not delete_assets:
         return
 
-    for hn in delete_assets:
-
-        # TODO: debug
-        print(hn)
-
+    # TODO row numbers are off when we remove one??? 
+    for pair in delete_assets:
         api_requests.append (
             {
                 "deleteDimension" : {
                     "range" : {
                         "sheetId" : MAIN_SHEET_ID,
                         "dimension" : "ROWS",
-                        "startIndex" : sheet_hostnames[hn] + 1, # semi-frustratingly spreadsheets are '1-indexed'
-                        "endIndex" : sheet_hostnames[hn] + 2,
+                        "startIndex" : pair[1] + 1, # semi-frustratingly spreadsheets are '1-indexed'
+                        "endIndex" : pair[1] + 2,
                     }
                 }
             }
