@@ -120,6 +120,10 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
         return
 
     for hn in delete_assets:
+
+        # TODO: debug
+        print(hn)
+
         api_requests.append (
             {
                 "deleteDimension" : {
@@ -277,6 +281,43 @@ def main():
                         "endIndex" : format_vars.NUM_COLUMNS,
                     }
                 },
+            },
+
+            # update sheet banding
+            {
+                "updateBanding" : {
+                    "bandedRange" : {
+                        "bandedRangeId" : 222,
+                        "range" : {
+                            "sheetId" : 0,
+                            "startRowIndex" : 1,
+                        },
+
+                        "rowProperties" : {
+                            "firstBandColorStyle" : {
+                                "rgbColor" : {
+                                    # light grey in RGBA
+                                    "red" : 0.9,
+                                    "green" : 0.9,
+                                    "blue" : 0.9,
+                                    "alpha" : 1.0,
+                                },
+                            },
+
+                            "secondBandColorStyle" : {
+                                "rgbColor" : {
+                                    # white in RGBA
+                                    "red" : 1.0,
+                                    "green" : 1.0,
+                                    "blue" : 1.0,
+                                    "alpha" : 1.0,
+                                },
+                            },
+                        },
+                    },
+
+                    "fields" : "*",
+                }
             },
         ]
 
