@@ -127,36 +127,73 @@ def main():
             }
         )
 
+        # NOTE: this is making things REALLY slow
+        # not sure why... but we should get rid of it
+        #requests.append(
+        #    {
+        #        "addConditionalFormatRule" : {
+        #            "rule" : {
+        #                "ranges" : [{
+        #                    "sheetId" : 0,
+        #                    "startRowIndex" : 0,
+        #                    "startColumnIndex" : 0,
+        #                }],
+        #                "booleanRule" : {
+        #                    "condition" : {
+        #                        "type" : "CUSTOM_FORMULA",
+        #                        "values" : [{
+        #                            "userEnteredValue" : "=ISODD(ROW())"
+        #                        }],
+        #                    },
+        #
+        #
+        #                    "format" : {
+        #                        "backgroundColor" : {
+        #                            "red" : 0.9,
+        #                            "green" : 0.9,
+        #                            "blue" : 0.9,
+        #                            "alpha" : 1,
+        #                        }
+        #                    },
+        #                },
+        #            },
+        #            "index" : 0,
+        #        }
+        #    }
+        #)
+
         requests.append(
             {
-                "addConditionalFormatRule" : {
-                    "rule" : {
-                        "ranges" : [{
+                "addBanding" : {
+                    "bandedRange" : {
+                        "bandedRangeId" : 222,
+                        "range" : {
                             "sheetId" : 0,
-                            "startRowIndex" : 0,
-                            "startColumnIndex" : 0,
-                        }],
-                        "booleanRule" : {
-                            "condition" : {
-                                "type" : "CUSTOM_FORMULA",
-                                "values" : [{
-                                    "userEnteredValue" : "=ISODD(ROW())"
-                                }],
-                            },
+                            "startRowIndex" : 1,
+                        },
 
-                            "format" : {
-                                "backgroundColor" : {
+                        "rowProperties" : {
+                            "firstBandColorStyle" : {
+                                "rgbColor" : {
+                                    # light grey in RGBA
                                     "red" : 0.9,
                                     "green" : 0.9,
                                     "blue" : 0.9,
-                                    "alpha" : 1,
-                                }
+                                },
+                            },
+
+                            "secondBandColorStyle" : {
+                                "rgbColor" : {
+                                    # white in RGBA
+                                    "red" : 1.0,
+                                    "green" : 1.0,
+                                    "blue" : 1.0,
+                                },
                             },
                         },
-                    },
-                    "index" : 0,
+                    }
                 }
-            }
+            },
         )
 
         body = {"requests" : requests}
