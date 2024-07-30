@@ -4,6 +4,7 @@ tutorials/
 scripts/csv_2_yaml/yaml/
 scripts/csv_2_yaml/main*.csv
 scripts/sheets/sheet_id.txt
+scripts/sheets/ben_testing/
 **/__pycache__
 *.swp
 *.json
