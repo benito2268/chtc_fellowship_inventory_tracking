@@ -45,20 +45,25 @@ def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
 
     return ret
 
+# returns new_row's sorted index within rows - does not actually insert
+def find_sorted_position(rows: list[list[str]], new_row: list[str]) -> int:
+    key_index = format_vars.COLUMN_MAP.index(SORT_BY) + 1
+    index = 0
+
+    while index < len(rows) and new_row[key_index] > rows[index][key_index]:
+        index += 1
+
+    return index
+
 # finds the index of a new spreadsheet element
 # in a sorted spreadsheet and inserts a new row at the proper place
 def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: list[list[str]]):
-    key_index = format_vars.COLUMN_MAP.index(SORT_BY) + 1
-
     rows_cpy = copy.deepcopy(rows)
     requests = []
 
     for new_row in new_rows:
         row = new_row[0]
-
-        index = 0
-        while index < len(rows_cpy) and row[key_index] > rows_cpy[index][key_index]:
-            index += 1
+        index = find_sorted_position(rows_cpy, row)
 
         # insert a new row at index + 2 (+1 for 1-indexing, +1 to account for the header)
         inherit = True if index != 0 else False
@@ -128,7 +133,6 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
     if not delete_assets:
         return
 
-    # TODO row numbers are off when we remove one??? 
     for pair in delete_assets:
         api_requests.append (
             {
@@ -136,7 +140,7 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
                     "range" : {
                         "sheetId" : MAIN_SHEET_ID,
                         "dimension" : "ROWS",
-                        "startIndex" : pair[1] + 1, # semi-frustratingly spreadsheets are '1-indexed'
+                        "startIndex" : pair[1] + 1,
                         "endIndex" : pair[1] + 2,
                     }
                 }
@@ -200,6 +204,8 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
     # the nested comprehension is a bit gross - maybe I should find a cleaner way
     yaml_data = {asset.fqdn : [flatten_dict(asset.asset)[key] for key in format_vars.COLUMN_MAP] for asset in assets}
     row_nums = {rows[i][0] : i + 2 for i in range(len(rows))}
+
+    move_reqs = []
     new_data = []
 
     # update the sheet with per-cell granularity
@@ -208,15 +214,41 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
             # something changed in this file - update the sheet
             # note: if a hostname changes the script will process it as
             # a deletion and addition, not a change
-            if not row[i] == yaml_data[row[0]][i - 1]:
+            # -- TODO: is this okay?
+            if row[i] != yaml_data[row[0]][i - 1]:
                 # track down what cell the change will occur in
+                # + 1 to account for the hostname
+                if i == format_vars.COLUMN_MAP.index(SORT_BY) + 1:
+                    # if we modify the field on which the sorted is based
+                    # we may need to move the row
+                    yaml_row = copy.deepcopy(yaml_data[row[0]])
+                    yaml_row.insert(0, row[0])
+                    new_index = find_sorted_position(rows, yaml_row)
+
+                    print(row_nums[row[0]])
+                    print(new_index)
+
+                    # create a new MoveDimensionRequest
+                    move_reqs.append({
+                        "moveDimension" : {
+                            "source" : {
+                                "sheetId" : MAIN_SHEET_ID,
+                                "dimension" : "ROWS",
+                                "startIndex" : row_nums[row[0]] - 1, # rows are 0-indexed in API call, and 1-indexed in range strings
+                                "endIndex" : row_nums[row[0]],
+                            },
+
+                            "destinationIndex" : new_index + 1,
+                        }
+                    })
+
                 range_str = f"{format_vars.MAIN_SHEET_NAME}!{chr(ord('A') + i)}{row_nums[row[0]]}"
 
                 # google sheets needs it in a 2D list
                 to_append = [ [yaml_data[row[0]][i - 1] ] ]
                 new_data.append({"range" : range_str, "values" : to_append})
 
-    # make the API request
+    # make the input API request
     body = {"valueInputOption" : "RAW", "data" : new_data}
 
     request = (
@@ -226,6 +258,17 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
     )
 
     request.execute()
+
+    # make the move API request
+    if move_reqs:
+        print('got here')
+        body = {"requests" : move_reqs}
+        move_req = (
+            sheet_srv.spreadsheets()
+            .batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body)
+        )
+
+        move_req.execute()
 
 def main():
     # read asset data from each YAML file in given dir
