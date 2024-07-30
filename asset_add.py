@@ -11,11 +11,13 @@ import sys
 import os
 import argparse
 import subprocess
+from datetime import datetime
 
 sys.path.append(os.path.abspath("scripts/csv_2_yaml/"))
 sys.path.append(os.path.abspath("scripts/shared/"))
 
 import yaml_io
+import dict_utils
 import csv2yaml
 
 # TODO move this into the config
@@ -42,6 +44,7 @@ def ingest_file(path: str):
     return newpath
 
 # TODO make a column map in the config
+# or assume a certain order??
 def ingest_csv(path: str):
     # convert the CSV file into Asset objects
     assets = csv2yaml.csv_read(path, False)
@@ -50,8 +53,70 @@ def ingest_csv(path: str):
     names = csv2yaml.gen_yaml(assets, YAML_DIR)
     return [f"{name}.yaml" for name in names]
 
-def ingest_interactive():
-    print("interactive")
+def ingest_interactive(domain: str):
+    # list of generated files
+    filenames = []
+    another = 'y'
+
+    while another  == 'y':
+        print("Interactive asset entry: for each option you may press ENTER to skip")
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+
+        # hostname is the one parameter that MUST be entered
+        hostname = ""
+        while not hostname:
+            hostname = input("Enter a hostname: ")
+
+        # create an asset object
+        asset = yaml_io.Asset(fqdn=f"{hostname}.{domain}")
+
+        # yaml tags to skip in interative mode (ex. swap reason should be blank to start with)
+        skip = [
+            "hardware.swap_reason",
+        ]
+
+        # interactive prompts
+        condo_asked = False
+        flat = dict_utils.flatten_dict(asset.asset)
+        for key in flat.keys():
+            value = ""
+
+            # some special cases to make entry easier
+            if key == "acquisition.date":
+                value = input(f"Enter {key} (or enter 'today'): ")
+                if value == "today":
+                    today = datetime.now()
+                    value = today.strftime("%Y-%m-%d")
+            elif key == "acquisition.fabrication":
+                opt = input(f"Does this asset belong to a fabrication? (y/n): ")
+                value = True if opt == 'y' else False
+            elif key in skip:
+                continue
+            else:
+                if "condo" in key and not condo_asked:
+                    opt = input("Is this asset a condo sled? (y/n): ")
+                    condo_asked = True
+                    if opt != 'y':
+                        skip.append("hardware.condo_chassis.identifier")
+                        skip.append("hardware.condo_chassis.model")
+                        continue
+
+                value = input(f"Enter {key} (or press ENTER to skip): ")
+
+            flat[key] = value
+
+        # write the data to a file
+        asset.asset = dict_utils.unflatten_dict(flat)
+
+        filepath = f"{YAML_DIR}{asset.fqdn}.yaml"
+        yaml_io.write_yaml(asset, filepath)
+        filenames.append(filepath)
+
+        # prompt the user for another asset
+        another = input("Enter another asset?: (y/n)")
+        print()
+
+        return filenames
 
 def setup_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -106,7 +171,7 @@ def main():
         git_add_commit_many(filenames)
 
     elif args.interactive:
-        filenames = ingest_interactive()
+        filenames = ingest_interactive(args.domain)
         git_add_commit_many(filenames)
 
     # git push
