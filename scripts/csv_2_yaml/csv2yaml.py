@@ -34,42 +34,7 @@ class Asset:
     # converts an array of strings (row from the csv file) to a dictionary
     def __init__(self, csv_row: list[str], sites: list):
         # each asset is represented with a nested dictionary
-        self.asset = {
-            'acquisition' : {
-                'po'            : "",
-                'date'          : "",
-                'reason'        : "",
-                'owner'         : "",
-                'fabrication'   : False,
-            },
-
-            'hardware' : {
-                'model'         : "",
-                'serial_number' : "",
-                'service_tag'   : "",
-                'purpose'       : "",
-                'swap_reason'   : "",
-                'notes'         : "",
-
-                'condo_chassis' : {
-                    'identifier'    : "",
-                    'model'         : "",
-                },
-            },
-
-            'location' : {
-                'rack'      : "",
-                'elevation' : "",
-                'room'      : "",
-                'building'  : "",
-            },
-
-            'tags' : {
-                'csl'       : "",
-                'uw'        : "",
-                'morgridge' : "",
-            },
-        }
+        self.asset = yaml_io.ASSET_TEMPLATE.copy()
 
         self.fqdn = csv_row[self.key_map['hostname']]
         if csv_row[self.key_map['domain']] != '':

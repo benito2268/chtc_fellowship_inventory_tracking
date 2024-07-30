@@ -14,16 +14,61 @@ class quoted(str):
 def quote_representer(dumper, data):
     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
 
+
+ASSET_TEMPLATE = {
+    'acquisition' : {
+        'po'            : "",
+        'date'          : "",
+        'reason'        : "",
+        'owner'         : "",
+        'fabrication'   : False,
+    },
+
+    'hardware' : {
+        'model'         : "",
+        'serial_number' : "",
+        'service_tag'   : "",
+        'purpose'       : "",
+        'swap_reason'   : "",
+        'notes'         : "",
+
+        'condo_chassis' : {
+            'identifier'    : "",
+            'model'         : "",
+        },
+    },
+
+    'location' : {
+        'rack'      : "",
+        'elevation' : "",
+        'room'      : "",
+        'building'  : "",
+    },
+
+    'tags' : {
+        'csl'       : "",
+        'uw'        : "",
+        'morgridge' : "",
+    },
+}
+
+# possible kwargs:
+#   file="filename"
+#   fqdn="fqdn"
 class Asset:
-    def __init__(self, filename: str):
-        with open(filename, 'r') as infile:
-
-            # as far as I can tell safe_load doesn't have any relevant
-            # disadvantages over load() here - maybe it's overkill but might as well
-            self.asset = yaml.safe_load(infile)
-
-        self.filepath = filename
-        self.fqdn = os.path.basename(filename).removesuffix('.yaml')
+    def __init__(self, file="", fqdn=""):
+        if file:
+            with open(file, 'r') as infile:
+                # as far as I can tell safe_load doesn't have any relevant
+                # disadvantages over load() here - maybe it's overkill but might as well
+                self.asset = yaml.safe_load(infile)
+                self.filepath = file
+                self.fqdn = os.path.basename(file).removesuffix('.yaml')
+        elif fqdn:
+            # generate a blank template
+            self.asset = ASSET_TEMPLATE.copy()
+            self.fqdn = fqdn
+            self.filename = f"{self.fqdn}.yaml"
 
     # returns a string (most likly used for comparison)
     # of the assets full location
@@ -85,7 +130,7 @@ def main():
         exit(1)
 
     yaml_dir = sys.argv[1]
-    
+
     assets = read_yaml(yaml_dir)
 
 if __name__ == '__main__':
