@@ -48,6 +48,7 @@ def ingest_csv(path: str) -> list[str]:
 
     # generate the yaml files in the current directory
     names = csv2yaml.gen_yaml(assets, YAML_DIR)
+
     return [f"{name}.yaml" for name in names]
 
 def ingest_interactive(domain: str) -> list[str]:
@@ -114,7 +115,7 @@ def ingest_interactive(domain: str) -> list[str]:
         another = input("Enter another asset?: (y/n)")
         print()
 
-        return filenames
+    return filenames
 
 # returns a list of new files
 def asset_add(args: argparse.Namespace) -> list[str]:
@@ -152,7 +153,7 @@ def asset_rm(args: argparse.Namespace) -> list[str]:
 
 # ================ ASSET UPDATE FUNCTIONS ====================
 
-def asset_update(args: argparse.Namespace):
+def asset_update(args: argparse.Namespace) -> list[str]:
     # read the yaml file
     filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
     asset = yaml_io.Asset(filename)
@@ -171,10 +172,12 @@ def asset_update(args: argparse.Namespace):
     asset.put(args.key, args.value)
     yaml_io.write_yaml(asset, filename)
 
+    return list(filename)
+
 # ================ ASSET MOVE FUNCTIONS ====================
 
 # TODO add non-interactive mode
-def asset_move(args: argparse.Namespace): 
+def asset_move(args: argparse.Namespace) -> list[str]:
     opts = []
     prompts = [
         "Enter a new elevation: ",
@@ -212,9 +215,11 @@ def asset_move(args: argparse.Namespace):
     # write out to the YAML file
     yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
 
+    return list(f"{YAML_DIR}{filename}")
+
 # ================ ASSET SWITCH FUNCTIONS ====================
 
-def asset_switch(args: argparse.Namespace):
+def asset_switch(args: argparse.Namespace) -> list[str]:
     keys = [
         "elevation",
         "rack",
@@ -239,17 +244,23 @@ def asset_switch(args: argparse.Namespace):
     yaml_io.write_yaml(asset1, f"{YAML_DIR}{first}")
     yaml_io.write_yaml(asset2, f"{YAML_DIR}{second}")
 
+    return [first, second]
+
 # ================ ASSET RENAME FUNCTIONS ====================
 
-def asset_rename(args: argparse.Namespace):
-    pass
+def asset_rename(args: argparse.Namespace) -> list[str]:
+    # rename the asset
+    filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
+    newname = f"{YAML_DIR}{args.newname}.{args.domain}.yaml"
+
+    os.rename(filename, newname)
+
+    return list(newname)
 
 # ================ MAIN AND ARGPARSE FUNCTIONS ====================
 
 def setup_args() -> argparse.Namespace:
-    pass
-
-def main():
+    # argparse shenanigans
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(title="subcommands", dest="command")
 
@@ -286,8 +297,12 @@ def main():
     switch_parser.add_argument("switch_with", help="", type=str, action="store")
 
     # asset rename args
+    rename_parser.add_argument("newname", help="the asset's new name", action="store")
 
-    args = parser.parse_args()
+    return parser.parse_args()
+
+def main():
+    args = setup_args()
 
     # map argument names to their corresponding functions
     func_map = {
