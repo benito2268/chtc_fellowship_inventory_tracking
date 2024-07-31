@@ -36,8 +36,7 @@ def ingest_file(path: str) -> str:
 
     # copy the file into the YAML directory
     # from the config fill
-    result = subprocess.run(["cp", path, newpath])
-    chk_subproc(result)
+    shutil.copy(path, newpath)
 
     return newpath
 
