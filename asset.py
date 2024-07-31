@@ -131,7 +131,7 @@ def asset_add(args: argparse.Namespace) -> list[str]:
 
 # ================ ASSET REMOVE FUNCTIONS ====================
 
-# TODO make an interactive mode here
+# TODO make a batch / interactive? mode here
 # returns a list of file names
 def asset_rm(args: argparse.Namespace) -> list[str]:
     filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
@@ -154,7 +154,23 @@ def asset_rm(args: argparse.Namespace) -> list[str]:
 
 
 def asset_update(args: argparse.Namespace):
-    pass
+    # read the yaml file
+    filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
+    asset = yaml_io.Asset(filename)
+
+    # modify the file
+    try:
+        asset.get(args.key)
+    except KeyError:
+        if args.add:
+            print(f"adding new YAML tag {args.key} : {args.value}")
+        else:
+            print(f"YAML tag not found (pass '-a/--add' if you wish to add it to the file)")
+            exit(1)
+
+    # write out to the file
+    asset.put(args.key, args.value)
+    yaml_io.write_yaml(asset, filename)
 
 # ================ ASSET MOVE FUNCTIONS ====================
 
@@ -166,7 +182,7 @@ def asset_move(args: argparse.Namespace):
 
 
 def asset_rename(args: argparse.Namespace):
-    pass
+        pass
 
 # ================ MAIN AND ARGPARSE FUNCTIONS ====================
 
@@ -198,9 +214,12 @@ def main():
     add_group.add_argument("-c", "--csv", help="ingest one or many assets via a CSV file", action="store")
     add_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store_true")
 
-
     # rm asset args
     rm_parser.add_argument("-r", "--reason", help="the reason for decomissioning", type=str, action="store", required=True)
+
+    # update asset args
+    update_parser.add_argument("key", help="the fully qualified YAML key (tag) to modify. ex) 'hardware.model'", action="store")
+    update_parser.add_argument("value", help="the new value to store", action="store")
 
     args = parser.parse_args()
 
