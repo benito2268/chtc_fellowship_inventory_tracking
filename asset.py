@@ -152,7 +152,6 @@ def asset_rm(args: argparse.Namespace) -> list[str]:
 
 # ================ ASSET UPDATE FUNCTIONS ====================
 
-
 def asset_update(args: argparse.Namespace):
     # read the yaml file
     filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
@@ -174,15 +173,76 @@ def asset_update(args: argparse.Namespace):
 
 # ================ ASSET MOVE FUNCTIONS ====================
 
+# TODO add non-interactive mode
+def asset_move(args: argparse.Namespace): 
+    opts = []
+    prompts = [
+        "Enter a new elevation: ",
+        "Enter a new rack: (press ENTER to keep prev.) ",
+        "Enter a new room: (press ENTER to keep prev.) ",
+        "Enter a new building: (press ENTER to keep prev.) ",
+    ]
 
-def asset_move(args: argparse.Namespace):
-    pass
+    keys = [
+        "elevation",
+        "rack",
+        "room",
+        "building",
+    ]
+
+    # interactive move
+    for prompt in prompts:
+        opts.append(input(prompt))
+
+
+    filename = f"{args.name}.{args.domain}.yaml"
+    asset = yaml_io.Asset(filename)
+
+    # for the commit message
+    new_locs = []
+
+    for i in range(len(opts)):
+        if opts[i] != "":
+            asset.put(f"location.{keys[i]}", opts[i])
+            new_locs.append(f"{keys[i]}: {opts[i]}")
+        else:
+            old_loc = asset.get(f"location.{keys[i]}")
+            new_locs.append(f"{keys[i]}: {old_loc}")
+
+    # write out to the YAML file
+    yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
+
+# ================ ASSET SWITCH FUNCTIONS ====================
+
+def asset_switch(args: argparse.Namespace):
+    keys = [
+        "elevation",
+        "rack",
+        "room",
+        "building",
+    ]
+
+    # switch locations
+    first = f"{args.name}.{args.domain}.yaml"
+    second = f"{args.switch_with}.{args.domain}.yaml"
+
+    asset1 = yaml_io.Asset(first)
+    asset2 = yaml_io.Asset(second)
+
+    # swap the keys
+    for key in keys:
+        temp = asset1.get(f"location.{key}")
+        asset1.put(f"location.{key}", asset2.get(f"location.{key}"))
+        asset2.put(f"location.{key}", temp)
+
+    # write out both to YAML
+    yaml_io.write_yaml(asset1, f"{YAML_DIR}{first}")
+    yaml_io.write_yaml(asset2, f"{YAML_DIR}{second}")
 
 # ================ ASSET RENAME FUNCTIONS ====================
 
-
 def asset_rename(args: argparse.Namespace):
-        pass
+    pass
 
 # ================ MAIN AND ARGPARSE FUNCTIONS ====================
 
@@ -197,10 +257,11 @@ def main():
     add_parser = subparsers.add_parser("add", help="add a new asset")
     rm_parser = subparsers.add_parser("rm", help="decomission an asset")
     move_parser = subparsers.add_parser("move", help="change an asset's location")
+    switch_parser = subparsers.add_parser("switch", help="switch the location of two assets")
     rename_parser = subparsers.add_parser("rename", help="rename an asset")
     update_parser = subparsers.add_parser("update", help="change an asset's data")
 
-    subp_list = [add_parser, rm_parser, move_parser, rename_parser, update_parser]
+    subp_list = [add_parser, rm_parser, move_parser, rename_parser, update_parser, switch_parser]
 
     # add common args to each subparser
     for subparser in subp_list:
@@ -221,6 +282,11 @@ def main():
     update_parser.add_argument("key", help="the fully qualified YAML key (tag) to modify. ex) 'hardware.model'", action="store")
     update_parser.add_argument("value", help="the new value to store", action="store")
 
+    # asset switch args
+    switch_parser.add_argument("switch_with", help="", type=str, action="store")
+
+    # asset rename args
+
     args = parser.parse_args()
 
     # map argument names to their corresponding functions
@@ -229,6 +295,7 @@ def main():
         "rm"  : asset_rm,
         "update" : asset_update,
         "move" : asset_move,
+        "switch" : asset_switch,
         "rename" : asset_rename,
     }
 
