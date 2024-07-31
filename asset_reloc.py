@@ -103,7 +103,6 @@ def main():
 
         for i in range(len(opts)):
             if opts[i] != "":
-                print(opts[i])
                 asset.put(f"location.{keys[i]}", opts[i])
                 new_locs.append(f"{keys[i]}: {opts[i]}")
             else:
