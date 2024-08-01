@@ -26,7 +26,7 @@ YAML_DIR = "./"
 SWAP_DIR = "./swapped"
 
 # declare a namedtuple to hold git data (specifically changed files and a commit message)
-GitData = namedtuple("GitData", [ "files", "commit_msg"])
+GitData = namedtuple("GitData", [ "files", "commit_msg", "commit_body"])
 
 # ================ ASSET ADD FUNCTIONS ====================
 
@@ -131,8 +131,8 @@ def asset_add(args: argparse.Namespace) -> GitData:
     elif args.file:
         filenames = ingest_file(args.file)
 
-    # TODO figure out long commit messages
-    return GitData(filenames, f"added {len(filenames)} new assets")
+    # format strings don't allow the '\n' char :(
+    return GitData(filenames, f"added {len(filenames)} new assets", "added\n" + "\n".join(filenames))
 
 # ================ ASSET REMOVE FUNCTIONS ====================
 
@@ -153,7 +153,7 @@ def asset_rm(args: argparse.Namespace) -> GitData:
     shutil.move(newname, SWAP_DIR)
 
     now = datetime.now()
-    return GitData([filename], f"decomissioned {filename} on {now.strftime('%Y-%m-%d')}")
+    return GitData([filename], f"decomissioned {filename} on {now.strftime('%Y-%m-%d')}", "")
 
 # ================ ASSET UPDATE FUNCTIONS ====================
 
@@ -176,7 +176,7 @@ def asset_update(args: argparse.Namespace) -> GitData:
     asset.put(args.key, args.value)
     yaml_io.write_yaml(asset, filename)
 
-    return GitData([filename], f"updated {args.key} to {args.value} in {filename}")
+    return GitData([filename], f"updated {args.key} to {args.value} in {filename}", "")
 
 # ================ ASSET MOVE FUNCTIONS ====================
 
@@ -219,7 +219,7 @@ def asset_move(args: argparse.Namespace) -> GitData:
     # write out to the YAML file
     yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
 
-    return GitData([filename], f"moved {args.name} to {', '.join(new_locs)}")
+    return GitData([filename], f"moved {args.name} to {', '.join(new_locs)}", "")
 
 # ================ ASSET SWITCH FUNCTIONS ====================
 
@@ -248,7 +248,7 @@ def asset_switch(args: argparse.Namespace) -> GitData:
     yaml_io.write_yaml(asset1, f"{YAML_DIR}{first}")
     yaml_io.write_yaml(asset2, f"{YAML_DIR}{second}")
 
-    return GitData([first, second], f"swapped the location of {args.name} and {args.swap_with}")
+    return GitData([first, second], f"swapped the location of {args.name} and {args.swap_with}", "")
 
 # ================ ASSET RENAME FUNCTIONS ====================
 
@@ -259,7 +259,7 @@ def asset_rename(args: argparse.Namespace) -> GitData:
 
     os.rename(filename, newname)
 
-    return GitData([newname, filename], f"renamed {args.name} to {args.newname}")
+    return GitData([newname, filename], f"renamed {args.name} to {args.newname}", "")
 
 # ================ MAIN AND ARGPARSE FUNCTIONS ====================
 
@@ -339,6 +339,7 @@ def main():
                 print(file)
 
         print()
+        exit(1) # leave it to the user to fix conflicts?
 
     # if the repo is clean pull from origin main
     # TODO I think these can generate exceptions
@@ -351,7 +352,7 @@ def main():
 
     # create a commit and push
     repo.git.add(data.files)
-    repo.git.commit("-m", data.commit_msg)
+    repo.git.commit("-m", data.commit_msg, "-m", data.commit_body)
 
     origin.push()
 
