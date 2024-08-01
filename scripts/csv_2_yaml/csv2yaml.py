@@ -32,7 +32,7 @@ INGEST_KEY_MAP = {
 
 class Asset:
     # converts an array of strings (row from the csv file) to a dictionary
-    def __init__(self, csv_row: list[str], sites: list, key_map=INGEST_KEY_MAP):
+    def __init__(self, csv_row: list[str], sites: list, key_map: dict, do_heuristics: bool):
         self.key_map = key_map
 
         # each asset is represented with a nested dictionary
@@ -53,6 +53,10 @@ class Asset:
             flat[key] = fetched
 
         self.asset = dict_utils.unflatten_dict(flat)
+
+        # some csv reads may want to skip heuristics
+        if not do_heuristics:
+            return
 
         # call any heuristics here to help extract misc. data
         notes = csv_row[self.key_map['hardware.notes']]
@@ -157,7 +161,7 @@ def find_site(hostname, file_dict):
 # 
 # params: csv_name - name of the input csv file
 # returns: a list of Asset objects as read from the file
-def csv_read(csv_name: str, sites_from_puppet: bool):
+def csv_read(csv_name: str, sites_from_puppet: bool, do_heuristics: bool,  key_map: dict =INGEST_KEY_MAP) -> list[Asset]:
     with open(csv_name, newline="") as csvfile:
         # I think the csv module considers this the "excel dialect"
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -174,7 +178,7 @@ def csv_read(csv_name: str, sites_from_puppet: bool):
         next(reader)
 
         for row in reader:
-            assets.append(Asset(row, sites))
+            assets.append(Asset(row, sites, key_map, do_heuristics))
 
         return assets
 
@@ -223,7 +227,7 @@ def main():
 
     csv_name = sys.argv[1]
     output_path = sys.argv[2]
-    assets = csv_read(csv_name, True)
+    assets = csv_read(csv_name, True, True)
 
     # for quality of life's sake
     if output_path[-1] != '/':
