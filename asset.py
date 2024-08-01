@@ -11,6 +11,7 @@ import os
 import argparse
 import shutil
 import git
+import csv
 from collections import namedtuple
 from datetime import datetime
 
@@ -23,10 +24,49 @@ import csv2yaml
 
 # TODO move this into the config
 YAML_DIR = "./"
-SWAP_DIR = "./swapped"
+SWAP_DIR = "./swapped/"
 
 # declare a namedtuple to hold git data (specifically changed files and a commit message)
 GitData = namedtuple("GitData", [ "files", "commit_msg", "commit_body"])
+
+# tuple to handle swapped files for Git
+# Git counts a move as an add + delete - we need to add both the new and old file names
+MovedFiles = namedtuple("MovedFiles", ["added", "removed"])
+
+# ================ CSV HELPER FUNCTIONS ====================
+
+# returns a list of files it modified
+def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[str]:
+    rows = []
+    filenames = []
+
+    with open(path, newline="") as csvfile:
+        reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+
+        for row in reader:
+            filename = f"{YAML_DIR}{row[key_map['hostname']]}.{row[key_map['domain']]}.yaml"
+            filenames.append(filename)
+
+            print(f"got here {filename}")
+
+            if create_files and not os.path.exists(filename):
+                # create a blank yaml file
+                asset = yaml_io.Asset(fqdn=f"{row[key_map['hostname']]}.{row[key_map['domain']]}")
+                yaml_io.write_yaml(asset, filename)
+
+            # load the file
+            # TODO does this work in the constructor?
+            asset = yaml_io.Asset(file=filename)
+
+            # modify the fields
+            for key in key_map:
+                if key != "hostname" and key != "domain":
+                    asset.put(key, row[key_map[key]])
+
+            # write back to the file
+            yaml_io.write_yaml(asset, filename)
+
+    return filenames
 
 # ================ ASSET ADD FUNCTIONS ====================
 
@@ -47,13 +87,23 @@ def ingest_file(path: str) -> str:
 # TODO make a column map in the config
 # or assume a certain order??
 def ingest_csv(path: str) -> list[str]:
-    # convert the CSV file into Asset objects
-    assets = csv2yaml.csv_read(path, False)
+    # key map for imports
+    key_map = {
+        "location.room" : 0,
+        "location.rack" : 1,
+        "location.elevation" : 2,
+        "hostname" : 3,
+        "domain" : 4,
+        "hardware.model" : 5,
+        "hardware.serial_number" : 6,
+        "hardware.service_tag" : 7,
+        "tags.uw" : 8,
+        "hardware.notes" : 9,
+    }
 
-    # generate the yaml files in the current directory
-    names = csv2yaml.gen_yaml(assets, YAML_DIR)
-
-    return [f"{name}.yaml" for name in names]
+    # convert the CSV file into Asset objects - with the create_files option set
+    filenames = modify_from_csv(path, key_map, True)
+    return filenames
 
 def ingest_interactive(hostname: str, domain: str) -> list[str]:
     # list of generated files
@@ -117,18 +167,21 @@ def ingest_interactive(hostname: str, domain: str) -> list[str]:
     return filenames
 
 def asset_add(args: argparse.Namespace) -> GitData:
-    # check for name
-    if not args.name:
-        print("'name' argument is required for interactive mode")
-        exit(1)
-
     filenames = []
 
     if args.interactive:
+        # check for name
+        if not args.name:
+            print("hostname argument is required for interactive mode")
+            exit(1)
         filenames = ingest_interactive(args.name, args.domain)
     elif args.csv:
         filenames = ingest_csv(args.csv)
     elif args.file:
+        # check for name
+        if not args.name:
+            print("hostname argument is required for interactive mode")
+            exit(1)
         filenames = ingest_file(args.file)
 
     # format strings don't allow the '\n' char :(
@@ -136,9 +189,31 @@ def asset_add(args: argparse.Namespace) -> GitData:
 
 # ================ ASSET REMOVE FUNCTIONS ====================
 
-# TODO make a batch / interactive? mode here
-def asset_rm(args: argparse.Namespace) -> GitData:
-    filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
+def remove_batch(path: str) -> MovedFiles:
+    # TODO eventually move this into config?
+    key_map = {
+        "hostname" : 0,
+        "domain"   : 1,
+        "hardware.swap_reason" : 2,
+    }
+
+    # modify the files
+    filenames = modify_from_csv(path, key_map)
+    newpaths = []
+
+    # move files to the swap dir
+    datestr = datetime.now().strftime("%Y-%m-%d")
+    for file in filenames:
+        basename = os.path.basename(file)
+        newpath = f"{SWAP_DIR}{basename.removesuffix('.yaml')}-{datestr}.yaml"
+        newpaths.append(newpath)
+
+        shutil.move(file, newpath)
+
+    return MovedFiles(newpaths, filenames)
+
+def remove_file(args: argparse.Namespace) -> MovedFiles:
+    filename = f"{YAML_DIR}{args.filename}.{args.domain}.yaml"
 
     # set the swap reason
     asset = yaml_io.Asset(filename)
@@ -146,14 +221,32 @@ def asset_rm(args: argparse.Namespace) -> GitData:
     yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
 
     # add the date to the new name and move the file
-    date = datetime.now()
-    newname = f"{os.path.basename(filename.removesuffix('.yaml'))}-{date.strftime('%Y-%m-%d')}.yaml"
+    datestr = datetime.now().strftime('%Y-%m-%d')
+    newname = f"{os.path.basename(filename.removesuffix('.yaml'))}-{datestr}.yaml"
     os.rename(filename, newname)
 
     shutil.move(newname, SWAP_DIR)
 
-    now = datetime.now()
-    return GitData([filename], f"decomissioned {filename} on {now.strftime('%Y-%m-%d')}", "")
+    # need to git add both the new and old file paths
+    return MovedFiles([filename], [newname])
+
+# TODO make a batch mode
+def asset_rm(args: argparse.Namespace) -> GitData:
+    moved_files = None
+
+    if args.csv:
+        # remove in batch move
+        moved_files = remove_batch(args.csv)
+    else:
+        # remove a single file
+        # check for a name
+        if not args.name:
+            print("hostname argument is required for non-batch remove")
+            exit(1)
+        moved_files = remove_file(args)
+
+    datestr = datetime.now().strftime('%Y-%m-%d')
+    return GitData(moved_files.added + moved_files.removed, f"decomissioned {len(moved_files.removed)} assests on {datestr}", "swapped\n" + "\n".join(moved_files.removed))
 
 # ================ ASSET UPDATE FUNCTIONS ====================
 
@@ -298,7 +391,8 @@ def setup_args() -> argparse.Namespace:
     add_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store_true")
 
     # rm asset args
-    rm_parser.add_argument("-r", "--reason", help="the reason for decomissioning", type=str, action="store", required=True)
+    rm_parser.add_argument("-r", "--reason", help="the reason for decomissioning", type=str, action="store")
+    rm_parser.add_argument("-c", "--csv", help="remove assets in batch mode from a CSV file", type=str, action="store")
 
     # update asset args
     update_parser.add_argument("key", help="the fully qualified YAML key (tag) to modify. ex) 'hardware.model'", action="store")
