@@ -11,6 +11,7 @@ import os
 import argparse
 import shutil
 import git
+from collections import namedtuple
 from datetime import datetime
 
 sys.path.append(os.path.abspath("scripts/csv_2_yaml/"))
@@ -23,6 +24,9 @@ import csv2yaml
 # TODO move this into the config
 YAML_DIR = "./"
 SWAP_DIR = "./swapped"
+
+# declare a namedtuple to hold git data (specifically changed files and a commit message)
+GitData = namedtuple("GitData", [ "files", "commit_msg"])
 
 # ================ ASSET ADD FUNCTIONS ====================
 
@@ -117,8 +121,7 @@ def ingest_interactive(domain: str) -> list[str]:
 
     return filenames
 
-# returns a list of new files
-def asset_add(args: argparse.Namespace) -> list[str]:
+def asset_add(args: argparse.Namespace) -> GitData:
     filenames = []
 
     if args.interactive:
@@ -128,13 +131,13 @@ def asset_add(args: argparse.Namespace) -> list[str]:
     elif args.file:
         filenames = ingest_file(args.file)
 
-    return filenames
+    # TODO figure out long commit messages
+    return GitData(filenames, f"added {len(filenames)} new assets")
 
 # ================ ASSET REMOVE FUNCTIONS ====================
 
 # TODO make a batch / interactive? mode here
-# returns a list of file names
-def asset_rm(args: argparse.Namespace) -> list[str]:
+def asset_rm(args: argparse.Namespace) -> GitData:
     filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
 
     # set the swap reason
@@ -149,11 +152,12 @@ def asset_rm(args: argparse.Namespace) -> list[str]:
 
     shutil.move(newname, SWAP_DIR)
 
-    return list(filename)
+    now = datetime.now()
+    return GitData([filename], f"decomissioned {filename} on {now.strftime('%Y-%m-%d')}")
 
 # ================ ASSET UPDATE FUNCTIONS ====================
 
-def asset_update(args: argparse.Namespace) -> list[str]:
+def asset_update(args: argparse.Namespace) -> GitData:
     # read the yaml file
     filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
     asset = yaml_io.Asset(filename)
@@ -172,12 +176,12 @@ def asset_update(args: argparse.Namespace) -> list[str]:
     asset.put(args.key, args.value)
     yaml_io.write_yaml(asset, filename)
 
-    return list(filename)
+    return GitData([filename], f"updated {args.key} to {args.value} in {filename}")
 
 # ================ ASSET MOVE FUNCTIONS ====================
 
 # TODO add non-interactive mode
-def asset_move(args: argparse.Namespace) -> list[str]:
+def asset_move(args: argparse.Namespace) -> GitData:
     opts = []
     prompts = [
         "Enter a new elevation: ",
@@ -215,11 +219,11 @@ def asset_move(args: argparse.Namespace) -> list[str]:
     # write out to the YAML file
     yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
 
-    return list(f"{YAML_DIR}{filename}")
+    return GitData([filename], f"moved {args.name} to {', '.join(new_locs)}")
 
 # ================ ASSET SWITCH FUNCTIONS ====================
 
-def asset_switch(args: argparse.Namespace) -> list[str]:
+def asset_switch(args: argparse.Namespace) -> GitData:
     keys = [
         "elevation",
         "rack",
@@ -244,18 +248,18 @@ def asset_switch(args: argparse.Namespace) -> list[str]:
     yaml_io.write_yaml(asset1, f"{YAML_DIR}{first}")
     yaml_io.write_yaml(asset2, f"{YAML_DIR}{second}")
 
-    return [first, second]
+    return GitData([first, second], f"swapped the location of {args.name} and {args.swap_with}")
 
 # ================ ASSET RENAME FUNCTIONS ====================
 
-def asset_rename(args: argparse.Namespace) -> list[str]:
+def asset_rename(args: argparse.Namespace) -> GitData:
     # rename the asset
     filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
     newname = f"{YAML_DIR}{args.newname}.{args.domain}.yaml"
 
     os.rename(filename, newname)
 
-    return list(newname)
+    return GitData([newname, filename], f"renamed {args.name} to {args.newname}")
 
 # ================ MAIN AND ARGPARSE FUNCTIONS ====================
 
@@ -314,8 +318,42 @@ def main():
         "rename" : asset_rename,
     }
 
+    # setup git
+    # tell GitPython that that .git/ is in the current working dir
+    repo = git.Repo(os.path.abspath("./"))
+
+    # check if the repo is clean
+    if repo.is_dirty():
+        print()
+        print("git error: working tree not clean! There are untracked changes: ")
+        print("----------------------------------------------------------------")
+        for file in repo.index.diff(None):
+            print(file.a_path)
+
+        print()
+
+        if repo.untracked_files:
+            print("untracked files: ")
+            print("-----------------")
+            for file in repo.untracked_files:
+                print(file)
+
+        print()
+
+    # if the repo is clean pull from origin main
+    # TODO I think these can generate exceptions
+    origin = repo.remote(name="origin")
+    origin.pull()
+
     # call the appropriate function
-    func_map[args.command](args)
+    # each returns a commit message describing what it did 
+    data = func_map[args.command](args)
+
+    # create a commit and push
+    repo.git.add(data.files)
+    repo.git.commit("-m", data.commit_msg)
+
+    origin.push()
 
 if __name__ == "__main__":
     main()
