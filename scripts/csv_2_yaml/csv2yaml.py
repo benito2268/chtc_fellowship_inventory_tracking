@@ -12,27 +12,29 @@ import dict_utils
 # if site data is supplied in the CSV - this is not used
 PUPPET_SITE_PATH = "../../puppet/puppet_data/site_tier_0/"
 
-class Asset:
-    # a shared (among all Assets) dictionary that maps YAML/dict key names
-    # to their corresponding column number in the spreadsheet
-    # not all tags are mapped because not all come directly from the spreadsheet
-    key_map = {
-        'location.rack'                     : 1,
-        'location.elevation'                : 2,
-        'hostname'                          : 3,
-        'domain'                            : 4,
-        'hardware.model'                    : 5,
-        'hardware.serial_number'            : 6,
-        'hardware.condo_chassis.identifier' : 7,
-        'hardware.service_tag'              : 8,
-        'tags.uw'                           : 9,
-        'tags.csl'                          : 10,
-        'tags.morgridge'                    : 11,
-        'hardware.notes'                    : 12,
-    }
+# default map for spreadsheet columns (order of old spreasheet)
+# to their corresponding column number in the spreadsheet
+# not all tags are mapped because not all come directly from the spreadsheet
+INGEST_KEY_MAP = {
+    'location.rack'                     : 1,
+    'location.elevation'                : 2,
+    'hostname'                          : 3,
+    'domain'                            : 4,
+    'hardware.model'                    : 5,
+    'hardware.serial_number'            : 6,
+    'hardware.condo_chassis.identifier' : 7,
+    'hardware.service_tag'              : 8,
+    'tags.uw'                           : 9,
+    'tags.csl'                          : 10,
+    'tags.morgridge'                    : 11,
+    'hardware.notes'                    : 12,
+}
 
+class Asset:
     # converts an array of strings (row from the csv file) to a dictionary
-    def __init__(self, csv_row: list[str], sites: list):
+    def __init__(self, csv_row: list[str], sites: list, key_map=INGEST_KEY_MAP):
+        self.key_map = key_map
+
         # each asset is represented with a nested dictionary
         self.asset = yaml_io.ASSET_TEMPLATE.copy()
 
