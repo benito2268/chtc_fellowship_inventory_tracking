@@ -55,7 +55,7 @@ def ingest_csv(path: str) -> list[str]:
 
     return [f"{name}.yaml" for name in names]
 
-def ingest_interactive(domain: str) -> list[str]:
+def ingest_interactive(hostname: str, domain: str) -> list[str]:
     # list of generated files
     filenames = []
     another = 'y'
@@ -64,11 +64,6 @@ def ingest_interactive(domain: str) -> list[str]:
         print("Interactive asset entry: for each option you may press ENTER to skip")
         print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         print()
-
-        # hostname is the one parameter that MUST be entered
-        hostname = ""
-        while not hostname:
-            hostname = input("Enter a hostname: ")
 
         # create an asset object
         asset = yaml_io.Asset(fqdn=f"{hostname}.{domain}")
@@ -122,10 +117,15 @@ def ingest_interactive(domain: str) -> list[str]:
     return filenames
 
 def asset_add(args: argparse.Namespace) -> GitData:
+    # check for name
+    if not args.name:
+        print("'name' argument is required for interactive mode")
+        exit(1)
+
     filenames = []
 
     if args.interactive:
-        filenames = ingest_interactive(args.domain)
+        filenames = ingest_interactive(args.name, args.domain)
     elif args.csv:
         filenames = ingest_csv(args.csv)
     elif args.file:
@@ -276,11 +276,18 @@ def setup_args() -> argparse.Namespace:
     rename_parser = subparsers.add_parser("rename", help="rename an asset")
     update_parser = subparsers.add_parser("update", help="change an asset's data")
 
-    subp_list = [add_parser, rm_parser, move_parser, rename_parser, update_parser, switch_parser]
+    no_batch = [rename_parser, switch_parser]
+    has_batch = [add_parser, rm_parser, move_parser, update_parser]
 
     # add common args to each subparser
-    for subparser in subp_list:
-        subparser.add_argument("name", help="the asset's hostname", type=str, action="store")
+    combined = has_batch + no_batch
+    for subparser in combined:
+        # name is absolutly required with commands that don't have a batch mode
+        if subparser in no_batch:
+            subparser.add_argument("name", help="the asset's hostname", type=str, action="store")
+        else:
+            subparser.add_argument("name", nargs="?", help="the asset's hostname. NOT required in batch mode!", type=str, action="store")
+
         subparser.add_argument("-d", "--domain", help="defaults to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
 
     # add unique args to each subparser
@@ -339,7 +346,7 @@ def main():
                 print(file)
 
         print()
-        exit(1) # leave it to the user to fix conflicts?
+        # exit(1) # leave it to the user to fix conflicts?
 
     # if the repo is clean pull from origin main
     # TODO I think these can generate exceptions
