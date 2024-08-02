@@ -102,22 +102,9 @@ def ingest_file(path: str) -> str:
 
     return newpath
 
-# TODO make a column map in the config
-# or assume a certain order??
 def ingest_csv(path: str) -> list[str]:
     # key map for imports
-    key_map = {
-        "location.room" : 0,
-        "location.rack" : 1,
-        "location.elevation" : 2,
-        "hostname" : 3,
-        "domain" : 4,
-        "hardware.model" : 5,
-        "hardware.serial_number" : 6,
-        "hardware.service_tag" : 7,
-        "tags.uw" : 8,
-        "hardware.notes" : 9,
-    }
+    key_map = get_column_map(path)
 
     # convert the CSV file into Asset objects - with the create_files option set
     filenames = modify_from_csv(path, key_map, True)
@@ -220,12 +207,7 @@ def asset_add(args: argparse.Namespace) -> GitData:
 # ================ ASSET REMOVE FUNCTIONS ====================
 
 def remove_batch(path: str) -> MovedFiles:
-    # TODO eventually move this into config?
-    key_map = {
-        "hostname" : 0,
-        "domain"   : 1,
-        "hardware.swap_reason" : 2,
-    }
+    key_map = get_column_map(path)
 
     # modify the files
     filenames = modify_from_csv(path, key_map)
@@ -260,7 +242,6 @@ def remove_file(args: argparse.Namespace) -> MovedFiles:
     # need to git add both the new and old file paths
     return MovedFiles([filename], [newname])
 
-# TODO make a batch mode
 def asset_rm(args: argparse.Namespace) -> GitData:
     moved_files = None
 
@@ -360,18 +341,15 @@ def asset_update(args: argparse.Namespace) -> GitData:
     elif args.interactive:
         filenames = update_interactive(args)
 
+    # TODO more info in this commit message
     return GitData(filenames, f"updated {len(filenames)} files", "updated \n" + "\n".join(filenames))
 
 # ================ ASSET MOVE FUNCTIONS ====================
 
-# TODO add non-interactive mode
-def move_file():
+def move_file(args: argparse.Namespace) -> list[str]:
     pass
 
-def move_interactive():
-    pass
-
-def asset_move(args: argparse.Namespace) -> GitData:
+def move_interactive(args: argparse.Namespace) -> list[str]:
     opts = []
     prompts = [
         "Enter a new elevation: ",
@@ -387,29 +365,55 @@ def asset_move(args: argparse.Namespace) -> GitData:
         "building",
     ]
 
+    filenames = []
+    first = True
+
     # interactive move
     for prompt in prompts:
         opts.append(input(prompt))
 
+    name = args.name
+    domain = args.domain
 
-    filename = f"{args.name}.{args.domain}.yaml"
-    asset = yaml_io.Asset(filename)
+    while True:
+        if not first:
+            name = input("Enter a hostname: ")
+            d = input("Enter a domain: (or press ENTER for 'chtc.wisc.edu) ")
+            domain = d if d != "" else "chtc.wisc.edu"
 
-    # for the commit message
-    new_locs = []
+        filename = f"{YAML_DIR}{name}.{domain}.yaml"
+        asset = yaml_io.Asset(filename)
+        filenames.append(filename)
 
-    for i in range(len(opts)):
-        if opts[i] != "":
-            asset.put(f"location.{keys[i]}", opts[i])
-            new_locs.append(f"{keys[i]}: {opts[i]}")
-        else:
-            old_loc = asset.get(f"location.{keys[i]}")
-            new_locs.append(f"{keys[i]}: {old_loc}")
+        # for the commit message
+        new_locs = []
 
-    # write out to the YAML file
-    yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
+        for i in range(len(opts)):
+            if opts[i] != "":
+                asset.put(f"location.{keys[i]}", opts[i])
+                new_locs.append(f"{keys[i]}: {opts[i]}")
+            else:
+                old_loc = asset.get(f"location.{keys[i]}")
+                new_locs.append(f"{keys[i]}: {old_loc}")
 
-    return GitData([filename], f"moved {args.name} to {', '.join(new_locs)}", "")
+        # write out update YAML file
+        yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
+
+        # ask if user wants to move anothe asset
+        if not input("Move another asset? (y/n)? "):
+            break
+
+    return filenames
+
+def asset_move(args: argparse.Namespace) -> GitData:
+    # TODO change this!
+    if args.file:
+        filenames = move_file(args)
+    elif args.interactive:
+        filenames = move_interactive(args)
+
+    # TODO include more info in this message
+    return GitData(filenames, f"moved {len(filenames)} assets", "")
 
 # ================ ASSET SWITCH FUNCTIONS ====================
 
