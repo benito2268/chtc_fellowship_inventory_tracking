@@ -9,7 +9,7 @@ scripts/sheets/ben_testing/
 *.swp
 *.json
 *test/
-*test.py
+*test.*
 spreadsheet_id.txt
 empty_trash.py
 config.yaml

@@ -35,6 +35,22 @@ MovedFiles = namedtuple("MovedFiles", ["added", "removed"])
 
 # ================ CSV HELPER FUNCTIONS ====================
 
+# reads yaml tags out of the first row of the CSV and generates a column map
+def get_column_map(csv_path: str) -> dict:
+    col_map = {}
+
+    with open(csv_path, newline="") as csvfile:
+        reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+
+        # read the first line
+        header = next(reader)
+
+        # parse it into a map
+        for i in range(len(header)):
+            col_map[header[i].strip()] = i
+
+    return col_map
+
 # returns a list of files it modified
 def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[str]:
     rows = []
@@ -43,11 +59,13 @@ def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[
     with open(path, newline="") as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
+        # skip header row?
+        next(reader)
+
         for row in reader:
+            print(row)
             filename = f"{YAML_DIR}{row[key_map['hostname']]}.{row[key_map['domain']]}.yaml"
             filenames.append(filename)
-
-            print(f"got here {filename}")
 
             if create_files and not os.path.exists(filename):
                 # create a blank yaml file
@@ -108,12 +126,24 @@ def ingest_csv(path: str) -> list[str]:
 def ingest_interactive(hostname: str, domain: str) -> list[str]:
     # list of generated files
     filenames = []
+
+    first = True
     another = 'y'
 
+    print("Interactive asset entry: for each option you may press ENTER to skip")
+    print("====================================================================")
+    print()
+
+    name = args.name
+    domain = args.domain
+
     while another  == 'y':
-        print("Interactive asset entry: for each option you may press ENTER to skip")
-        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        print()
+        if not first:
+            name = input("Enter a hostname: ")
+            d = input("Enter a domain: (or press ENTER for 'chtc.wisc.edu) ")
+            domain = d if d != "" else "chtc.wisc.edu"
+
+        first = False
 
         # create an asset object
         asset = yaml_io.Asset(fqdn=f"{hostname}.{domain}")
@@ -250,11 +280,16 @@ def asset_rm(args: argparse.Namespace) -> GitData:
 
 # ================ ASSET UPDATE FUNCTIONS ====================
 
-def asset_update(args: argparse.Namespace) -> GitData:
-    # read the yaml file
-    filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
-    asset = yaml_io.Asset(filename)
+def update_batch(path: str) -> list[str]:
+    key_map = get_column_map(path)
+    print(key_map)
 
+    filenames = modify_from_csv(path, key_map)
+
+    return filenames
+
+# TODO revisit argparse syntax
+def update_file(args: argparse.Namespace) -> str:
     # modify the file
     try:
         asset.get(args.key)
@@ -262,18 +297,80 @@ def asset_update(args: argparse.Namespace) -> GitData:
         if args.add:
             print(f"adding new YAML tag {args.key} : {args.value}")
         else:
-            print(f"YAML tag not found (pass '-a/--add' if you wish to add it to the file)")
+            print(f"invalid YAML tag: {args.key}")
             exit(1)
 
     # write out to the file
     asset.put(args.key, args.value)
     yaml_io.write_yaml(asset, filename)
 
-    return GitData([filename], f"updated {args.key} to {args.value} in {filename}", "")
+def update_interactive(args: argparse.Namespace) -> str:
+    filenames = []
+    first = True
+
+    # read the yaml file
+    name = args.name
+    domain = args.domain
+
+    print("Interactive asset update:")
+    print("=====================================" )
+
+    while True:
+        if not first:
+            name = input("Enter a hostname")
+            d = input("Enter a domain: (or press ENTER for 'chtc.wisc.edu) ")
+            domain = d if d != "" else "chtc.wisc.edu"
+        first = False
+
+        filename = f"{YAML_DIR}{name}.{domain}.yaml"
+        asset = yaml_io.Asset(filename)
+        filenames.append(filename)
+
+        while True:
+            # get input
+            key = input("Enter a YAML tag to update: ")
+            value = input("Enter a new value: ")
+
+            try:
+                asset.get(key)
+                asset.put(key, value)
+            except KeyError as err:
+                print(f"invalid YAML tag: {key}")
+
+            if input("Update another key? (y/n): ") == 'y':
+                continue
+            else:
+                break
+
+        # write out to the file
+        yaml_io.write_yaml(asset, filename)
+
+        if not input("Update a different asset? (y/n): ") == 'y':
+            break
+
+    return filenames
+
+def asset_update(args: argparse.Namespace) -> GitData:
+    filenames = []
+
+    if args.file:
+        filenames = update_file(args)
+    elif args.csv:
+        filenames = update_batch(args.csv)
+    elif args.interactive:
+        filenames = update_interactive(args)
+
+    return GitData(filenames, f"updated {len(filenames)} files", "updated \n" + "\n".join(filenames))
 
 # ================ ASSET MOVE FUNCTIONS ====================
 
 # TODO add non-interactive mode
+def move_file():
+    pass
+
+def move_interactive():
+    pass
+
 def asset_move(args: argparse.Namespace) -> GitData:
     opts = []
     prompts = [
@@ -369,8 +466,8 @@ def setup_args() -> argparse.Namespace:
     rename_parser = subparsers.add_parser("rename", help="rename an asset")
     update_parser = subparsers.add_parser("update", help="change an asset's data")
 
-    no_batch = [rename_parser, switch_parser]
-    has_batch = [add_parser, rm_parser, move_parser, update_parser]
+    no_batch = [rename_parser, switch_parser, move_parser]
+    has_batch = [add_parser, rm_parser, update_parser]
 
     # add common args to each subparser
     combined = has_batch + no_batch
@@ -395,8 +492,12 @@ def setup_args() -> argparse.Namespace:
     rm_parser.add_argument("-c", "--csv", help="remove assets in batch mode from a CSV file", type=str, action="store")
 
     # update asset args
-    update_parser.add_argument("key", help="the fully qualified YAML key (tag) to modify. ex) 'hardware.model'", action="store")
-    update_parser.add_argument("value", help="the new value to store", action="store")
+    #update_parser.add_argument("key", help="the fully qualified YAML key (tag) to modify. ex) 'hardware.model'", action="store")
+    #update_parser.add_argument("value", help="the new value to store", action="store")
+    update_parser.add_argument("-f", "--file", help="ingest an asset via a YAML file", action="store")
+    update_parser.add_argument("-c", "--csv", help="ingest one or many assets via a CSV file", action="store")
+    update_parser.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store_true")
+
 
     # asset switch args
     switch_parser.add_argument("switch_with", help="", type=str, action="store")
