@@ -88,12 +88,13 @@ def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[
 
 # ================ ASSET ADD FUNCTIONS ====================
 
-def ingest_file(path: str) -> str:
+def ingest_single(name: str, domain: str, file: str) -> str:
     # make sure that cp doesn't fail if path and ./path are the same file
-    newpath = f"{YAML_DIR}{os.path.basename(path)}"
+    path = f"{YAML_DIR}{name}.{domain}.yaml"
+    newpath = f"{YAML_DIR}{os.path.basename(file)}"
 
+    # don't cp a file to a location where it already exists
     if os.path.abspath(path) == os.path.abspath(newpath):
-        print(f"added an asset {path}")
         return
 
     # copy the file into the YAML directory
@@ -102,15 +103,15 @@ def ingest_file(path: str) -> str:
 
     return newpath
 
-def ingest_csv(path: str) -> list[str]:
+def ingest_csv(csv_path: str) -> list[str]:
     # key map for imports
-    key_map = get_column_map(path)
+    key_map = get_column_map(csv_path)
 
     # convert the CSV file into Asset objects - with the create_files option set
-    filenames = modify_from_csv(path, key_map, True)
+    filenames = modify_from_csv(csv_path, key_map, True)
     return filenames
 
-def ingest_interactive(hostname: str, domain: str) -> list[str]:
+def ingest_interactive(name: str, domain: str) -> list[str]:
     # list of generated files
     filenames = []
 
@@ -121,19 +122,19 @@ def ingest_interactive(hostname: str, domain: str) -> list[str]:
     print("====================================================================")
     print()
 
-    name = args.name
-    domain = args.domain
+    curr_name = name
+    curr_domain = domain
 
     while another  == 'y':
         if not first:
-            name = input("Enter a hostname: ")
+            curr_name = input("Enter a hostname: ")
             d = input("Enter a domain: (or press ENTER for 'chtc.wisc.edu) ")
-            domain = d if d != "" else "chtc.wisc.edu"
+            curr_domain = d if d != "" else "chtc.wisc.edu"
 
         first = False
 
         # create an asset object
-        asset = yaml_io.Asset(fqdn=f"{hostname}.{domain}")
+        asset = yaml_io.Asset(fqdn=f"{curr_name}.{curr_domain}")
 
         # yaml tags to skip in interative mode (ex. swap reason should be blank to start with)
         skip = [
@@ -187,30 +188,23 @@ def asset_add(args: argparse.Namespace) -> GitData:
     filenames = []
 
     if args.interactive:
-        # check for name
-        if not args.name:
-            print("hostname argument is required for interactive mode")
-            exit(1)
-        filenames = ingest_interactive(args.name, args.domain)
-    elif args.csv:
-        filenames = ingest_csv(args.csv)
-    elif args.file:
-        # check for name
-        if not args.name:
-            print("hostname argument is required for interactive mode")
-            exit(1)
-        filenames = ingest_file(args.file)
+        filenames = ingest_interactive(args.interactive, args.domain)
+    elif args.batch:
+        filenames = ingest_csv(args.batch)
+    elif args.single:
+        name, file = args.single
+        filenames = ingest_single(name, args.domain, file)
 
     # format strings don't allow the '\n' char :(
     return GitData(filenames, f"added {len(filenames)} new assets", "added\n" + "\n".join(filenames))
 
 # ================ ASSET REMOVE FUNCTIONS ====================
 
-def remove_batch(path: str) -> MovedFiles:
-    key_map = get_column_map(path)
+def remove_batch(csv_path: str) -> MovedFiles:
+    key_map = get_column_map(csv_path)
 
     # modify the files
-    filenames = modify_from_csv(path, key_map)
+    filenames = modify_from_csv(csv_path, key_map)
     newpaths = []
 
     # move files to the swap dir
@@ -224,12 +218,12 @@ def remove_batch(path: str) -> MovedFiles:
 
     return MovedFiles(newpaths, filenames)
 
-def remove_file(args: argparse.Namespace) -> MovedFiles:
-    filename = f"{YAML_DIR}{args.filename}.{args.domain}.yaml"
+def remove_single(name: str, domain: str, reason: str) -> MovedFiles:
+    filename = f"{YAML_DIR}{name}.{domain}.yaml"
 
     # set the swap reason
     asset = yaml_io.Asset(filename)
-    asset.put("hardware.swap_reason", args.reason)
+    asset.put("hardware.swap_reason", reason)
     yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
 
     # add the date to the new name and move the file
@@ -240,70 +234,63 @@ def remove_file(args: argparse.Namespace) -> MovedFiles:
     shutil.move(newname, SWAP_DIR)
 
     # need to git add both the new and old file paths
-    return MovedFiles([filename], [newname])
+    return MovedFiles([filename], [f"{SWAP_DIR}{newname}"])
 
 def asset_rm(args: argparse.Namespace) -> GitData:
     moved_files = None
 
-    if args.csv:
-        # remove in batch move
-        moved_files = remove_batch(args.csv)
+    if args.batch:
+        # remove in batch
+        moved_files = remove_batch(args.batch)
     else:
-        # remove a single file
-        # check for a name
-        if not args.name:
-            print("hostname argument is required for non-batch remove")
-            exit(1)
-        moved_files = remove_file(args)
+        name, reason = args.single
+        moved_files = remove_single(name, args.domain, reason)
 
     datestr = datetime.now().strftime('%Y-%m-%d')
     return GitData(moved_files.added + moved_files.removed, f"decomissioned {len(moved_files.removed)} assests on {datestr}", "swapped\n" + "\n".join(moved_files.removed))
 
 # ================ ASSET UPDATE FUNCTIONS ====================
 
-def update_batch(path: str) -> list[str]:
-    key_map = get_column_map(path)
+def update_batch(csv_path: str) -> list[str]:
+    key_map = get_column_map(csv_path)
     print(key_map)
 
-    filenames = modify_from_csv(path, key_map)
+    filenames = modify_from_csv(csv_path, key_map)
 
     return filenames
 
-# TODO revisit argparse syntax
-def update_file(args: argparse.Namespace) -> str:
+# TODO implement this
+def update_single(name: str, domain: str, key: str, value: str) -> str:
     # modify the file
     try:
-        asset.get(args.key)
+        asset.get(key)
     except KeyError:
-        if args.add:
-            print(f"adding new YAML tag {args.key} : {args.value}")
-        else:
-            print(f"invalid YAML tag: {args.key}")
-            exit(1)
+        print(f"invalid YAML tag: {key}")
+        exit(1)
 
     # write out to the file
-    asset.put(args.key, args.value)
+    asset.put(key, value)
     yaml_io.write_yaml(asset, filename)
 
-def update_interactive(args: argparse.Namespace) -> str:
+def update_interactive(name: str, domain: str) -> str:
     filenames = []
     first = True
 
     # read the yaml file
-    name = args.name
-    domain = args.domain
+    curr_name = name
+    curr_domain = domain
 
     print("Interactive asset update:")
     print("=====================================" )
 
     while True:
         if not first:
-            name = input("Enter a hostname")
+            curr_name = input("Enter a hostname")
             d = input("Enter a domain: (or press ENTER for 'chtc.wisc.edu) ")
-            domain = d if d != "" else "chtc.wisc.edu"
+            curr_domain = d if d != "" else "chtc.wisc.edu"
         first = False
 
-        filename = f"{YAML_DIR}{name}.{domain}.yaml"
+        filename = f"{YAML_DIR}{curr_name}.{curr_domain}.yaml"
         asset = yaml_io.Asset(filename)
         filenames.append(filename)
 
@@ -334,12 +321,13 @@ def update_interactive(args: argparse.Namespace) -> str:
 def asset_update(args: argparse.Namespace) -> GitData:
     filenames = []
 
-    if args.file:
-        filenames = update_file(args)
-    elif args.csv:
-        filenames = update_batch(args.csv)
+    if args.single:
+        name, key, value = args.single
+        filenames = update_single(name, args.domain, key, value)
+    elif args.batch:
+        filenames = update_batch(args.batch)
     elif args.interactive:
-        filenames = update_interactive(args)
+        filenames = update_interactive(args.interactive, args.domain)
 
     # TODO more info in this commit message
     return GitData(filenames, f"updated {len(filenames)} files", "updated \n" + "\n".join(filenames))
@@ -470,44 +458,36 @@ def setup_args() -> argparse.Namespace:
     rename_parser = subparsers.add_parser("rename", help="rename an asset")
     update_parser = subparsers.add_parser("update", help="change an asset's data")
 
-    no_batch = [rename_parser, switch_parser, move_parser]
-    has_batch = [add_parser, rm_parser, update_parser]
+    parsers = [rename_parser, switch_parser, move_parser, add_parser, rm_parser, update_parser]
 
     # add common args to each subparser
-    combined = has_batch + no_batch
-    for subparser in combined:
-        # name is absolutly required with commands that don't have a batch mode
-        if subparser in no_batch:
-            subparser.add_argument("name", help="the asset's hostname", type=str, action="store")
-        else:
-            subparser.add_argument("name", nargs="?", help="the asset's hostname. NOT required in batch mode!", type=str, action="store")
-
+    for subparser in parsers:
         subparser.add_argument("-d", "--domain", help="defaults to 'chtc.wisc.edu' if not specified", action="store", default="chtc.wisc.edu")
 
     # add unique args to each subparser
     # add asset args
     add_group = add_parser.add_mutually_exclusive_group(required=True)
-    add_group.add_argument("-f", "--file", help="ingest an asset via a YAML file", action="store")
-    add_group.add_argument("-c", "--csv", help="ingest one or many assets via a CSV file", action="store")
-    add_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store_true")
+    add_group.add_argument("-s", "--single", nargs=2, help="ingest a single asset via YAML file", action="store", metavar=("NAME", "FILE"))
+    add_group.add_argument("-b", "--batch", help="ingest one or many assets via a CSV file", action="store", metavar=("CSV_FILE"))
+    add_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store")
 
     # rm asset args
-    rm_parser.add_argument("-r", "--reason", help="the reason for decomissioning", type=str, action="store")
-    rm_parser.add_argument("-c", "--csv", help="remove assets in batch mode from a CSV file", type=str, action="store")
+    rm_group = rm_parser.add_mutually_exclusive_group(required=True)
+    rm_group.add_argument("-s", "--single", nargs=2, help="decomission a single asset", type=str, action="store", metavar=("NAME", "REASON"))
+    rm_group.add_argument("-b", "--batch", help="remove assets in batch mode from a CSV file", type=str, action="store", metavar=("CSV_FILE"))
 
     # update asset args
-    #update_parser.add_argument("key", help="the fully qualified YAML key (tag) to modify. ex) 'hardware.model'", action="store")
-    #update_parser.add_argument("value", help="the new value to store", action="store")
-    update_parser.add_argument("-f", "--file", help="ingest an asset via a YAML file", action="store")
-    update_parser.add_argument("-c", "--csv", help="ingest one or many assets via a CSV file", action="store")
-    update_parser.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store_true")
+    update_group = update_parser.add_mutually_exclusive_group(required=True)
+    update_group.add_argument("-s", "--single", nargs=3, help="ingest an asset via a YAML file", action="store", metavar=("NAME", "KEY", "VALUE"))
+    update_group.add_argument("-b", "--batch", help="ingest one or many assets via a CSV file", action="store", metavar=("CSV_FILE"))
+    update_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store")
 
 
     # asset switch args
-    switch_parser.add_argument("switch_with", help="", type=str, action="store")
+    switch_parser.add_argument("-s", "--single", help="switch a single asset's location with another", nargs=2, type=str, action="store", metavar=("NAME", "SWITCH_WITH"))
 
     # asset rename args
-    rename_parser.add_argument("newname", help="the asset's new name", action="store")
+    rename_parser.add_argument("-s", "-single", nargs=2, help="rename a single asset", action="store", metavar=("NAME", "NEW_NAME"))
 
     return parser.parse_args()
 
