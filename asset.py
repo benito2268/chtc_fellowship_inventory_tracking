@@ -3,7 +3,6 @@
 # Main asset operations script
 # contains operations for add, remove, update, move, and rename
 #
-# TODO should this be rewritten with typer???
 # run ./asset.py --help to see command line usage
 
 import sys
@@ -32,6 +31,9 @@ GitData = namedtuple("GitData", [ "files", "commit_msg", "commit_body"])
 # tuple to handle swapped files for Git
 # Git counts a move as an add + delete - we need to add both the new and old file names
 MovedFiles = namedtuple("MovedFiles", ["added", "removed"])
+
+# a named tuple representing a location
+Location = namedtuple("Location", ["building", "room", "rack", "elevation"])
 
 # ================ CSV HELPER FUNCTIONS ====================
 
@@ -340,10 +342,30 @@ def asset_update(args: argparse.Namespace) -> GitData:
 
 # ================ ASSET MOVE FUNCTIONS ====================
 
-def move_file(args: argparse.Namespace) -> list[str]:
-    pass
+def move_single(name: str, domain: str, location: Location) -> list[str]:
+    filename = f"{YAML_DIR}{name}.{domain}.yaml"
 
-def move_interactive(args: argparse.Namespace) -> list[str]:
+    keys = [
+        "building",
+        "room",
+        "rack",
+        "elevation",
+    ]
+
+    # load the asset
+    asset = yaml_io.Asset(file=filename)
+
+    # change the location
+    for i in range(len(keys)):
+        asset.put(f"location.{keys[i]}", location[i])
+
+
+    # write out to file
+    yaml_io.write_yaml(asset, filename)
+
+    return [filename]
+
+def move_interactive(name: str, domain: str) -> list[str]:
     opts = []
     prompts = [
         "Enter a new elevation: ",
@@ -366,16 +388,16 @@ def move_interactive(args: argparse.Namespace) -> list[str]:
     for prompt in prompts:
         opts.append(input(prompt))
 
-    name = args.name
-    domain = args.domain
+    curr_name = name
+    curr_domain = domain
 
     while True:
         if not first:
-            name = input("Enter a hostname: ")
-            d = input("Enter a domain: (or press ENTER for 'chtc.wisc.edu) ")
-            domain = d if d != "" else "chtc.wisc.edu"
+            curr_name = input("Enter a hostname: ")
+            d = input("Enter a domain: (or press ENTER for 'chtc.wisc.edu') ")
+            curr_domain = d if d != "" else "chtc.wisc.edu"
 
-        filename = f"{YAML_DIR}{name}.{domain}.yaml"
+        filename = f"{YAML_DIR}{curr_name}.{curr_domain}.yaml"
         asset = yaml_io.Asset(filename)
         filenames.append(filename)
 
@@ -400,13 +422,15 @@ def move_interactive(args: argparse.Namespace) -> list[str]:
     return filenames
 
 def asset_move(args: argparse.Namespace) -> GitData:
-    # TODO change this!
-    if args.file:
-        filenames = move_file(args)
+    if args.single:
+        name, building, room, rack, elevation = args.single
+        filenames = move_single(name, args.domain, Location(building, room, rack, elevation))
     elif args.interactive:
-        filenames = move_interactive(args)
+        filenames = move_interactive(args.interactive, args.domain)
 
     # TODO include more info in this message
+    print("filenames")
+    print(filenames)
     return GitData(filenames, f"moved {len(filenames)} assets", "")
 
 # ================ ASSET SWITCH FUNCTIONS ====================
@@ -440,14 +464,20 @@ def asset_switch(args: argparse.Namespace) -> GitData:
 
 # ================ ASSET RENAME FUNCTIONS ====================
 
-def asset_rename(args: argparse.Namespace) -> GitData:
+def rename_single(name: str, domain: str, newname: str) -> MovedFiles:
     # rename the asset
-    filename = f"{YAML_DIR}{args.name}.{args.domain}.yaml"
-    newname = f"{YAML_DIR}{args.newname}.{args.domain}.yaml"
+    filename = f"{YAML_DIR}{name}.{domain}.yaml"
+    newname = f"{YAML_DIR}{newname}.{domain}.yaml"
 
     os.rename(filename, newname)
+    return MovedFiles(newname, filename)
 
-    return GitData([newname, filename], f"renamed {args.name} to {args.newname}", "")
+def asset_rename(args: argparse.Namespace) -> GitData:
+    name, newname = args.single
+    filenames = rename_single(name, args.domain, newname)
+
+    # TODO improve this commit message
+    return GitData([filenames.added] + [filenames.removed], f"renamed {len(filenames.added)} assets", f"rennamed {filenames.removed} -> {filenames.added}")
 
 # ================ MAIN AND ARGPARSE FUNCTIONS ====================
 
@@ -475,7 +505,7 @@ def setup_args() -> argparse.Namespace:
     add_group = add_parser.add_mutually_exclusive_group(required=True)
     add_group.add_argument("-s", "--single", nargs=2, help="ingest a single asset via YAML file", action="store", metavar=("NAME", "FILE"))
     add_group.add_argument("-b", "--batch", help="ingest one or many assets via a CSV file", action="store", metavar=("CSV_FILE"))
-    add_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store")
+    add_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store", metavar=("NAME"))
 
     # rm asset args
     rm_group = rm_parser.add_mutually_exclusive_group(required=True)
@@ -486,14 +516,19 @@ def setup_args() -> argparse.Namespace:
     update_group = update_parser.add_mutually_exclusive_group(required=True)
     update_group.add_argument("-s", "--single", nargs=3, help="ingest an asset via a YAML file", action="store", metavar=("NAME", "KEY", "VALUE"))
     update_group.add_argument("-b", "--batch", help="ingest one or many assets via a CSV file", action="store", metavar=("CSV_FILE"))
-    update_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store")
+    update_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store", metavar="NAME")
 
+
+    # asset move args
+    move_group = move_parser.add_mutually_exclusive_group(required=True)
+    move_group.add_argument("-s", "--single", nargs=5, help="move a single asset", action="store", metavar=("NAME", "BUILDING", "ROOM", "RACK", "ELEVATION"))
+    move_group.add_argument("-i", "--interactive", help="add an asset interactivly via CLI", action="store", metavar=("NAME"))
 
     # asset switch args
     switch_parser.add_argument("-s", "--single", help="switch a single asset's location with another", nargs=2, type=str, action="store", metavar=("NAME", "SWITCH_WITH"))
 
     # asset rename args
-    rename_parser.add_argument("-s", "-single", nargs=2, help="rename a single asset", action="store", metavar=("NAME", "NEW_NAME"))
+    rename_parser.add_argument("-s", "--single", nargs=2, help="rename a single asset", action="store", metavar=("NAME", "NEW_NAME"))
 
     return parser.parse_args()
 
