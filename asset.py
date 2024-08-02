@@ -259,8 +259,12 @@ def update_batch(csv_path: str) -> list[str]:
 
     return filenames
 
-# TODO implement this
 def update_single(name: str, domain: str, key: str, value: str) -> str:
+    filename = f"{YAML_DIR}{name}.{domain}.yaml"
+
+    # read the asset
+    asset = yaml_io.Asset(file=filename)
+
     # modify the file
     try:
         asset.get(key)
@@ -271,6 +275,8 @@ def update_single(name: str, domain: str, key: str, value: str) -> str:
     # write out to the file
     asset.put(key, value)
     yaml_io.write_yaml(asset, filename)
+
+    return filename
 
 def update_interactive(name: str, domain: str) -> str:
     filenames = []
