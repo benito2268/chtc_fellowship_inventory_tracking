@@ -12,6 +12,7 @@ import shutil
 import git
 import csv
 from collections import namedtuple
+from copy import deepcopy
 from datetime import datetime
 
 sys.path.append(os.path.abspath("scripts/csv_2_yaml/"))
@@ -47,8 +48,21 @@ def get_column_map(csv_path: str) -> dict:
         # read the first line
         header = next(reader)
 
+        # create a flat template dict to check keys against
+        cp = deepcopy(yaml_io.ASSET_TEMPLATE)
+        flat = dict_utils.flatten_dict(cp)
+
         # parse it into a map
         for i in range(len(header)):
+            # check that this a real tag
+            tag = header[i]
+            if tag != "hostname" and tag != "domain":
+                try:
+                    test = flat[tag.strip()]
+                except KeyError:
+                    print(f"Warning: batch update skipping non-existant key: {tag}")
+                    continue
+
             col_map[header[i].strip()] = i
 
     return col_map
@@ -65,7 +79,7 @@ def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[
         next(reader)
 
         for row in reader:
-            print(row)
+            # print(row)
             filename = f"{YAML_DIR}{row[key_map['hostname']]}.{row[key_map['domain']]}.yaml"
             filenames.append(filename)
 
@@ -81,7 +95,13 @@ def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[
             # modify the fields
             for key in key_map:
                 if key != "hostname" and key != "domain":
-                    asset.put(key, row[key_map[key]])
+                    cell = row[key_map[key]]
+
+                    # if the cell is empty - keep the old value
+                    # TODO is this the right thing to do??
+                    if cell == "":
+                        continue
+                    asset.put(key, cell)
 
             # write back to the file
             yaml_io.write_yaml(asset, filename)
@@ -138,7 +158,7 @@ def ingest_interactive(name: str, domain: str) -> list[str]:
         # create an asset object
         asset = yaml_io.Asset(fqdn=f"{curr_name}.{curr_domain}")
 
-        # yaml tags to skip in interative mode (ex. swap reason should be blank to start with)
+        # yaml tags to skip in interactive mode (ex. swap reason should be blank to start with)
         skip = [
             "hardware.swap_reason",
         ]
@@ -198,7 +218,11 @@ def asset_add(args: argparse.Namespace) -> GitData:
         filenames = ingest_single(name, args.domain, file)
 
     # format strings don't allow the '\n' char :(
-    return GitData(filenames, f"added {len(filenames)} new assets", "added\n" + "\n".join(filenames))
+    return GitData(
+        filenames,
+        f"added {len(filenames)} new assets",
+        "added\n" + "\n".join([os.path.basename(file) for file in filenames])
+    )
 
 # ================ ASSET REMOVE FUNCTIONS ====================
 
@@ -236,7 +260,7 @@ def remove_single(name: str, domain: str, reason: str) -> MovedFiles:
     shutil.move(newname, SWAP_DIR)
 
     # need to git add both the new and old file paths
-    return MovedFiles([filename], [f"{SWAP_DIR}{newname}"])
+    return MovedFiles([filename], [f"{SWAP_DIR}{filename}"])
 
 def asset_rm(args: argparse.Namespace) -> GitData:
     moved_files = None
@@ -249,19 +273,23 @@ def asset_rm(args: argparse.Namespace) -> GitData:
         moved_files = remove_single(name, args.domain, reason)
 
     datestr = datetime.now().strftime('%Y-%m-%d')
-    return GitData(moved_files.added + moved_files.removed, f"decomissioned {len(moved_files.removed)} assests on {datestr}", "swapped\n" + "\n".join(moved_files.removed))
+    return GitData(
+        [moved_files.added, moved_files.removed],
+        f"decomissioned {len(moved_files.removed)} assests on {datestr}",
+        "swapped\n" + "\n".join([os.path.basename(file) for file in moved_files.removed])
+    )
 
 # ================ ASSET UPDATE FUNCTIONS ====================
 
 def update_batch(csv_path: str) -> list[str]:
     key_map = get_column_map(csv_path)
-    print(key_map)
+    # print(key_map)
 
     filenames = modify_from_csv(csv_path, key_map)
 
     return filenames
 
-def update_single(name: str, domain: str, key: str, value: str) -> str:
+def update_single(name: str, domain: str, key: str, value: str) -> list[str]:
     filename = f"{YAML_DIR}{name}.{domain}.yaml"
 
     # read the asset
@@ -278,9 +306,9 @@ def update_single(name: str, domain: str, key: str, value: str) -> str:
     asset.put(key, value)
     yaml_io.write_yaml(asset, filename)
 
-    return filename
+    return [filename]
 
-def update_interactive(name: str, domain: str) -> str:
+def update_interactive(name: str, domain: str) -> list[str]:
     filenames = []
     first = True
 
@@ -293,7 +321,7 @@ def update_interactive(name: str, domain: str) -> str:
 
     while True:
         if not first:
-            curr_name = input("Enter a hostname")
+            curr_name = input("Enter a hostname: ")
             d = input("Enter a domain: (or press ENTER for 'chtc.wisc.edu) ")
             curr_domain = d if d != "" else "chtc.wisc.edu"
         first = False
@@ -305,13 +333,15 @@ def update_interactive(name: str, domain: str) -> str:
         while True:
             # get input
             key = input("Enter a YAML tag to update: ")
-            value = input("Enter a new value: ")
 
             try:
                 asset.get(key)
-                asset.put(key, value)
             except KeyError as err:
                 print(f"invalid YAML tag: {key}")
+                continue
+
+            value = input("Enter a new value: ")
+            asset.put(key, value)
 
             if input("Update another key? (y/n): ") == 'y':
                 continue
@@ -337,8 +367,12 @@ def asset_update(args: argparse.Namespace) -> GitData:
     elif args.interactive:
         filenames = update_interactive(args.interactive, args.domain)
 
-    # TODO more info in this commit message
-    return GitData(filenames, f"updated {len(filenames)} files", "updated \n" + "\n".join(filenames))
+    # TODO include info about what changed in the commit msg?
+    return GitData(
+        filenames,
+        f"updated {len(filenames)} files",
+        "updated \n" + "\n".join([os.path.basename(file) for file in filenames])
+    )
 
 # ================ ASSET MOVE FUNCTIONS ====================
 
@@ -416,7 +450,7 @@ def move_interactive(name: str, domain: str) -> list[str]:
         yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
 
         # ask if user wants to move anothe asset
-        if not input("Move another asset? (y/n)? "):
+        if not input("Move another asset? (y/n)? ") == 'y':
             break
 
     return filenames
@@ -428,10 +462,12 @@ def asset_move(args: argparse.Namespace) -> GitData:
     elif args.interactive:
         filenames = move_interactive(args.interactive, args.domain)
 
-    # TODO include more info in this message
-    print("filenames")
-    print(filenames)
-    return GitData(filenames, f"moved {len(filenames)} assets", "")
+    # TODO include info about where the assets moved in commit msg?
+    return GitData(
+        filenames,
+        f"moved {len(filenames)} assets",
+        "moved\n" + "\n".join([os.path.basename(file) for file in filenames])
+    )
 
 # ================ ASSET SWITCH FUNCTIONS ====================
 
@@ -460,7 +496,11 @@ def asset_switch(args: argparse.Namespace) -> GitData:
     yaml_io.write_yaml(asset1, f"{YAML_DIR}{first}")
     yaml_io.write_yaml(asset2, f"{YAML_DIR}{second}")
 
-    return GitData([first, second], f"swapped the location of {args.name} and {args.swap_with}", "")
+    return GitData(
+        [first, second],
+        f"swapped the locations of {args.name} and {args.swap_with}",
+        ""
+    )
 
 # ================ ASSET RENAME FUNCTIONS ====================
 
@@ -470,14 +510,27 @@ def rename_single(name: str, domain: str, newname: str) -> MovedFiles:
     newname = f"{YAML_DIR}{newname}.{domain}.yaml"
 
     os.rename(filename, newname)
-    return MovedFiles(newname, filename)
+    return MovedFiles([newname], [filename])
 
+# note: this function would handle a batch rename if one was ever added
+# it would just required some more arg-parsing to call the right rename func
 def asset_rename(args: argparse.Namespace) -> GitData:
     name, newname = args.single
     filenames = rename_single(name, args.domain, newname)
 
-    # TODO improve this commit message
-    return GitData([filenames.added] + [filenames.removed], f"renamed {len(filenames.added)} assets", f"rennamed {filenames.removed} -> {filenames.added}")
+    # assert len(filenames.added) == len(filenames.removed)
+
+    # do some construction of the commit msg.
+    commit_msg = ""
+    for i in range(len(filenames.added)):
+       commit_msg += f"renamed {os.path.basename(filenames.removed[i])} -> {os.path.basename(filenames.added[i])}" + "\n"
+
+    # format strings don't like the '\n' character :(
+    return GitData(
+        [filenames.added] + [filenames.removed],
+        f"renamed {len([filenames.added])} assets",
+        commit_msg
+    )
 
 # ================ MAIN AND ARGPARSE FUNCTIONS ====================
 
@@ -530,7 +583,13 @@ def setup_args() -> argparse.Namespace:
     # asset rename args
     rename_parser.add_argument("-s", "--single", nargs=2, help="rename a single asset", action="store", metavar=("NAME", "NEW_NAME"))
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    if args.command == None:
+        parser.print_help()
+        exit(1)
+
+    return args
 
 def main():
     args = setup_args()
@@ -566,7 +625,7 @@ def main():
                 print(file)
 
         print()
-        # exit(1) # leave it to the user to fix conflicts?
+        exit(1) # leave it to the user to fix conflicts
 
     # if the repo is clean pull from origin main
     # TODO I think these can generate exceptions
