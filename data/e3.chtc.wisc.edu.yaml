@@ -1,0 +1,25 @@
+acquisition:
+  po: ""
+  date: ""
+  reason: ""
+  owner: ""
+  fabrication: false
+hardware:
+  model: "Dell PowerEdge R780"
+  serial_number: "lkn89pknde"
+  service_tag: ""
+  purpose: ""
+  swap_reason: ""
+  notes: "More notes"
+  condo_chassis:
+    identifier: "knsdffiu49"
+    model: ""
+location:
+  rack: "AC"
+  elevation: ""
+  room: "CS 4321"
+  building: ""
+tags:
+  csl: ""
+  uw: "U0000010"
+  morgridge: ""
