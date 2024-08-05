@@ -1,0 +1,13 @@
+name: Inventory Update
+run-name: inventory-update-workflow
+on: [push] # Scripts will only push one commit at a time
+jobs:
+  Integrity-Check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: pip install pyyaml
+
+  Sheets-Update:
+    runs-on: ubuntu-latest
+    steps:
+      - run: pip install pyyaml google-api-python-client google-auth-httplib2 google-auth-oauthlib
