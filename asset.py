@@ -23,7 +23,7 @@ import dict_utils
 import csv2yaml
 
 # TODO move this into the config
-YAML_DIR = "./"
+YAML_DIR = "./data/"
 SWAP_DIR = "./swapped/"
 
 # declare a namedtuple to hold git data (specifically changed files and a commit message)
