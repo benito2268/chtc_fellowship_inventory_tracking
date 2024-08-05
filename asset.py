@@ -630,7 +630,9 @@ def main():
     # if the repo is clean pull from origin main
     # TODO I think these can generate exceptions
     origin = repo.remote(name="origin")
-    origin.pull()
+
+    # TODO change the branch - add to config
+    origin.pull("workflow-testing")
 
     # call the appropriate function
     # each returns a commit message describing what it did 
