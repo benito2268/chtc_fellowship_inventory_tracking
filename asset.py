@@ -642,7 +642,8 @@ def main():
     repo.git.add(data.files)
     repo.git.commit("-m", data.commit_msg, "-m", data.commit_body)
 
-    origin.push()
+    # TODO also put this in the config??
+    origin.push("workflow-testing")
 
 if __name__ == "__main__":
     main()
