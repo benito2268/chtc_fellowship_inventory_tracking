@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: pip install pyyaml
+      - run: python3 --version
 
   Sheets-Update:
     runs-on: ubuntu-latest
