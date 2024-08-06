@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: benito2268/chtc_fellowship_inventory_tracking
-          ref: main
+          ref: workflow-testing # TODO change this
       - run: pip install pyyaml 
       - run: SCRIPT_DIR=$(realpath scripts/shared) ; echo "PYTHONPATH=$PYTHONPATH:$SCRIPT_DIR" >> $GITHUB_ENV
       - run: python3 scripts/data_validator/validate.py data/
