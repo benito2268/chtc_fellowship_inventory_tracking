@@ -9,8 +9,9 @@ jobs:
         with:
           repository: benito2268/chtc_fellowship_inventory_tracking
           ref: main
-      - run: pip install pyyaml
-      - run: python3 scripts/data_validator/validate.py ../../data/
+      - run: pip install pyyaml 
+      - run: SCRIPT_DIR=$(realpath scripts/shared) ; echo "PYTHONPATH=$PYTHONPATH:$SCRIPT_DIR" >> $GITHUB_ENV
+      - run: python3 scripts/data_validator/validate.py data/
 
   Sheets-Update:
     runs-on: ubuntu-latest
