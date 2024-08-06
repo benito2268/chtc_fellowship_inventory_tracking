@@ -8,7 +8,9 @@ from googleapiclient.errors import HttpError
 from api_helpers import get_drive_service
 from api_helpers import get_sheets_service
 
-sys.path.append(os.path.abspath('../shared/'))
+sys.path.append(os.path.abspath("../shared/"))
+sys.path.append(os.path.abspath("scripts/shared"))
+
 import format_vars
 from yaml_io import read_yaml
 from yaml_io import Asset

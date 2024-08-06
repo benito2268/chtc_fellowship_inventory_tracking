@@ -4,7 +4,9 @@ import io
 import csv
 import yaml
 
-sys.path.append(os.path.abspath('../shared'))
+sys.path.append(os.path.abspath("../shared"))
+sys.path.append(os.path.abspath("scripts/shared"))
+
 import yaml_io
 import dict_utils
 
