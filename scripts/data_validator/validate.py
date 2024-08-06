@@ -11,7 +11,8 @@ from collections import defaultdict
 from typing import Callable
 
 # finishing touch: is there a better way to do this?
-sys.path.append(os.path.abspath('../shared'))
+sys.path.append(os.path.abspath("../shared"))
+sys.path.append(os.path.abspath("scripts/shared/"))
 import yaml_io
 import dict_utils
 import validate_tools
