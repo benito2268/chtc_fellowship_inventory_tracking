@@ -6,6 +6,7 @@ from api_helpers import share_file
 from datetime import datetime
 from googleapiclient.errors import HttpError
 
+import api_helpers
 import format_vars
 
 def main():
@@ -50,68 +51,14 @@ def main():
 
         title_request.execute()
 
-        # make the sheet protected so it cannot be edited
+        # create the swapped sheet (tab)
         requests.append({
-            "addProtectedRange" : {
-                "protectedRange" : {
-                    "range" : {
-                        "sheetId" : 0,
-                    },
-                    "warningOnly" : False,
-                    "requestingUserCanEdit" : False,
-                    "editors" : {
-                        "users" : None,
-                        "groups" : None,
-                    }
-
+            "addSheet" : {
+                "properties" : {
+                    "title" : format_vars.SWAP_SHEET_NAME,
                 }
             }
         })
-
-        requests.append(
-             # center text
-            {
-                "repeatCell" : {
-                    "range" : {
-                        "startRowIndex" : 0,
-                        "startColumnIndex" : 0,
-                    },
-
-                    "cell" : {
-                        "userEnteredFormat" : {
-                            "horizontalAlignment" : "CENTER",
-                        }
-                    },
-
-                    "fields" : "userEnteredFormat"
-                },
-            },
-        )
-
-        requests.append(
-             # bold the header
-            {
-                "repeatCell" : {
-                    "range" : {
-                        "startRowIndex" : 0,
-                        "endRowIndex" : 1,
-                        "startColumnIndex" : 0,
-                        "sheetId" : 0,
-                    },
-
-                    "cell" : {
-                        "userEnteredFormat" : {
-                            "horizontalAlignment" : "CENTER",
-                            "textFormat" : {
-                                "bold" : True
-                            }
-                        }
-                    },
-
-                    "fields" : "userEnteredFormat"
-                },
-            },
-        )
 
         # rename the main sheet from 'Sheet1'
         requests.append(
@@ -127,74 +74,112 @@ def main():
             }
         )
 
-        # NOTE: this is making things REALLY slow
-        # not sure why... but we should get rid of it
-        #requests.append(
-        #    {
-        #        "addConditionalFormatRule" : {
-        #            "rule" : {
-        #                "ranges" : [{
-        #                    "sheetId" : 0,
-        #                    "startRowIndex" : 0,
-        #                    "startColumnIndex" : 0,
-        #                }],
-        #                "booleanRule" : {
-        #                    "condition" : {
-        #                        "type" : "CUSTOM_FORMULA",
-        #                        "values" : [{
-        #                            "userEnteredValue" : "=ISODD(ROW())"
-        #                        }],
-        #                    },
-        #
-        #
-        #                    "format" : {
-        #                        "backgroundColor" : {
-        #                            "red" : 0.9,
-        #                            "green" : 0.9,
-        #                            "blue" : 0.9,
-        #                            "alpha" : 1,
-        #                        }
-        #                    },
-        #                },
-        #            },
-        #            "index" : 0,
-        #        }
-        #    }
-        #)
+        # make initial requests
+        body = {"requests" : requests}
 
-        requests.append(
-            {
-                "addBanding" : {
-                    "bandedRange" : {
-                        "bandedRangeId" : 222,
-                        "range" : {
-                            "sheetId" : 0,
-                            "startRowIndex" : 1,
-                        },
-
-                        "rowProperties" : {
-                            "firstBandColorStyle" : {
-                                "rgbColor" : {
-                                    # light grey in RGBA
-                                    "red" : 0.9,
-                                    "green" : 0.9,
-                                    "blue" : 0.9,
-                                },
-                            },
-
-                            "secondBandColorStyle" : {
-                                "rgbColor" : {
-                                    # white in RGBA
-                                    "red" : 1.0,
-                                    "green" : 1.0,
-                                    "blue" : 1.0,
-                                },
-                            },
-                        },
-                    }
-                }
-            },
+        response = (
+            sheets_service.spreadsheets()
+            .batchUpdate(spreadsheetId=sheet_response.get("spreadsheetId"), body=body)
+            .execute()
         )
+
+        # requests to be done for both sheets
+        ids = api_helpers.get_sheet_ids(sheets_service, sheet_response.get('spreadsheetId'))
+        requests.clear()
+
+        for sheet_id in ids:
+            requests.extend([
+                {
+                    "addBanding" : {
+                        "bandedRange" : {
+                            "bandedRangeId" : sheet_id + 1, # + 1 since banded range id cannot be zero :(
+                            "range" : {
+                                "sheetId" : sheet_id,
+                                "startRowIndex" : 1,
+                            },
+
+                            "rowProperties" : {
+                                "firstBandColorStyle" : {
+                                    "rgbColor" : {
+                                        # light grey in RGBA
+                                        "red" : 0.9,
+                                        "green" : 0.9,
+                                        "blue" : 0.9,
+                                    },
+                                },
+
+                                "secondBandColorStyle" : {
+                                    "rgbColor" : {
+                                        # white in RGBA
+                                        "red" : 1.0,
+                                        "green" : 1.0,
+                                        "blue" : 1.0,
+                                    },
+                                },
+                            },
+                        }
+                    }
+                },
+                # make the sheet protected so it cannot be edited
+                {
+                    "addProtectedRange" : {
+                        "protectedRange" : {
+                            "range" : {
+                                "sheetId" : sheet_id,
+                            },
+                            "warningOnly" : False,
+                            "requestingUserCanEdit" : False,
+                            "editors" : {
+                                "users" : None,
+                                "groups" : None,
+                            }
+
+                        }
+                    }
+                },
+
+                 # center text
+                {
+                    "repeatCell" : {
+                        "range" : {
+                            "sheetId" : sheet_id,
+                            "startRowIndex" : 0,
+                            "startColumnIndex" : 0,
+                        },
+
+                        "cell" : {
+                            "userEnteredFormat" : {
+                                "horizontalAlignment" : "CENTER",
+                            }
+                        },
+
+                        "fields" : "userEnteredFormat"
+                    },
+                },
+
+                 # bold the header
+                {
+                    "repeatCell" : {
+                        "range" : {
+                            "startRowIndex" : 0,
+                            "endRowIndex" : 1,
+                            "startColumnIndex" : 0,
+                            "sheetId" : sheet_id,
+                        },
+
+                        "cell" : {
+                            "userEnteredFormat" : {
+                                "horizontalAlignment" : "CENTER",
+                                "textFormat" : {
+                                    "bold" : True
+                                }
+                            }
+                        },
+
+                        "fields" : "userEnteredFormat"
+                    },
+                },
+            ])
 
         body = {"requests" : requests}
 

@@ -12,16 +12,21 @@ sys.path.append(os.path.abspath("../shared/"))
 sys.path.append(os.path.abspath("scripts/shared"))
 
 import format_vars
+import api_helpers
 from yaml_io import read_yaml
 from yaml_io import Asset
 from dict_utils import flatten_dict
 
+# the global ID of the spreadsheet - as read from spreadsheet_id.txt
 SPREADSHEET_ID = ""
-MAIN_SHEET_ID = 0
 
 # the key the spreadsheet will be sorted
 # (alphanumerically) by
 SORT_BY = "location.room"
+
+# TODO move this into a config maybe
+YAML_PATH = "../csv_2_yaml/yaml/"
+SWAPPED_PATH = "../../swapped/"
 
 # reads asset data from the sheet to compare against what is in the
 # canonical data - will be used for finding the 'diff' of the sheet and the YAML
@@ -30,12 +35,12 @@ SORT_BY = "location.room"
 # params: sheet_srv - an initialized Google Sheets API service
 #
 # returns a list of rows (list[str]) read from the sheet
-def read_spreadsheet(sheet_srv: Resource) -> list[list[str]]:
+def read_spreadsheet(sheet_srv: Resource, sheet_name: str) -> list[list[str]]:
     # want to specifiy the entire sheet
     result = (
         sheet_srv.spreadsheets()
         .values()
-        .get(spreadsheetId=SPREADSHEET_ID, range=format_vars.MAIN_SHEET_NAME)
+        .get(spreadsheetId=SPREADSHEET_ID, range=sheet_name)
         .execute()
     )
 
@@ -59,7 +64,7 @@ def find_sorted_position(rows: list[list[str]], new_row: list[str]) -> int:
 
 # finds the index of a new spreadsheet element
 # in a sorted spreadsheet and inserts a new row at the proper place
-def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: list[list[str]]):
+def insert_batch_sorted(sheet_srv: Resource, sheet_id: int, rows: list[list[str]], new_rows: list[list[str]]):
     rows_cpy = copy.deepcopy(rows)
     requests = []
 
@@ -74,7 +79,7 @@ def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: li
             {
                 "insertDimension" : {
                     "range" : {
-                        "sheetId" : MAIN_SHEET_ID,
+                        "sheetId" : sheet_id,
                         "dimension" : "ROWS",
                         "startIndex" : index + 1,
                         "endIndex" : index + 2,
@@ -89,7 +94,7 @@ def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: li
             {
                 "pasteData" : {
                     "coordinate" : {
-                        "sheetId" : MAIN_SHEET_ID,
+                        "sheetId" : sheet_id,
                         "rowIndex" : index + 1,
                     },
 
@@ -114,8 +119,8 @@ def insert_batch_sorted(sheet_srv: Resource, rows: list[list[str]], new_rows: li
 # params:
 #   sheet_srv - a Google Sheets API service
 #   assets - a list of Asset objects read from underlaying YAML
-def do_deletions(sheet_srv: Resource, assets: list[Asset]):
-    rows = read_spreadsheet(sheet_srv)
+def do_deletions(sheet_srv: Resource, assets: list[Asset], sheet_id: int, sheet_name: str):
+    rows = read_spreadsheet(sheet_srv, sheet_name)
 
     # rows should be sorted in reverse order so when batch deletions happen
     # the row number shifts won't mess things up
@@ -140,7 +145,7 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
             {
                 "deleteDimension" : {
                     "range" : {
-                        "sheetId" : MAIN_SHEET_ID,
+                        "sheetId" : sheet_id,
                         "dimension" : "ROWS",
                         "startIndex" : pair[1] + 1,
                         "endIndex" : pair[1] + 2,
@@ -163,8 +168,8 @@ def do_deletions(sheet_srv: Resource, assets: list[Asset]):
 # params:
 #   sheet_srv - a Google Sheets API service
 #   assets - a list of asset objects read from underlying YAML
-def do_additions(sheet_srv: Resource, assets: list[Asset]):
-    rows = read_spreadsheet(sheet_srv)
+def do_additions(sheet_srv: Resource, assets: list[Asset], sheet_id: int, sheet_name: str):
+    rows = read_spreadsheet(sheet_srv, sheet_name)
 
     # the + 1 is because spreasheets start indexing at 1
     sheet_hostnames = {row[0] for row in rows}
@@ -193,15 +198,15 @@ def do_additions(sheet_srv: Resource, assets: list[Asset]):
 
         new_assets.append(vals)
 
-    insert_batch_sorted(sheet_srv, rows, new_assets)
+    insert_batch_sorted(sheet_srv, sheet_id, rows, new_assets)
 
 # handles updating (only) spreadsheet rows whose underlying YAML has changed
 #
 # params:
 #   sheet_srv - a Google Sheets API service
 #   assets - a list of Asset objects read from underlying YAML
-def do_changes(sheet_srv: Resource, assets: list[Asset]):
-    rows = read_spreadsheet(sheet_srv)
+def do_changes(sheet_srv: Resource, assets: list[Asset], sheet_id: int, sheet_name: str):
+    rows = read_spreadsheet(sheet_srv, sheet_name)
 
     # the nested comprehension is a bit gross - maybe I should find a cleaner way
     yaml_data = {asset.fqdn : [flatten_dict(asset.asset)[key] for key in format_vars.COLUMN_MAP] for asset in assets}
@@ -227,14 +232,11 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
                     yaml_row.insert(0, row[0])
                     new_index = find_sorted_position(rows, yaml_row)
 
-                    print(row_nums[row[0]])
-                    print(new_index)
-
                     # create a new MoveDimensionRequest
                     move_reqs.append({
                         "moveDimension" : {
                             "source" : {
-                                "sheetId" : MAIN_SHEET_ID,
+                                "sheetId" : sheet_id,
                                 "dimension" : "ROWS",
                                 "startIndex" : row_nums[row[0]] - 1, # rows are 0-indexed in API call, and 1-indexed in range strings
                                 "endIndex" : row_nums[row[0]],
@@ -244,7 +246,7 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
                         }
                     })
 
-                range_str = f"{format_vars.MAIN_SHEET_NAME}!{chr(ord('A') + i)}{row_nums[row[0]]}"
+                range_str = f"{sheet_name}!{chr(ord('A') + i)}{row_nums[row[0]]}"
 
                 # google sheets needs it in a 2D list
                 to_append = [ [yaml_data[row[0]][i - 1] ] ]
@@ -263,7 +265,6 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
 
     # make the move API request
     if move_reqs:
-        print('got here')
         body = {"requests" : move_reqs}
         move_req = (
             sheet_srv.spreadsheets()
@@ -274,7 +275,8 @@ def do_changes(sheet_srv: Resource, assets: list[Asset]):
 
 def main():
     # read asset data from each YAML file in given dir
-    assets = read_yaml("../csv_2_yaml/yaml/")
+    assets = read_yaml(YAML_PATH)
+    swapped = read_yaml(SWAPPED_PATH)
 
     # read the new spreadsheet id
     global SPREADSHEET_ID
@@ -285,10 +287,8 @@ def main():
         sheets_service = get_sheets_service()
         drive_service = get_drive_service()
 
-        # sheet only has 1000 rows by default
-        # we'll round up to the nearest thousand
-        # also calculate the number of colunms we need
-        nearest_k_rows = math.ceil(len(assets) / 1000) * 1000
+        # get the ids of each sheet
+        ids = api_helpers.get_sheet_ids(sheets_service, SPREADSHEET_ID)
 
         # update the title to reflect the time the sheet was updated
         # and also make sure there are enough rows for our data
@@ -314,63 +314,70 @@ def main():
         pre_format_request.execute()
 
         # do the actual updating
-        do_deletions(sheets_service, assets)
-        do_additions(sheets_service, assets)
-        do_changes(sheets_service, assets)
+        do_deletions(sheets_service, assets, ids[0], format_vars.MAIN_SHEET_NAME)
+        do_additions(sheets_service, assets, ids[0], format_vars.MAIN_SHEET_NAME)
+        do_changes(sheets_service, assets, ids[0], format_vars.MAIN_SHEET_NAME)
 
+        # do the same thing for swapped assets
+        do_deletions(sheets_service, swapped, ids[1], format_vars.SWAP_SHEET_NAME)
+        do_additions(sheets_service, swapped, ids[1], format_vars.SWAP_SHEET_NAME)
+        do_changes(sheets_service, swapped, ids[1], format_vars.SWAP_SHEET_NAME)
+
+        post_format_requests = []
 
         # post format requests get called after the data is written
         # for example, changing the cell size to fit the data
-        post_format_requests = [
-            # auto size each row to fit the longest line of text
-            {
-                "autoResizeDimensions" : {
-                    "dimensions" : {
-                        "sheetId" : MAIN_SHEET_ID,
-                        "dimension" : "COLUMNS",
-                        "startIndex" : 0,
-                        "endIndex" : format_vars.NUM_COLUMNS,
+        for sheet_id in ids:
+            post_format_requests.extend([
+                # auto size each row to fit the longest line of text
+                {
+                    "autoResizeDimensions" : {
+                        "dimensions" : {
+                            "sheetId" : sheet_id,
+                            "dimension" : "COLUMNS",
+                            "startIndex" : 0,
+                            "endIndex" : format_vars.NUM_COLUMNS,
+                        }
+                    },
+                },
+
+                # update sheet banding
+                {
+                    "updateBanding" : {
+                        "bandedRange" : {
+                            "bandedRangeId" : sheet_id + 1,
+                            "range" : {
+                                "sheetId" : sheet_id,
+                                "startRowIndex" : 1,
+                            },
+
+                            "rowProperties" : {
+                                "firstBandColorStyle" : {
+                                    "rgbColor" : {
+                                        # light grey in RGBA
+                                        "red" : 0.9,
+                                        "green" : 0.9,
+                                        "blue" : 0.9,
+                                        "alpha" : 1.0,
+                                    },
+                                },
+
+                                "secondBandColorStyle" : {
+                                    "rgbColor" : {
+                                        # white in RGBA
+                                        "red" : 1.0,
+                                        "green" : 1.0,
+                                        "blue" : 1.0,
+                                        "alpha" : 1.0,
+                                    },
+                                },
+                            },
+                        },
+
+                        "fields" : "*",
                     }
                 },
-            },
-
-            # update sheet banding
-            {
-                "updateBanding" : {
-                    "bandedRange" : {
-                        "bandedRangeId" : 222,
-                        "range" : {
-                            "sheetId" : 0,
-                            "startRowIndex" : 1,
-                        },
-
-                        "rowProperties" : {
-                            "firstBandColorStyle" : {
-                                "rgbColor" : {
-                                    # light grey in RGBA
-                                    "red" : 0.9,
-                                    "green" : 0.9,
-                                    "blue" : 0.9,
-                                    "alpha" : 1.0,
-                                },
-                            },
-
-                            "secondBandColorStyle" : {
-                                "rgbColor" : {
-                                    # white in RGBA
-                                    "red" : 1.0,
-                                    "green" : 1.0,
-                                    "blue" : 1.0,
-                                    "alpha" : 1.0,
-                                },
-                            },
-                        },
-                    },
-
-                    "fields" : "*",
-                }
-            },
-        ]
+            ])
 
         body = {"requests" : post_format_requests}
         post_format_request = (

@@ -8,6 +8,8 @@ from googleapiclient.discovery import Resource
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+import format_vars
+
 # Google APIs we expect to be able to access
 # the API token will be the final judge, any scopes
 # listed here that the token says we don't have access to are ignored
@@ -59,6 +61,11 @@ def get_drive_service() -> Resource:
 
     except HttpError as err:
         raise err
+
+def get_sheet_ids(sheet_srv: Resource, spreadsheet_id: str) -> tuple:
+    main_id = sheet_srv.spreadsheets().get(spreadsheetId=spreadsheet_id, ranges=[format_vars.MAIN_SHEET_NAME]).execute()["sheets"][0]["properties"]["sheetId"]
+    swapped_id = sheet_srv.spreadsheets().get(spreadsheetId=spreadsheet_id, ranges=[format_vars.SWAP_SHEET_NAME]).execute()["sheets"][0]["properties"]["sheetId"]
+    return (main_id, swapped_id)
 
 # shares a Google Drive file with the specified email
 #
