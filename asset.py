@@ -270,7 +270,7 @@ def remove_single(name: str, domain: str, reason: str) -> MovedFiles:
     # set the swap reason
     asset = yaml_io.Asset(filename)
     asset.put("hardware.swap_reason", reason)
-    yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
+    yaml_io.write_yaml(asset, filename)
 
     # add the date to the new name and move the file
     datestr = datetime.now().strftime('%Y-%m-%d')
@@ -280,7 +280,7 @@ def remove_single(name: str, domain: str, reason: str) -> MovedFiles:
     shutil.move(newname, SWAP_DIR)
 
     # need to git add both the new and old file paths
-    return MovedFiles([filename], [f"{SWAP_DIR}{filename}"])
+    return MovedFiles([filename], [f"{SWAP_DIR}{newname}"])
 
 def asset_rm(args: argparse.Namespace) -> GitData:
     moved_files = None

@@ -9,7 +9,7 @@ hardware:
   serial_number: "mmacepcjd6"
   service_tag: "mmacepcjd6"
   purpose: ""
-  swap_reason: ""
+  swap_reason: "got a new one"
   notes: "A condo node"
   condo_chassis:
     identifier: "o7sbhukrp1"
