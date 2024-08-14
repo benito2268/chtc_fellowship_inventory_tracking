@@ -22,6 +22,9 @@ import yaml_io
 import dict_utils
 import csv2yaml
 
+# Git repo object for the repo in which the script is operating
+REPO = None
+
 # TODO move this into the config
 YAML_DIR = "./data/"
 SWAP_DIR = "./swapped/"
@@ -35,6 +38,14 @@ MovedFiles = namedtuple("MovedFiles", ["added", "removed"])
 
 # a named tuple representing a location
 Location = namedtuple("Location", ["building", "room", "rack", "elevation"])
+
+# ================ GIT HELPER FUNCTIONS ====================
+
+# for adding assets - exits with an error if an asset already exists and is tracked
+def chk_file_tracked(path: str):
+    if os.path.exists(path) and path not in REPO.untracked_files:
+        print(f"ERROR: asset {path} already exists and is tracked by Git")
+        exit(1)
 
 # ================ CSV HELPER FUNCTIONS ====================
 
@@ -83,7 +94,10 @@ def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[
             filename = f"{YAML_DIR}{row[key_map['hostname']]}.{row[key_map['domain']]}.yaml"
             filenames.append(filename)
 
-            if create_files and not os.path.exists(filename):
+            if create_files:
+                # check if the new file is already tracked
+                chk_file_tracked(filename)
+
                 # create a blank yaml file
                 asset = yaml_io.Asset(fqdn=f"{row[key_map['hostname']]}.{row[key_map['domain']]}")
                 yaml_io.write_yaml(asset, filename)
@@ -114,6 +128,9 @@ def ingest_single(name: str, domain: str, file: str) -> str:
     # make sure that cp doesn't fail if path and ./path are the same file
     path = f"{YAML_DIR}{name}.{domain}.yaml"
     newpath = f"{YAML_DIR}{os.path.basename(file)}"
+
+    # check if newpath is tracked
+    chk_asset_tracked(newpath)
 
     # don't cp a file to a location where it already exists
     if os.path.abspath(path) == os.path.abspath(newpath):
@@ -157,6 +174,9 @@ def ingest_interactive(name: str, domain: str) -> list[str]:
 
         # create an asset object
         asset = yaml_io.Asset(fqdn=f"{curr_name}.{curr_domain}")
+
+        # check to make sure the file is not already tracked
+        chk_file_tracked(f"{YAML_PATH}{curr_name}{curr_domain}.yaml")
 
         # yaml tags to skip in interactive mode (ex. swap reason should be blank to start with)
         skip = [
@@ -606,19 +626,20 @@ def main():
 
     # setup git
     # tell GitPython that that .git/ is in the current working dir
-    repo = git.Repo(os.path.abspath("./"))
+    global REPO
+    REPO = git.Repo(os.path.abspath("./"))
 
     # check if the repo is clean
-    if repo.is_dirty():
+    if REPO.is_dirty():
         print()
         print("git error: working tree not clean! There are untracked changes: ")
         print("----------------------------------------------------------------")
-        for file in repo.index.diff(None):
+        for file in REPO.index.diff(None):
             print(file.a_path)
 
         print()
 
-        if repo.untracked_files:
+        if REPO.untracked_files:
             print("untracked files: ")
             print("-----------------")
             for file in repo.untracked_files:
@@ -629,7 +650,7 @@ def main():
 
     # if the repo is clean pull from origin main
     # TODO I think these can generate exceptions
-    origin = repo.remote(name="origin")
+    origin = REPO.remote(name="origin")
 
     # TODO change the branch - add to config
     origin.pull("main")
@@ -639,8 +660,8 @@ def main():
     data = func_map[args.command](args)
 
     # create a commit and push
-    repo.git.add(data.files)
-    repo.git.commit("-m", data.commit_msg, "-m", data.commit_body)
+    REPO.git.add(data.files)
+    REPO.git.commit("-m", data.commit_msg, "-m", data.commit_body)
 
     # TODO also put this in the config??
     origin.push("main")
