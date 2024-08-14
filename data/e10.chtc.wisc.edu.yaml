@@ -1,0 +1,25 @@
+acquisition:
+  po: "1234"
+  date: "2024-08-14"
+  reason: ""
+  owner: "CHTC"
+  fabrication: false
+hardware:
+  model: "Dell"
+  serial_number: "124"
+  service_tag: "1234"
+  purpose: ""
+  swap_reason: ""
+  notes: ""
+  condo_chassis:
+    identifier: ""
+    model: ""
+location:
+  rack: "1"
+  elevation: "2"
+  room: "3"
+  building: "4"
+tags:
+  csl: "123"
+  uw: "123"
+  morgridge: "123"
