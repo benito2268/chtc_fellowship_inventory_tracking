@@ -31,26 +31,6 @@ def main():
 
         requests = []
 
-        # write the column headings - they will apprear in the order they are in the list
-        # sheets API requires a 2D list - but in this case the outer list contains only the inner list
-        headings = [
-            [header for header in format_vars.PRETTY_COL_NAMES],
-        ]
-
-        # fqdn goes in column 1 - but is not in the YAML
-        headings[0].insert(0, "Hostname")
-        data = [ {"range" : f"Sheet1!A1:{chr(ord('A') + format_vars.NUM_COLUMNS)}1", "values" : headings} ]
-
-        data_body = {"valueInputOption" : "RAW", "data" : data}
-
-        title_request = (
-            sheets_service.spreadsheets()
-            .values()
-            .batchUpdate(spreadsheetId=sheet_response.get('spreadsheetId'), body=data_body)
-        )
-
-        title_request.execute()
-
         # create the swapped sheet (tab)
         requests.append({
             "addSheet" : {
@@ -82,6 +62,39 @@ def main():
             .batchUpdate(spreadsheetId=sheet_response.get("spreadsheetId"), body=body)
             .execute()
         )
+
+        # write the column headings - they will apprear in the order they are in the list
+        # sheets API requires a 2D list - but in this case the outer list contains only the inner list
+        headings = [
+            [header for header in format_vars.PRETTY_COL_NAMES],
+        ]
+
+        # fqdn goes in column 1 - but is not in the YAML
+        headings[0].insert(0, "Hostname")
+        data = [ {"range" : f"{format_vars.MAIN_SHEET_NAME}!A1:{chr(ord('A') + format_vars.NUM_COLUMNS)}1", "values" : headings} ]
+
+        data_body = {"valueInputOption" : "RAW", "data" : data}
+
+        header_request = (
+            sheets_service.spreadsheets()
+            .values()
+            .batchUpdate(spreadsheetId=sheet_response.get('spreadsheetId'), body=data_body)
+        )
+
+        header_request.execute()
+
+        # TODO this is not ideal - but do we have time to fix??
+        data = [ {"range" : f"{format_vars.SWAP_SHEET_NAME}!A1:{chr(ord('A') + format_vars.NUM_COLUMNS)}1", "values" : headings} ]
+
+        data_body = {"valueInputOption" : "RAW", "data" : data}
+
+        swap_header_request = (
+            sheets_service.spreadsheets()
+            .values()
+            .batchUpdate(spreadsheetId=sheet_response.get('spreadsheetId'), body=data_body)
+        )
+
+        swap_header_request.execute()
 
         # requests to be done for both sheets
         ids = api_helpers.get_sheet_ids(sheets_service, sheet_response.get('spreadsheetId'))
