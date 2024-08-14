@@ -9,7 +9,7 @@ hardware:
   serial_number: "1234"
   service_tag: "1234"
   purpose: ""
-  swap_reason: ""
+  swap_reason: "it get old :("
   notes: ""
   condo_chassis:
     identifier: ""
