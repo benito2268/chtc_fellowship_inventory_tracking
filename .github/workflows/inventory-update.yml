@@ -42,6 +42,10 @@ jobs:
       - name: Setup Python Path
         run: SCRIPT_DIR=$(realpath scripts/shared) ; echo "PYTHONPATH=$PYTHONPATH:$SCRIPT_DIR" >> $GITHUB_ENV
 
+      # create the google api key
+      - name: Create Google API Key
+        run: echo ${{ secrets.GOOGLE_API_KEY }} | base64 --decode > token.json
+
       # run the sheet update script
       - name: Update Google Sheet
         run: python3 scripts/sheets/update_sheet.py

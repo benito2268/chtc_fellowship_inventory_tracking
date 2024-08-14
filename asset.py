@@ -51,6 +51,7 @@ def chk_file_tracked(path: str):
 # ================ CSV HELPER FUNCTIONS ====================
 
 # reads yaml tags out of the first row of the CSV and generates a column map
+# TODO should this be in the config or no?
 def get_column_map(csv_path: str) -> dict:
     col_map = {}
 

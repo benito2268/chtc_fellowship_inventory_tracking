@@ -21,7 +21,7 @@ SCOPES = [
 ]
 
 # path to api token
-SERVICE_ACCOUNT_FILE = "token-7-3-24.json"
+SERVICE_ACCOUNT_FILE = "token.json"
 
 # api versions
 SHEETS_API_VER = "v4"
