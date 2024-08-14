@@ -632,7 +632,7 @@ def main():
     origin = repo.remote(name="origin")
 
     # TODO change the branch - add to config
-    origin.pull("workflow-testing")
+    origin.pull("main")
 
     # call the appropriate function
     # each returns a commit message describing what it did 
@@ -642,7 +642,8 @@ def main():
     repo.git.add(data.files)
     repo.git.commit("-m", data.commit_msg, "-m", data.commit_body)
 
-    origin.push()
+    # TODO also put this in the config??
+    origin.push("main")
 
 if __name__ == "__main__":
     main()
