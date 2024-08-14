@@ -178,7 +178,7 @@ def ingest_interactive(name: str, domain: str) -> list[str]:
         asset = yaml_io.Asset(fqdn=f"{curr_name}.{curr_domain}")
 
         # check to make sure the file is not already tracked
-        chk_file_tracked(f"{YAML_PATH}{curr_name}{curr_domain}.yaml")
+        chk_file_tracked(f"{YAML_DIR}{curr_name}{curr_domain}.yaml")
 
         # yaml tags to skip in interactive mode (ex. swap reason should be blank to start with)
         skip = [
