@@ -1,0 +1,25 @@
+acquisition:
+  po: "1234"
+  date: "2024-08-14"
+  reason: "we had some extra $"
+  owner: "CHTC"
+  fabrication: false
+hardware:
+  model: "Dell PowerEdge C6400"
+  serial_number: "1234"
+  service_tag: "1234"
+  purpose: ""
+  swap_reason: ""
+  notes: ""
+  condo_chassis:
+    identifier: ""
+    model: ""
+location:
+  rack: "10N-112"
+  elevation: "23"
+  room: "CS2360"
+  building: "CS"
+tags:
+  csl: ""
+  uw: "U0000000"
+  morgridge: ""
