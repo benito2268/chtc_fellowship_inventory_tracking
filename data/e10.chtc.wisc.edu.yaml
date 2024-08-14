@@ -15,7 +15,7 @@ hardware:
     identifier: ""
     model: ""
 location:
-  rack: "1"
+  rack: "on the floor"
   elevation: "2"
   room: "3"
   building: "4"
