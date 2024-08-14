@@ -1,0 +1,15 @@
+# This file holds the configuration for the asset tracking system
+
+# where the current and decomissioned YAML files live
+# as a note: paths can be with or without a trailing '/'
+yaml_path: "data/"
+swapped_path: "swapped/"
+
+# a list of who will recieve error emails
+error_email_list:
+  - "someone@example.com"
+  - "someoneelse@example.com"
+
+# a list of who will recieve weeky summaries
+summary_email_list:
+  - "someone@example.com"

@@ -21,14 +21,14 @@ sys.path.append(os.path.abspath("scripts/shared/"))
 import yaml_io
 import dict_utils
 import csv2yaml
+import config
 
 # Git repo object for the repo in which the script is operating
 REPO = None
 
-# TODO move this into the config
-# for now - it reads from repo sample data
-YAML_DIR = "./data/"
-SWAP_DIR = "./swapped/"
+# these are read in from the config
+YAML_DIR = ""
+SWAP_DIR = ""
 
 # declare a namedtuple to hold git data (specifically changed files and a commit message)
 GitData = namedtuple("GitData", [ "files", "commit_msg", "commit_body"])
@@ -615,6 +615,15 @@ def setup_args() -> argparse.Namespace:
 
 def main():
     args = setup_args()
+
+    # read config
+    global YAML_DIR
+    global SWAP_DIR
+
+    c = config.get_config("./config.yaml")
+
+    YAML_DIR = c.yaml_path
+    SWAP_DIR = c.swapped_path
 
     # map argument names to their corresponding functions
     func_map = {

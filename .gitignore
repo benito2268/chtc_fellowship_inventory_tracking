@@ -11,6 +11,5 @@ scripts/sheets/ben_testing/
 *test/
 *test.*
 empty_trash.py
-config.yaml
 unswap.sh
 inventory_sample_data.csv
