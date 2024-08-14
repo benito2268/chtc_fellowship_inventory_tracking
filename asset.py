@@ -26,6 +26,7 @@ import csv2yaml
 REPO = None
 
 # TODO move this into the config
+# for now - it reads from repo sample data
 YAML_DIR = "./data/"
 SWAP_DIR = "./swapped/"
 

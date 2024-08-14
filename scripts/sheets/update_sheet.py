@@ -25,8 +25,8 @@ SPREADSHEET_ID = ""
 SORT_BY = "location.room"
 
 # TODO move this into a config maybe
-YAML_PATH = "../csv_2_yaml/yaml/"
-SWAPPED_PATH = "../../swapped/"
+YAML_PATH = "data/"
+SWAPPED_PATH = "swapped/"
 
 # reads asset data from the sheet to compare against what is in the
 # canonical data - will be used for finding the 'diff' of the sheet and the YAML
@@ -280,7 +280,9 @@ def main():
 
     # read the new spreadsheet id
     global SPREADSHEET_ID
-    with open("spreadsheet_id.txt", "r") as infile:
+
+    # TODO probably fix this
+    with open("scripts/sheets/spreadsheet_id.txt", "r") as infile:
         SPREADSHEET_ID = infile.read()
 
     try:

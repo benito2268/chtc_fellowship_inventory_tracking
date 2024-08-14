@@ -5,30 +5,44 @@ jobs:
   Integrity-Check:
     runs-on: ubuntu-latest
     steps:
+      # checkout the repo
       - name: Checkout Repo
         uses: actions/checkout@v4
         with:
           repository: benito2268/chtc_fellowship_inventory_tracking
-          ref: workflow-testing # TODO change this
+          ref: main
+
+      # install pyyaml
       - name: Install PyYAML
-        run: pip install pyyaml 
+        run: pip install pyyaml
+
+      # add scripts to the python path
       - name: Setup Python Path
         run: SCRIPT_DIR=$(realpath scripts/shared) ; echo "PYTHONPATH=$PYTHONPATH:$SCRIPT_DIR" >> $GITHUB_ENV
+
+      # run the integrity check
       - name: Run Integrity Check
         run: python3 scripts/data_validator/validate.py data/
 
   Sheets-Update:
     runs-on: ubuntu-latest
     steps:
+      # checkout the repo
       - name: Checkout Repo
         uses: actions/checkout@v4
         with:
           repository: benito2268/chtc_fellowship_inventory_tracking
-          ref: workflow-testing # TODO change this
+          ref: main
+
+      # install python dependancies
       - name: Install Python Packages
         run: pip install pyyaml google-api-python-client google-auth-httplib2 google-auth-oauthlib
+
+      # add scripts to the python path
       - name: Setup Python Path
         run: SCRIPT_DIR=$(realpath scripts/shared) ; echo "PYTHONPATH=$PYTHONPATH:$SCRIPT_DIR" >> $GITHUB_ENV
+
+      # run the sheet update script
       - name: Update Google Sheet
         run: python3 scripts/sheets/update_sheet.py
 

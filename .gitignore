@@ -10,7 +10,6 @@ scripts/sheets/ben_testing/
 *.json
 *test/
 *test.*
-spreadsheet_id.txt
 empty_trash.py
 config.yaml
 unswap.sh

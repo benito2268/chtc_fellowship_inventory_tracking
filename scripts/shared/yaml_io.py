@@ -3,6 +3,8 @@ import os
 import yaml
 import dict_utils
 
+YAML_PATH = "../../data/"
+
 # a wrapper class for quoted yaml string values
 # used instead of str so keys are not also quoted
 class quoted(str):
@@ -125,13 +127,7 @@ def write_yaml(asset: Asset, filepath: str):
 
 
 def main():
-    if len(sys.argv) != 2:
-        print('usage: yaml_read.py <yaml_dir>')
-        exit(1)
-
-    yaml_dir = sys.argv[1]
-
-    assets = read_yaml(yaml_dir)
+    assets = read_yaml(YAML_DIR)
 
 if __name__ == '__main__':
     main()
