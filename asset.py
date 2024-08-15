@@ -22,6 +22,7 @@ import yaml_io
 import dict_utils
 import csv2yaml
 import config
+import email_report
 
 # Git repo object for the repo in which the script is operating
 REPO = None
@@ -238,7 +239,11 @@ def asset_add(args: argparse.Namespace) -> GitData:
         name, file = args.single
         filenames = ingest_single(name, args.domain, file)
 
+    # tally an addition for the email
+    email_report.count_add_or_rm(True, len(filenames))
+
     # format strings don't allow the '\n' char :(
+    filenames.append(".weekly_stats.yaml")
     return GitData(
         filenames,
         f"added {len(filenames)} new assets",
@@ -293,7 +298,12 @@ def asset_rm(args: argparse.Namespace) -> GitData:
         name, reason = args.single
         moved_files = remove_single(name, args.domain, reason)
 
+    # tally an addition for the email
+    email_report.count_add_or_rm(False, len(filenames))
+
     datestr = datetime.now().strftime('%Y-%m-%d')
+    moved_files.added.append(".weekly_stats.yaml")
+
     return GitData(
         [moved_files.added, moved_files.removed],
         f"decomissioned {len(moved_files.removed)} assests on {datestr}",

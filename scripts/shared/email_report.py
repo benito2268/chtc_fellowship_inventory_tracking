@@ -68,11 +68,31 @@ class Report:
     def __repr__(self):
         return self.__str__()
 
-def gen_exc():
-    try:
-        raise KeyError("message")
-    except:
-        report(sys.exc_info())
+# adds to the weekly running tally for added and decom'ed assets
+# if add == False the operation is considered in decom
+def count_add_or_rm(add: bool, count: int):
+    stats = dict()
+    with open(".weekly_stats.yaml", 'r') as infile:
+        stats = yaml.safe_load(infile)
+
+    if add:
+        stats["added_this_week"] += count
+    else:
+        stats["decom_this_week"] += count
+
+    with open(".weekly_stats.yaml", 'w') as outfile:
+        yaml.safe_dump(stats, outfile)
+
+def reset_totals():
+    stats = dict()
+    with open(".weekly_stats.yaml", 'r') as infile:
+        stats = yaml.safe_load(infile)
+
+    stats["added_this_week"] = 0
+    stats["decom_this_week"] = 0
+
+    with open(".weekly_stats.yaml", 'w') as outfile:
+        yaml.safe_dump(stats, outfile)
 
 # generates a human readable email error when
 # when passed a tuple from sys.exc_info()
@@ -106,7 +126,6 @@ def report(exc_info: tuple, file: str=sys.stdout):
 #       - X <vendor2> across Y models
 # 
 def gen_weekly_report(file: str=sys.stdout):
-
     # get the config
     # c = config.get_config("config.yaml")
     #yaml_path = c.yaml_path
@@ -116,3 +135,5 @@ def gen_weekly_report(file: str=sys.stdout):
     report = Report(assets, "../../.weekly_stats.yaml")
     print(str(report), file=file)
 
+    # reset the totals
+    reset_totals()
