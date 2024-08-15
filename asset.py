@@ -560,6 +560,9 @@ def setup_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(title="subcommands", dest="command")
 
+    # add an option to auto push
+    parser.add_argument("-p", "--push", help="automatically push to the git repo", action="store_true")
+
     # add a subparser for each subcommand
     add_parser = subparsers.add_parser("add", help="add a new asset")
     rm_parser = subparsers.add_parser("decom", help="decomission an asset")
@@ -659,10 +662,8 @@ def main():
         exit(1) # leave it to the user to fix conflicts
 
     # if the repo is clean pull from origin main
-    # TODO I think these can generate exceptions
     origin = REPO.remote(name="origin")
 
-    # TODO change the branch - add to config
     origin.pull("main")
 
     # call the appropriate function
@@ -673,8 +674,9 @@ def main():
     REPO.git.add(data.files)
     REPO.git.commit("-m", data.commit_msg, "-m", data.commit_body)
 
-    # TODO also put this in the config??
-    origin.push("main")
+    # don't push by default
+    if args.push:
+        origin.push("main")
 
 if __name__ == "__main__":
     main()
