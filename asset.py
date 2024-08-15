@@ -51,7 +51,6 @@ def chk_file_tracked(path: str):
 # ================ CSV HELPER FUNCTIONS ====================
 
 # reads yaml tags out of the first row of the CSV and generates a column map
-# TODO should this be in the config or no?
 def get_column_map(csv_path: str) -> dict:
     col_map = {}
 
@@ -563,7 +562,7 @@ def setup_args() -> argparse.Namespace:
 
     # add a subparser for each subcommand
     add_parser = subparsers.add_parser("add", help="add a new asset")
-    rm_parser = subparsers.add_parser("rm", help="decomission an asset")
+    rm_parser = subparsers.add_parser("decom", help="decomission an asset")
     move_parser = subparsers.add_parser("move", help="change an asset's location")
     switch_parser = subparsers.add_parser("switch", help="switch the location of two assets")
     rename_parser = subparsers.add_parser("rename", help="rename an asset")
@@ -628,7 +627,7 @@ def main():
     # map argument names to their corresponding functions
     func_map = {
         "add" : asset_add,
-        "rm"  : asset_rm,
+        "decom"  : asset_rm,
         "update" : asset_update,
         "move" : asset_move,
         "switch" : asset_switch,
