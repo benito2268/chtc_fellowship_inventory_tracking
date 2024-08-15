@@ -1,0 +1,6 @@
+# DO NOT REMOVE TAGS FROM THIS FILE
+# it is used by the inventory system to
+# track stats which appear in weekly report emails
+
+added_this_week: 4
+decom_this_week: 10
