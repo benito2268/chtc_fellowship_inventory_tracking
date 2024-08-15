@@ -10,10 +10,11 @@ import email
 from collections import defaultdict
 from typing import Callable
 
-# finishing touch: is there a better way to do this?
 sys.path.append(os.path.abspath("../shared"))
 sys.path.append(os.path.abspath("scripts/shared/"))
+
 import yaml_io
+import config
 import dict_utils
 import validate_tools
 import errortypes
@@ -202,7 +203,7 @@ def main():
     parser.add_argument('-c', '--conflicting', help='only check for conflicting asset data', action='store_true')
     parser.add_argument('-u', '--uwtag', help='check for missing UW tags on assets older than 180 days', action='store_true')
     parser.add_argument('-e', '--email', help='sends output as an email to the provided address', type=str)
-    parser.add_argument('yaml_path', help='the path to a directory containing YAML asset files to validate', type=str)
+    parser.add_argument('-p', '--path', help='the path to a directory containing YAML asset files to validate', type=str)
 
     args = parser.parse_args()
 
@@ -215,8 +216,17 @@ def main():
         'uwtag'       : chk_uw_tag,
     }
 
+    # scripts can be run 'manually' too
+    yaml_path = ""
+    if args.path:
+        yaml_path = args.path
+    else:
+        # get yaml path from config
+        # NOTE: scripts are from from the same dir as config.yaml in the GitHub action
+        yaml_path = config.get_config("config.yaml").yaml_path
+
     # read all yaml files from the dir. at yaml_path
-    assets = yaml_io.read_yaml(args.yaml_path)
+    assets = yaml_io.read_yaml(yaml_path)
 
     # if no optional arguments are specified - run all checks
     opts = vars(args)
@@ -229,7 +239,7 @@ def main():
             if opts[key]:
                 errs.extend(fun(assets))
 
-    output = output_chks(errs, args.email, args.yaml_path)
+    output = output_chks(errs, args.email, yaml_path)
 
 if __name__ == '__main__':
     main()

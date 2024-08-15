@@ -13,6 +13,7 @@ sys.path.append(os.path.abspath("scripts/shared"))
 
 import format_vars
 import api_helpers
+import config
 from yaml_io import read_yaml
 from yaml_io import Asset
 from dict_utils import flatten_dict
@@ -24,9 +25,9 @@ SPREADSHEET_ID = ""
 # (alphanumerically) by
 SORT_BY = "location.room"
 
-# TODO move this into a config maybe
-YAML_PATH = "data/"
-SWAPPED_PATH = "swapped/"
+# these are set by the config
+YAML_PATH = ""
+SWAPPED_PATH = ""
 
 # reads asset data from the sheet to compare against what is in the
 # canonical data - will be used for finding the 'diff' of the sheet and the YAML
@@ -274,6 +275,14 @@ def do_changes(sheet_srv: Resource, assets: list[Asset], sheet_id: int, sheet_na
         move_req.execute()
 
 def main():
+    # get the YAML and swapped paths
+    global YAML_PATH
+    global SWAP_PATH
+
+    # in the github action, scripts are run from the project root
+    c = config.get_config("config.yaml")
+    YAML_PATH = c.yaml_path
+    SWAP_PATH = c.swapped_path
     # read asset data from each YAML file in given dir
     assets = read_yaml(YAML_PATH)
     swapped = read_yaml(SWAPPED_PATH)

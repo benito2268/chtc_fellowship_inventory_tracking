@@ -50,8 +50,7 @@ def group_by_attrib(assets: list, key: str):
 #
 # returns: a list of ConflictingGroupErrors or None if no conflicts are found
 #
-def get_conflicts(shared_tag: str, groups: list, tag: str, msg: str):
-   
+def get_conflicts(shared_tag: str, groups: list, tag: str, msg: str): 
     errs = []
     for group in groups[shared_tag]:
         conflicting = []
@@ -61,7 +60,7 @@ def get_conflicts(shared_tag: str, groups: list, tag: str, msg: str):
                 value = asset.get_full_location()
             else:
                 value = asset.get(tag)
-            
+
             # do we really want to account for missing things? - UW tags make no sense
             if (re.fullmatch(missing_rxp, value)):
                 conflicting.append(errortypes.ConflictItem(asset.fqdn + '.yaml', asset.get(shared_tag) , value))

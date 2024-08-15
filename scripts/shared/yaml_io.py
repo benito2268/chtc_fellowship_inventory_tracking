@@ -3,8 +3,6 @@ import os
 import yaml
 import dict_utils
 
-YAML_PATH = "../../data/"
-
 # a wrapper class for quoted yaml string values
 # used instead of str so keys are not also quoted
 class quoted(str):
@@ -124,10 +122,3 @@ def write_yaml(asset: Asset, filepath: str):
     # newline='\n' writes files with unix (LF) line endings
     with open(filepath, 'w', newline='\n') as outfile:
         yaml.dump(asset.asset, outfile, sort_keys=False)
-
-
-def main():
-    assets = read_yaml(YAML_DIR)
-
-if __name__ == '__main__':
-    main()
