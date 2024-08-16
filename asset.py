@@ -44,10 +44,11 @@ Location = namedtuple("Location", ["building", "room", "rack", "elevation"])
 # ================ GIT HELPER FUNCTIONS ====================
 
 # for adding assets - exits with an error if an asset already exists and is tracked
-def chk_file_tracked(path: str):
+def chk_file_tracked(path: str) -> bool:
     if os.path.exists(path) and path not in REPO.untracked_files:
-        print(f"ERROR: asset {path} already exists and is tracked by Git")
-        exit(1)
+        print(f"ERROR: asset {path} already exists and is tracked by Git (skipping)")
+        return True
+    return False
 
 # ================ CSV HELPER FUNCTIONS ====================
 
@@ -94,11 +95,14 @@ def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[
         for row in reader:
             # print(row)
             filename = f"{YAML_DIR}{row[key_map['hostname']]}.{row[key_map['domain']]}.yaml"
-            filenames.append(filename)
 
             if create_files:
                 # check if the new file is already tracked
-                chk_file_tracked(filename)
+                if chk_file_tracked(filename):
+                    # skip the asset if it already exists
+                    continue
+
+                filenames.append(filename)
 
                 # create a blank yaml file
                 asset = yaml_io.Asset(fqdn=f"{row[key_map['hostname']]}.{row[key_map['domain']]}")
@@ -132,11 +136,12 @@ def ingest_single(name: str, domain: str, file: str) -> str:
     newpath = f"{YAML_DIR}{os.path.basename(file)}"
 
     # check if newpath is tracked
-    chk_asset_tracked(newpath)
+    if chk_asset_tracked(newpath):
+        exit(1)
 
     # don't cp a file to a location where it already exists
     if os.path.abspath(path) == os.path.abspath(newpath):
-        return
+        return path
 
     # copy the file into the YAML directory
     # from the config fill
@@ -178,7 +183,8 @@ def ingest_interactive(name: str, domain: str) -> list[str]:
         asset = yaml_io.Asset(fqdn=f"{curr_name}.{curr_domain}")
 
         # check to make sure the file is not already tracked
-        chk_file_tracked(f"{YAML_DIR}{curr_name}{curr_domain}.yaml")
+        if chk_file_tracked(f"{YAML_DIR}{curr_name}{curr_domain}.yaml"):
+            continue
 
         # yaml tags to skip in interactive mode (ex. swap reason should be blank to start with)
         skip = [
@@ -299,7 +305,7 @@ def asset_rm(args: argparse.Namespace) -> GitData:
         moved_files = remove_single(name, args.domain, reason)
 
     # tally an addition for the email
-    email_report.count_add_or_rm(False, len(filenames))
+    email_report.count_add_or_rm(False, len(moved_files.removed))
 
     datestr = datetime.now().strftime('%Y-%m-%d')
     moved_files.added.append(".weekly_stats.yaml")
