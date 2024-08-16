@@ -90,14 +90,14 @@ class Report:
 
     def __str__(self):
         lf = '\n'
-        msg = "CHTC Weekly Inventory Report \n\n In the last week...\n"
-        msg += f"    1. {self.added} assets were added, {self.decom} assets were decomissioned. We have {self.total} assets in total.{lf}"
-        msg += f"    2. {self.integrity_errs} suspected data integrity errors currently exist (see attached file).{lf}"
+        msg = "CHTC Weekly Inventory Report \n\n Inventory Summary...\n"
+        msg += f"    1. In the last week, {self.added} assets were added, {self.decom} assets were decomissioned. CHTC has {self.total} assets in total.{lf}"
+        msg += f"    2. {self.integrity_errs} suspected data integrity issues currently exist (see attached file).{lf}"
 
         percent_over_ten = 100 * (self.atleast_ten / self.total) if self.atleast_ten != 0 else 0
 
-        msg += f"    3. {self.atleast_ten} out of {self.total} total assets are at least 10 years old ({int(percent_over_ten)}%).{lf}"
-        msg += f"    4. A breakdown of current inventory is:"
+        msg += f"    3. {self.atleast_ten} out of {self.total} total assets were purchased 10 or more years ago ({int(percent_over_ten)}%).{lf}"
+        msg += f"    4. A breakdown of current inventory by vendor is:"
         msg += f"""
             {len(self.vendors['dell'])} Dell machines across {len(set(self.vendors['dell']))} models
             {len(self.vendors['supermicro'])} SuperMicro machines across {len(set(self.vendors['supermicro']))} models
