@@ -8,7 +8,7 @@ hardware:
   model: "Dell"
   serial_number: "124"
   service_tag: "1234"
-  purpose: ""
+  purpose: "MISSING"
   swap_reason: ""
   notes: ""
   condo_chassis:

@@ -15,7 +15,7 @@ sys.path.append(os.path.abspath("../data_validator/"))
 sys.path.append(os.path.abspath("scripts/data_validator/"))
 
 import config
-import validate
+import check_data
 import yaml_io
 
 class Report:
@@ -29,8 +29,15 @@ class Report:
         self.decom = delta["decom_this_week"]
         self.total = len(assets)
 
-        # run a validation check to tally errors
-        self.integrity_errs = 0
+        # run all integrity checks to tally errors
+        errs = []
+        errs.extend(check_data.chk_all_missing(assets))
+        errs.extend(check_data.chk_conflicting(assets))
+        errs.extend(check_data.chk_uw_tag(assets))
+
+        self.integrity_errs = len(errs)
+
+        # TODO generate the csv
 
         # tally vendors and model
         # NOTE: since vendor is not it's own tag
@@ -44,11 +51,11 @@ class Report:
             # tally age
             acq_date = asset.get("acquisition.date")
 
-            if acq_date:
+            if acq_date and acq_date != "MISSING":
                 date = datetime.datetime.strptime(acq_date, "%Y-%m-%d")
                 today = datetime.datetime.today()
 
-                # datetime has no 'years' attribut
+                # datetime has no 'years' attribute
                 # so 3650 days is 10 years
                 if abs((today - date).days) >= 3650:
                     self.atleast_ten += 1
@@ -83,9 +90,9 @@ def count_add_or_rm(add: bool, count: int):
     with open(".weekly_stats.yaml", 'w') as outfile:
         yaml.safe_dump(stats, outfile)
 
-def reset_totals():
+def reset_totals(stats_file: str):
     stats = dict()
-    with open(".weekly_stats.yaml", 'r') as infile:
+    with open(stats_file, 'r') as infile:
         stats = yaml.safe_load(infile)
 
     stats["added_this_week"] = 0
@@ -126,14 +133,16 @@ def report(exc_info: tuple, file: str=sys.stdout):
 #       - X <vendor2> across Y models
 # 
 def gen_weekly_report(file: str=sys.stdout):
+    # TODO fix paths for GitHub action
     # get the config
     # c = config.get_config("config.yaml")
-    #yaml_path = c.yaml_path
+    # yaml_path = c.yaml_path
 
+    stats_file = "../../.weekly_stats.yaml"
     assets = yaml_io.read_yaml("../../data/")
 
-    report = Report(assets, "../../.weekly_stats.yaml")
+    report = Report(assets, stats_file)
     print(str(report), file=file)
 
     # reset the totals
-    reset_totals()
+    reset_totals(stats_file)
