@@ -22,7 +22,7 @@ jobs:
 
       # run the integrity check
       - name: Run Integrity Check
-        run: python3 scripts/data_validator/validate.py
+        run: python3 scripts/data_validator/check_data.py
 
   Sheets-Update:
     runs-on: ubuntu-latest
