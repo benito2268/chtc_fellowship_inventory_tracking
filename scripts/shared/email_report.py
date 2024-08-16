@@ -37,17 +37,45 @@ class Report:
 
         self.integrity_errs = len(errs)
 
-        # TODO generate the csv
+        # generate the detailed error report
+        with open("integrity_errs.txt", "w") as errfile:
+            for err in errs:
+                errfile.write(str(err))
+
+        # TODO attach it to the email and delete
 
         # tally vendors and model
-        # NOTE: since vendor is not it's own tag
-        # this assumes that the vendor is the first word in the 'hardware.model' field
-        vendors = dict()
-        self.atleast_ten = 0
+        # NOTE: since vendor is not it's own tag this is only a heuristic
+        self.vendors = {
+            "dell" : [],
+            "supermicro" : [],
+            "kingstar" : [],
+            "cisco" : [],
+            "other" : [],
+        }
 
         for asset in assets:
-            #vendors["newkey"].append()
+            model = asset.get("hardware.model").lower()
+            for vendor in self.vendors.keys():
+                if len(model.split(" ")) > 1:
+                    if vendor in model:
+                        self.vendors[vendor].append(model.split(" ", 1)[1])
+                        break
+                    # somewhat special cases
+                    elif "poweredge" in model:
+                        # some dell servers say "PowerEdge XXXX" instead of "Dell PowerEdge XXXX"  
+                        self.vendors["dell"].append(model.split(" ", 1)[1])
+                        break
+                    elif "king" in model and "star" in model:
+                        # sometimes kingstar is two words
+                        self.vendors["kingstar"].append(model.split(" ", 2)[2])
+                        break
+                else:
+                    self.vendors["other"].append(model)
+                    break
 
+        self.atleast_ten = 0
+        for asset in assets:
             # tally age
             acq_date = asset.get("acquisition.date")
 
@@ -62,13 +90,21 @@ class Report:
 
     def __str__(self):
         lf = '\n'
-        msg = f"{self.added} assets were added, {self.decom} assets were decomissioned.{lf}"
-        msg += f"{self.integrity_errs} suspected data integrity errors currently exist (see attached CSV).{lf}"
+        msg = "CHTC Weekly Inventory Report \n\n In the last week...\n"
+        msg += f"    1. {self.added} assets were added, {self.decom} assets were decomissioned. We have {self.total} assets in total.{lf}"
+        msg += f"    2. {self.integrity_errs} suspected data integrity errors currently exist (see attached file).{lf}"
 
         percent_over_ten = 100 * (self.atleast_ten / self.total) if self.atleast_ten != 0 else 0
 
-        msg += f"{self.atleast_ten} out of {self.total} assets are at least 10 years old ({int(percent_over_ten)}%){lf}"
-        msg += f"vendors"
+        msg += f"    3. {self.atleast_ten} out of {self.total} total assets are at least 10 years old ({int(percent_over_ten)}%).{lf}"
+        msg += f"    4. A breakdown of current inventory is:"
+        msg += f"""
+            {len(self.vendors['dell'])} Dell machines across {len(set(self.vendors['dell']))} models
+            {len(self.vendors['supermicro'])} SuperMicro machines across {len(set(self.vendors['supermicro']))} models
+            {len(self.vendors['kingstar'])} KingStar machines across {len(set(self.vendors['kingstar']))} models
+            {len(self.vendors['cisco'])} Cisco machines across {len(set(self.vendors['cisco']))} models
+            {len(self.vendors['other'])} Machines with other or missing models
+        """
 
         return msg
 
