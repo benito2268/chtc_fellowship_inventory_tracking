@@ -661,7 +661,7 @@ def main():
     # check if the repo is clean
     if REPO.is_dirty():
         print()
-        print("git error: working tree not clean! There are untracked changes: ")
+        print("WARNING: working tree not clean! There are untracked changes: ")
         print("----------------------------------------------------------------")
         for file in REPO.index.diff(None):
             print(file.a_path)
@@ -675,7 +675,9 @@ def main():
                 print(file)
 
         print()
-        exit(1) # leave it to the user to fix conflicts
+        opt = input("Are you sure you would like to continue? (y/n)") # leave it to the user to fix conflicts
+        if not opt == 'y':
+            exit(0)
 
     # if the repo is clean pull from origin main
     origin = REPO.remote(name="origin")
