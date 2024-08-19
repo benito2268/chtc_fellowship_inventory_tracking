@@ -7,9 +7,8 @@ swapped_path: "swapped/"
 
 # a list of who will recieve error emails
 error_email_list:
-  - "someone@example.com"
-  - "someoneelse@example.com"
+  - "chtc-admin@cs.wisc.edu"
 
 # a list of who will recieve weeky summaries
 summary_email_list:
-  - "someone@example.com"
+  - "chtc-admin@cs.wisc.edu"
