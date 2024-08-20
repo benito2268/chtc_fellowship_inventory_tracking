@@ -17,10 +17,9 @@ import check_data
 import yaml_io
 import dict_utils
 
-# TODO change this!!!
 # the path to puppet site files if that's where site data comes from
 # if site data is supplied in the CSV - this is not used
-PUPPET_SITE_PATH = "../../puppet/puppet_data/site_tier_0/"
+PUPPET_SITE_PATH = ""
 
 # default map for spreadsheet columns (order of old spreasheet)
 # to their corresponding column number in the spreadsheet
@@ -230,14 +229,21 @@ def gen_yaml(assets, path, **kwargs) -> list[str]:
     return names
 
 def main():
+    global PUPPET_SITE_PATH
+
     # take csv filename and output path as command line args
     parser = argparse.ArgumentParser()
 
     parser.add_argument("csv_path", help="The path of the CSV file to import from", type=str, action="store")
-    parser.add_argument("-o", "--output", help="An optional output path - Will override the config!")
+    parser.add_argument("puppet_path", help="a path to a clone of the puppet_data repo.", type=str, action="store")
+    parser.add_argument("-o", "--output", help="An optional output path - Will override the config!", type=str, action="store")
 
     args = parser.parse_args()
 
+    if args.puppet_path[-1] != '/':
+        args.puppet_path += '/'
+
+    PUPPET_SITE_PATH = args.puppet_path
     assets = csv_read(args.csv_path, True, True)
 
     output_path = ""
