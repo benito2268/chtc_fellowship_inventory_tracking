@@ -208,7 +208,7 @@ def main():
         print()
 
         # write the spreadsheet id to a file
-        with open("spreadsheet_id.txt", "w+") as outfile:
+        with open(".spreadsheet_id", "w+") as outfile:
             outfile.write(sheet_response.get("spreadsheetId"))
 
         # share the service with the specified user

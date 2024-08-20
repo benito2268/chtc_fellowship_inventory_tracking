@@ -18,7 +18,7 @@ from yaml_io import read_yaml
 from yaml_io import Asset
 from dict_utils import flatten_dict
 
-# the global ID of the spreadsheet - as read from spreadsheet_id.txt
+# the global ID of the spreadsheet - as read from .spreadsheet_id
 SPREADSHEET_ID = ""
 
 # the key the spreadsheet will be sorted
@@ -291,7 +291,7 @@ def main():
     global SPREADSHEET_ID
 
     # TODO probably fix this
-    with open("scripts/sheets/spreadsheet_id.txt", "r") as infile:
+    with open("scripts/sheets/.spreadsheet_id", "r") as infile:
         SPREADSHEET_ID = infile.read()
 
     try:
