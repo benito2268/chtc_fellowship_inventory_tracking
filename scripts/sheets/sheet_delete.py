@@ -1,3 +1,5 @@
+#!/bin/python3
+
 # a helper script to interactivly delete files from the service account's Drive
 # just a temporary thing for testing :)
 #

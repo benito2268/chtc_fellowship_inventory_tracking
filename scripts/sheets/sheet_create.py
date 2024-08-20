@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import os.path
 import argparse
 from api_helpers import get_sheets_service
