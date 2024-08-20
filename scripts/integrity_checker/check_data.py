@@ -202,7 +202,6 @@ def main():
     parser.add_argument('-m', '--missing', help='only check for asset tags that are missing values', action='store_true')
     parser.add_argument('-c', '--conflicting', help='only check for conflicting asset data', action='store_true')
     parser.add_argument('-u', '--uwtag', help='check for missing UW tags on assets older than 180 days', action='store_true')
-    parser.add_argument('-e', '--email', help='sends output as an email to the provided address', type=str)
     parser.add_argument('-p', '--path', help='the path to a directory containing YAML asset files to validate', type=str)
 
     args = parser.parse_args()
@@ -230,13 +229,15 @@ def main():
 
     # if no optional arguments are specified - run all checks
     opts = vars(args)
+    checks = [opts[key] for key in validate_funcs]
+
     errs = []
-    if len(sys.argv) < 3: 
+    if not any(checks):
         for fun in validate_funcs.values():
              errs.extend(fun(assets))
     else:
-        for key, fun in validate_funcs.items():
-            if opts[key]:
+        for fun in checks:
+            if fun:
                 errs.extend(fun(assets))
 
     output = output_chks(errs, args.email, yaml_path)
