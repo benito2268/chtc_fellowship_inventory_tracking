@@ -3,13 +3,19 @@ import os
 import io
 import csv
 import yaml
+import argparse
 
 sys.path.append(os.path.abspath("../shared"))
-sys.path.append(os.path.abspath("scripts/shared"))
+sys.path.append(os.path.abspath("scripts/shared/"))
+sys.path.append(os.path.abspath("../integrity_checker/"))
+sys.path.append(os.path.abspath("scripts/integrity_checker/"))
 
+import config
+import check_data
 import yaml_io
 import dict_utils
 
+# TODO change this!!!
 # the path to puppet site files if that's where site data comes from
 # if site data is supplied in the CSV - this is not used
 PUPPET_SITE_PATH = "../../puppet/puppet_data/site_tier_0/"
@@ -223,19 +229,36 @@ def gen_yaml(assets, path, **kwargs) -> list[str]:
 
 def main():
     # take csv filename and output path as command line args
-    if len(sys.argv) < 3:
-        print("usage: csv2yaml.py <csv_file> <output_path>")
-        exit(1)
+    parser = argparse.ArgumentParser()
 
-    csv_name = sys.argv[1]
-    output_path = sys.argv[2]
-    assets = csv_read(csv_name, True, True)
+    parser.add_argument("csv_path", help="The path of the CSV file to import from", type=str, action="store")
+    parser.add_argument("-o", "--output", help="An optional output path - Will override the config!")
+
+    args = parser.parse_args()
+
+    assets = csv_read(args.csv_path, True, True)
+
+    output_path = ""
+    if args.output:
+        output_path = args.output
+    else:
+        c = config.get_config()
+        output_path = config.yaml_path
+
+    # do data validation
+    errs = []
+    errs.extend(check_data.chk_all_missing(assets))
+    errs.extend(check_data.chk_conflicting(assets))
+    errs.extend(check_data.chk_uw_tag(assets))
+
+    # right now we do nothing with the errors, but the files are
+    # modified to contain the 'MISSING' string
 
     # for quality of life's sake
     if output_path[-1] != '/':
         output_path += '/'
 
-    gen_yaml(assets, output_path)
+    gen_yaml(assets, args.output_path)
 
 if __name__ == "__main__":
     main()
