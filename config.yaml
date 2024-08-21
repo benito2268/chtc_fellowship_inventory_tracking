@@ -2,8 +2,8 @@
 
 # where the current and decomissioned YAML files live
 # as a note: paths can be with or without a trailing '/'
-yaml_path: "data/"
-swapped_path: "swapped/"
+yaml_path: "current_assets/"
+swapped_path: "retired_assets/"
 
 # a list of who will recieve error emails
 error_email_list:
