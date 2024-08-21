@@ -243,14 +243,14 @@ def main():
     if args.puppet_path[-1] != '/':
         args.puppet_path += '/'
 
-    PUPPET_SITE_PATH = args.puppet_path
+    PUPPET_SITE_PATH = args.puppet_path + "site_tier_0/"
     assets = csv_read(args.csv_path, True, True)
 
     output_path = ""
     if args.output:
         output_path = args.output
     else:
-        c = config.get_config()
+        c = config.get_config("./config.yaml")
         output_path = config.yaml_path
 
     # do data validation
