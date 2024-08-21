@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import os.path
 import argparse
 from api_helpers import get_sheets_service
@@ -13,13 +15,18 @@ def main():
     # use argparse to get the email to share with
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("email_address", help="the email address that the script will share the sheet with", type=str)
+    parser.add_argument("email_address", help="the email address that the script will share the sheet with", type=str, action="store")
+    parser.add_argument("-k", "--keypath", help="the path the a json API key file. For use outside of the GitHub action", type=str, action="store")
     args = parser.parse_args()
 
     # try is used to catch HttpError during the API call
     try:
-        drive_service = get_drive_service()
-        sheets_service = get_sheets_service()
+        if args.keypath:
+            drive_service = get_drive_service(args.keypath)
+            sheets_service = get_sheets_service(args.keypath)
+        else:
+            drive_service = get_drive_service()
+            sheets_service = get_sheets_service()
 
         # create a spreadsheet
         date = datetime.now()
@@ -208,11 +215,11 @@ def main():
         print()
 
         # write the spreadsheet id to a file
-        with open("spreadsheet_id.txt", "w+") as outfile:
+        with open(".spreadsheet_id", "w+") as outfile:
             outfile.write(sheet_response.get("spreadsheetId"))
 
         # share the service with the specified user
-        share_file(sheet_response.get('spreadsheetId'), args.email_address)
+        share_file(sheet_response.get('spreadsheetId'), args.email_address, args.keypath)
 
     except HttpError as err:
         print(err)
