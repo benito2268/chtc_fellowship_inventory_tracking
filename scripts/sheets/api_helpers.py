@@ -20,31 +20,28 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive",
 ]
 
-# path to api token
-SERVICE_ACCOUNT_FILE = "token.json"
-
 # api versions
 SHEETS_API_VER = "v4"
 DRIVE_API_VER = "v3"
 
-# generates a Credentials object from the key in SERVICE_ACCOUNT_FILE
+# generates a Credentials object from the key in keyfile
 # or produces an error if the file does not exist
 #
 # returns: the produced Credentials object
-def get_creds() -> Credentials:
-    if os.path.exists(SERVICE_ACCOUNT_FILE):
-        return Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+def get_creds(keyfile: str) -> Credentials:
+    if os.path.exists(keyfile):
+        return Credentials.from_service_account_file(keyfile, scopes=SCOPES)
     else:
-        print(f'ERROR: path not found: {SERVICE_ACCOUT_FILE}')
-        exit(1)    
+        print(f'ERROR: path not found: {keyfile}')
+        exit(1)
 
 # starts up a Google API Resource object with methods to call into
 # the sheets API
 #
 # returns: the API Resource object - or causes HttpError 
-def get_sheets_service() -> Resource:
+def get_sheets_service(keyfile: str="key.json") -> Resource:
     try:
-        creds = get_creds()
+        creds = get_creds(keyfile)
         return build("sheets", SHEETS_API_VER, credentials=creds)
 
     except HttpError as err:
@@ -54,9 +51,9 @@ def get_sheets_service() -> Resource:
 # Drive API
 #
 # returns: a Drive API resource - or HttpError
-def get_drive_service() -> Resource:
+def get_drive_service(keyfile: str="key.json") -> Resource:
     try:
-        creds = get_creds()
+        creds = get_creds(keyfile)
         return build("drive", DRIVE_API_VER, credentials=creds)
 
     except HttpError as err:
@@ -73,9 +70,9 @@ def get_sheet_ids(sheet_srv: Resource, spreadsheet_id: str) -> tuple:
 #   fileId - the Google Drive ID of the file to share
 #   email_addr - the person with whom to share
 #   read_only - if true will share as 'viewer'
-def share_file(fileId: str, email_addr: str):
+def share_file(fileId: str, email_addr: str, keyfile:str="key.json"):
     try:
-        drive_service = get_drive_service()
+        drive_service = get_drive_service(keyfile)
 
         # have to give edit (writer) access in order to allow
         # someone to view history
