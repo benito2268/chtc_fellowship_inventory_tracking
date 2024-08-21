@@ -1,5 +1,0 @@
-Datacenter,Rack,Elevation,Hostname,Domain,Model,Host Serial Number,Chassis Serial Number,Service Tag,UW,CSL,Morgridge,Notes
-CS 4321,A,1-2,ap1,chtc.wisc.edu,Dell PowerEdge C6525,mmacepcjd6,o7sbhukrp1,mmacepcjd6,U0000000,,,A condo node
-CS 1234,B,3,e1,chtc.wisc.edu,Dell PowerEdge R640,k54xxoaxsh,,k54xxoaxsh,U0000001,,,A rack node with po # - UW PO 987654321
-CS 1234,B,,e2,chtc.wisc.edu,,ifcndg6q3u,,,,C293847,,A node with missing data
-CS 4321,C,15-16,ap1,chtc.wisc.edu,Cisco UCS C220 M3,xrxec4xdb3,,xrxec4xdb3,U1234567,C809743,,Also ap1 - duplicate hostname generates warning

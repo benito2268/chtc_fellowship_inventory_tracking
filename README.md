@@ -26,8 +26,8 @@ This repo:
     - This repository is designed to hold both data and the scripts that operate on it
 2) Generate YAML data from the CHTC inventory spreadsheet
     1) Download the spreadsheet as a CSV file
-    2) Create a directory for the data (within the repsitory) and add a relative or absolute path to it to the `yaml_path` tag in `config.yaml`
-	3) Clone `puppet_data` - the import script gets asset's locations from `puppet_data`, so you'll need a copy of it.
+    2) Two directories (current_assets/ and retired_assets/) have been created and put in the config. already
+	3) Clone `puppet_data` to your local machine (if you don't already have it) - the import script gets asset's locations from `puppet_data`, so you'll need a copy of it.
     3) Run `scripts/csv2yaml/csv2yaml.py` with the path to the downloaded spreadsheet and `puppet_data` as it's arguments (example: `./scripts/csv2yaml/csv2yaml.py inventory.csv /path/to/puppet_data/`)
         - Optionally, you can also use the `-o` / `--output` flag to specify an output directory (ignoring the config)
         - `csv2yaml.py` will run a data integrity check as the data is imported
