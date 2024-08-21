@@ -251,22 +251,23 @@ def main():
         output_path = args.output
     else:
         c = config.get_config("./config.yaml")
-        output_path = config.yaml_path
+        output_path = c.yaml_path
 
-    # do data validation
-    errs = []
-    errs.extend(check_data.chk_all_missing(assets))
-    errs.extend(check_data.chk_conflicting(assets))
-    errs.extend(check_data.chk_uw_tag(assets))
+    # create the yaml_path if it doesn't exist
+    if not os.path.exists(c.yaml_path):
+        os.mkdir(c.yaml_path)
 
+    gen_yaml(assets, output_path)
+
+    validate_assets = yaml_io.read_yaml(c.yaml_path)
+
+    # do a data validation 
     # right now we do nothing with the errors, but the files are
-    # modified to contain the 'MISSING' string
-
-    # for quality of life's sake
-    if output_path[-1] != '/':
-        output_path += '/'
-
-    gen_yaml(assets, args.output_path)
+    # modified to contain the 'MISSING' string   # do data validation
+    errs = []
+    errs.extend(check_data.chk_all_missing(validate_assets))
+    errs.extend(check_data.chk_conflicting(validate_assets))
+    errs.extend(check_data.chk_uw_tag(validate_assets))
 
 if __name__ == "__main__":
     main()
