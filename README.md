@@ -32,17 +32,26 @@ This repo:
         - Optionally, you can also use the `-o` / `--output` flag to specify an output directory (ignoring the config)
         - `csv2yaml.py` will run a data integrity check as the data is imported
 3) `git add`, `commit`, and `push` the newly generated data
+    - The GitHub action will likely fail at this point, this is expected!
 4) Create a Google Cloud Platform project for Google Sheets functionality
-    1) See: [this link](https://docs.google.com/document/d/1JuVlONnLhN6gZdvoE59eWAW-lfh9Wma_RNhhh6flS0Q/edit) for instructions on setting up a project
+    1) See: [this document](https://docs.google.com/document/d/1JuVlONnLhN6gZdvoE59eWAW-lfh9Wma_RNhhh6flS0Q/edit) for instructions on setting up a project
         - Once finished you should have a `.json` file containing the service account's private key
-5) Create a GitHub repository secret to hold the Google API Key
+
+5) Create a Fresh Google Sheet
+    1) For this step, you will need a copy of the API key file downloaded locally. Note: `*.json` is included in `.gitignore` to avoid key related accidents.
+    2) Run the sheet create script. Example: `./scripts/sheets/sheet_create.py email_addr --keypath /path/to/json/key`
+        - The service account will share the Google Sheet with the specified email address, and give you a link to the newly created sheet.
+        - `--keypath` is an optional argument, if it's missing, the script will assume the key is in `./key.json`
+
+
+6) Create a GitHub repository secret to hold the Google API Key
     - A Note: The `.json` key file contains more than one peice of information needed by the service account. To maintain the structure of the file while allowing it to live in a repository secret the file can be converted to a `base64` encoded string
     1) `base64` encode the file (example: `cat my_key.json | base64`)
     2) On GitHub, navigate to Settings > Secrets and variables > Actions
-    3) Create a "New repository secret" titled `GOOGLE_API_KEY` and paste the `base64` enceded string
-        - Each time the key is needed, the GitHub action will decode it and feed the resulting json to the scripts
+    3) Create a "New repository secret" titled `GOOGLE_API_KEY` and make its value the base64 encoded string.
+        - Each time the key is needed, the GitHub action will decode it and feed the resulting json to the scripts.
 
-6) That's it! See the "More Details" section below for more detailed information on how the scripts work and how to use them
+7) That's it! See the "More Details" section below for more detailed information on how the scripts work and how to use them.
 
 # More Details
 This section contains a more deatailed breakdown of each script, how to use it, and how it works.
@@ -87,3 +96,4 @@ These scripts make use of the [Google Sheets API](https://developers.google.com/
 
 ### The `scripts/shared/` Directory
 This directory contains several scripts with code that is commonly shared among other scripts in the system. Almost all of the other scripts add `scripts/shared/` to `sys.path` near the top of the file to make them accessible. `yaml_io.py` contains the definition for the `Asset` object, as well as functions for reading from and writing to and from YAML files. `dict_utils.py` contains methods for flattening and unflattening Python `dict`s, which is commonly used by the other scripts. `config.py` contains code for reading the config. Finally, `email_report.py` contains code that generates email message bodies for both errors and weekly report emails.
+
