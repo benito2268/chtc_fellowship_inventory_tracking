@@ -1,10 +1,7 @@
 #!/bin/python3
 
 # a helper script to interactivly delete files from the service account's Drive
-# just a temporary thing for testing :)
-#
-# NOTE: depending on what we do - it might be useful to add a feature
-# for recovering files and emptying the trash
+
 import os
 import sys
 

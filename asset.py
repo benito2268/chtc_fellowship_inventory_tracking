@@ -15,7 +15,7 @@ from collections import namedtuple
 from copy import deepcopy
 from datetime import datetime
 
-sys.path.append(os.path.abspath("scripts/csv_2_yaml/"))
+sys.path.append(os.path.abspath("scripts/csv2yaml/"))
 sys.path.append(os.path.abspath("scripts/shared/"))
 
 import yaml_io
@@ -199,7 +199,7 @@ def ingest_interactive(name: str, domain: str) -> list[str]:
 
             # some special cases to make entry easier
             if key == "acquisition.date":
-                value = input(f"Enter {key} (or enter 'today'): ")
+                value = input(f"Enter {key} (YYYY-MM-DD) (or type 'today'): ")
                 if value == "today":
                     today = datetime.now()
                     value = today.strftime("%Y-%m-%d")
