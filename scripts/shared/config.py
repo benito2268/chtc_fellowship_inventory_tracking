@@ -1,6 +1,7 @@
 # facilitates reading the config file 
 # and providing the inventory system with it's settings
 
+import os
 import yaml
 
 # a simple (could be a data class) the holds the config
@@ -10,6 +11,14 @@ class Config:
             yaml_path += '/'
         if not swapped_path.endswith('/'):
             swapped_path += '/'
+
+        # warn if these directories do not exist
+        if not os.path.exists(yaml_path):
+            print(f"WARNING: yaml_path in config.yaml: '{yaml_path}' does not exist")
+
+        # warn if these directories do not exist
+        if not os.path.exists(swapped_path):
+            print(f"WARNING: swapped_path in config.yaml: '{swapped_path}' does not exist")
 
         self.yaml_path = yaml_path
         self.swapped_path = swapped_path
