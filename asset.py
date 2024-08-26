@@ -130,13 +130,13 @@ def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[
 
 # ================ ASSET ADD FUNCTIONS ====================
 
-def ingest_single(name: str, domain: str, file: str) -> str:
+def ingest_single(name: str, domain: str, file: str) -> list[str]:
     # make sure that cp doesn't fail if path and ./path are the same file
-    path = f"{YAML_DIR}{name}.{domain}.yaml"
-    newpath = f"{YAML_DIR}{os.path.basename(file)}"
+    newpath = f"{YAML_DIR}{name}.{domain}.yaml"
+    path = f"{os.path.abspath(file)}"
 
     # check if newpath is tracked
-    if chk_asset_tracked(newpath):
+    if chk_file_tracked(newpath):
         exit(1)
 
     # don't cp a file to a location where it already exists
@@ -145,9 +145,12 @@ def ingest_single(name: str, domain: str, file: str) -> str:
 
     # copy the file into the YAML directory
     # from the config fill
-    shutil.copy(path, newpath)
+    print(path)
+    print(newpath)
 
-    return newpath
+    shutil.copyfile(path, newpath)
+
+    return [newpath]
 
 def ingest_csv(csv_path: str) -> list[str]:
     # key map for imports
