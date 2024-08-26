@@ -246,14 +246,15 @@ def asset_add(args: argparse.Namespace) -> GitData:
         filenames = ingest_single(name, args.domain, file)
 
     # tally an addition for the email
+    commit_msg = "added\n" + "\n".join([os.path.basename(file) for file in filenames])
     email_report.count_add_or_rm(True, len(filenames))
 
     # format strings don't allow the '\n' char :(
     filenames.append(".weekly_stats.yaml")
     return GitData(
         filenames,
-        f"added {len(filenames)} new assets",
-        "added\n" + "\n".join([os.path.basename(file) for file in filenames])
+        f"added {len(filenames) - 1} new assets",
+        commit_msg
     )
 
 # ================ ASSET REMOVE FUNCTIONS ====================
@@ -305,6 +306,7 @@ def asset_rm(args: argparse.Namespace) -> GitData:
         moved_files = remove_single(name, args.domain, reason)
 
     # tally an addition for the email
+    commit_msg = "swapped\n" + "\n".join([os.path.basename(file) for file in moved_files.removed])
     email_report.count_add_or_rm(False, len(moved_files.removed))
 
     datestr = datetime.now().strftime('%Y-%m-%d')
@@ -313,7 +315,7 @@ def asset_rm(args: argparse.Namespace) -> GitData:
     return GitData(
         [moved_files.added, moved_files.removed],
         f"decomissioned {len(moved_files.removed)} assests on {datestr}",
-        "swapped\n" + "\n".join([os.path.basename(file) for file in moved_files.removed])
+        commit_msg
     )
 
 # ================ ASSET UPDATE FUNCTIONS ====================
