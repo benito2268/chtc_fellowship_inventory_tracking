@@ -69,7 +69,7 @@ def get_column_map(csv_path: str) -> dict:
         # parse it into a map
         for i in range(len(header)):
             # check that this a real tag
-            tag = header[i]
+            tag = header[i].lower()
             if tag != "hostname" and tag != "domain":
                 try:
                     test = flat[tag.strip()]
@@ -671,7 +671,7 @@ def main():
         if REPO.untracked_files:
             print("untracked files: ")
             print("-----------------")
-            for file in repo.untracked_files:
+            for file in REPO.untracked_files:
                 print(file)
 
         print()
