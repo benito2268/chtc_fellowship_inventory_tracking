@@ -95,6 +95,7 @@ def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[
         for row in reader:
             # print(row)
             filename = f"{YAML_DIR}{row[key_map['hostname']]}.{row[key_map['domain']]}.yaml"
+            filenames.append(filename)
 
             if create_files:
                 # check if the new file is already tracked
@@ -251,6 +252,7 @@ def asset_add(args: argparse.Namespace) -> GitData:
     # tally an addition for the email
     commit_msg = "added\n" + "\n".join([os.path.basename(file) for file in filenames])
     email_report.count_add_or_rm(True, len(filenames))
+    commit_msg = "added\n" + "\n".join([os.path.basename(file) for file in filenames])
 
     # format strings don't allow the '\n' char :(
     filenames.append(".weekly_stats.yaml")
@@ -309,15 +311,18 @@ def asset_rm(args: argparse.Namespace) -> GitData:
         moved_files = remove_single(name, args.domain, reason)
 
     # tally an addition for the email
-    commit_msg = "swapped\n" + "\n".join([os.path.basename(file) for file in moved_files.removed])
+    commit_msg = "decommissioned\n" + "\n".join([os.path.basename(file) for file in moved_files.removed])
     email_report.count_add_or_rm(False, len(moved_files.removed))
 
     datestr = datetime.now().strftime('%Y-%m-%d')
+    commit_msg = "swapped\n" + "\n".join([os.path.basename(file) for file in moved_files.removed])
     moved_files.added.append(".weekly_stats.yaml")
+
+    print(moved_files)
 
     return GitData(
         [moved_files.added, moved_files.removed],
-        f"decomissioned {len(moved_files.removed)} assests on {datestr}",
+        f"decomissioned {len(moved_files.removed) - 1} assests on {datestr}",
         commit_msg
     )
 
