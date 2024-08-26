@@ -103,7 +103,6 @@ def modify_from_csv(path: str, key_map: dict, create_files: bool=False) -> list[
                     # skip the asset if it already exists
                     continue
 
-                filenames.append(filename)
 
                 # create a blank yaml file
                 asset = yaml_io.Asset(fqdn=f"{row[key_map['hostname']]}.{row[key_map['domain']]}")
