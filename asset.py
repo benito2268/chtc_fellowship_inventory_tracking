@@ -493,7 +493,7 @@ def move_interactive(name: str, domain: str) -> list[str]:
                 new_locs.append(f"{keys[i]}: {old_loc}")
 
         # write out update YAML file
-        yaml_io.write_yaml(asset, f"{YAML_DIR}{filename}")
+        yaml_io.write_yaml(asset, f"{filename}")
 
         # ask if user wants to move anothe asset
         if not input("Move another asset? (y/n)? ") == 'y':
