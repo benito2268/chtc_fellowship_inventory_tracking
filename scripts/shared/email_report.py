@@ -1,3 +1,5 @@
+#!/bin/python3
+
 # this script manages email reporting (error and weekly info)
 # for the inventory system
 
@@ -9,7 +11,11 @@ import yaml
 import datetime
 import smtplib
 import email
-import collections
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+from email.mime.text import MIMEText
+from email.utils import COMMASPACE
 
 sys.path.append(os.path.abspath("./"))
 sys.path.append(os.path.abspath("scripts/shared/"))
@@ -20,6 +26,10 @@ sys.path.append(os.path.abspath("scripts/integrity_checker/"))
 import config
 import check_data
 import yaml_io
+
+ERROR_FILE_NAME = "integrity_errors.txt"
+CONFIG_PATH = "config.yaml"
+STATS_PATH = ".weekly_stats.yaml"
 
 class Report:
     def __init__(self, assets: list[yaml_io.Asset], stats_file: str):
@@ -41,7 +51,7 @@ class Report:
         self.integrity_errs = len(errs)
 
         # generate the detailed error report
-        with open("integrity_errs.txt", "w") as errfile:
+        with open(ERROR_FILE_NAME, "w") as errfile:
             for err in errs:
                 errfile.write(str(err))
 
@@ -157,7 +167,7 @@ def reset_totals(stats_file: str):
 
 # generates a human readable email error when
 # when passed a tuple from sys.exc_info()
-def gen_err_report(exc_info: tuple):
+def send_err_report(exc_info: tuple):
     lf = '\n'
     msg = ""
     exc_type, exc_value, exc_tb = exc_info
@@ -170,7 +180,31 @@ def gen_err_report(exc_info: tuple):
     msg += f"Traceback:{lf}{tb.getvalue()}"
 
     tb.close()
-    print(msg)
+
+    # get the config
+    c = config.get_config(CONFIG_PATH)
+
+    stats_file = STATS_PATH
+
+    email_out = io.StringIO()
+    email_out.write(msg)
+
+    msg = MIMEMultipart()
+    msg.attach(MIMEText(email_out.getvalue()))
+
+    subject = "CHTC Inventory - Scripts Failed"
+    send_from = "chtc-inventory"
+
+    msg['Subject'] = subject
+    msg['From'] = send_from
+    msg['To']  = COMMASPACE.join(c.err_emails)
+
+    # send the message via a (very briefly alive) local SMTP server
+    s = smtplib.SMTP("localhost")
+    s.sendmail(send_from, c.err_emails, msg.as_string())
+    s.quit()
+
+    email_out.close()
 
 # generates a body for a periodic inventory summary
 # email. The body is 'printed' to the specified file
@@ -185,40 +219,50 @@ def gen_err_report(exc_info: tuple):
 #       - X <vendor> across Y models
 #       - X <vendor2> across Y models
 # 
-def gen_weekly_report() -> Report:
+def send_weekly_report():
     # get the config
-    # c = config.get_config("config.yaml")
-    # yaml_path = c.yaml_path
+    c = config.get_config(CONFIG_PATH)
 
-    # TODO fix the path issue here
-    stats_file = "../../.weekly_stats.yaml"
-    assets = yaml_io.read_yaml("../../current_assets")
+    stats_file = STATS_PATH
+    assets = yaml_io.read_yaml(c.yaml_path)
 
     report = Report(assets, stats_file)
-    send_email(report, None)
-
-    # reset the totals
-    reset_totals(stats_file)
-
-def send_email(report: Report, attachments: list[str]):
-    # email a weelkly report
     email_out = io.StringIO()
     email_out.write(str(report))
 
-    msg = email.message.EmailMessage()
-    msg.set_content(email_out.getvalue())
+    msg = MIMEMultipart()
+    msg.attach(MIMEText(email_out.getvalue()))
 
-    msg['Subject'] = "CHTC Inventory - Weekly Report"
-    msg['From'] = "chtc-inventory"
-    msg['To']  = "bstaehle@wisc.edu"
+    subject = "CHTC Inventory - Weekly Report"
+    send_from = "chtc-inventory"
+
+    msg['Subject'] = subject
+    msg['From'] = send_from
+    msg['To']  = COMMASPACE.join(c.sum_emails)
+
+    with open(ERROR_FILE_NAME, 'r') as err_file:
+        attachment = MIMEApplication(err_file.read(), Name=ERROR_FILE_NAME)
+
+    attachment["Content-Disposition"] = f"attachment; filename={ERROR_FILE_NAME}"
+    msg.attach(attachment)
 
     # send the message via a (very briefly alive) local SMTP server
     s = smtplib.SMTP("localhost")
-    s.send_message(msg)
+    s.sendmail(send_from, c.sum_emails, msg.as_string())
     s.quit()
 
     email_out.close()
 
+    # reset the totals
+    reset_totals(stats_file)
 
+    # remove the errors file
+    os.remove(ERROR_FILE_NAME)
+
+def main():
+    send_weekly_report()
+
+if __name__ == "__main__":
+    main()
 
 

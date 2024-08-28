@@ -97,3 +97,8 @@ These scripts make use of the [Google Sheets API](https://developers.google.com/
 ### The `scripts/shared/` Directory
 This directory contains several scripts with code that is commonly shared among other scripts in the system. Almost all of the other scripts add `scripts/shared/` to `sys.path` near the top of the file to make them accessible. `yaml_io.py` contains the definition for the `Asset` object, as well as functions for reading from and writing to and from YAML files. `dict_utils.py` contains methods for flattening and unflattening Python `dict`s, which is commonly used by the other scripts. `config.py` contains code for reading the config. Finally, `email_report.py` contains code that generates email message bodies for both errors and weekly report emails.
 
+
+### Sending a Weekly Report Email ###
+To send a weekly report email using a `cron` or other `cron`-like system run the `email_report.py` script from the repo's top level directory (`asset_data/`). The script take no arguments, and will send reports to each email in `summary_email_list` in `config.yaml`.
+
+Example invocation: `./scripts/shared/email_report.py`
