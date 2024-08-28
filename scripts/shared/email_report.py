@@ -31,6 +31,8 @@ ERROR_FILE_NAME = "integrity_errors.txt"
 CONFIG_PATH = "config.yaml"
 STATS_PATH = ".weekly_stats.yaml"
 
+MISSING_RXP = "(?i)none|missing|\\?+|^\\s*$"
+
 class Report:
     def __init__(self, assets: list[yaml_io.Asset], stats_file: str):
         delta = dict()
@@ -68,7 +70,7 @@ class Report:
         for asset in assets:
             splitlist = asset.get("hardware.model").split(" ", 1)
             vendor = splitlist[0]
-            if vendor != "MISSING":
+            if not re.fullmatch(MISSING_RXP, vendor):
 
                 lower = ' '.join([s.lower() for s in splitlist])
                 key = vendor
@@ -95,7 +97,7 @@ class Report:
         for asset in assets:
             acq_date = asset.get("acquisition.date")
 
-            if acq_date and acq_date != "MISSING":
+            if acq_date and not re.fullmatch(MISSING_RXP, acq_date):
                 date = datetime.datetime.strptime(acq_date, "%Y-%m-%d")
                 today = datetime.datetime.today()
 

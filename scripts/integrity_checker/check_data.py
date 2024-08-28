@@ -22,7 +22,7 @@ import validate_tools
 import errortypes
 
 # regex to match possible ways of saying "missing"
-missing_rxp = "(?i)none|missing|\\?+|^\\s*$"
+MISSING_RXP = "(?i)none|missing|\\?+|^\\s*$"
 
 # checks a single asset for missing data fields
 #
@@ -45,14 +45,14 @@ def chk_single_missing(asset: yaml_io.Asset):
     ]
 
     # condo model is conditional - if condo id not present - ignore it
-    if re.fullmatch(missing_rxp, asset.get("hardware.condo_chassis.identifier")):
+    if re.fullmatch(MISSING_RXP, asset.get("hardware.condo_chassis.identifier")):
         exempt_keys.append("hardware.condo_chassis.model")
 
     # use a regex for ways "missing" is said in the speadsheet
     # i.e. "", "none", "???", etc.
     flat = dict_utils.flatten_dict(asset.asset)
     for key, value in flat.items():
-        if key not in exempt_keys and re.fullmatch(missing_rxp, str(value)):
+        if key not in exempt_keys and re.fullmatch(MISSING_RXP, str(value)):
             bad_tags.append(": ".join((key, str(value))))
 
             # MISSING will be the "magic string"
@@ -132,9 +132,9 @@ def chk_uw_tag(assets: list):
     errs = []
 
     for asset in assets:
-        if re.fullmatch(missing_rxp, asset.get("tags.uw")):
+        if re.fullmatch(MISSING_RXP, asset.get("tags.uw")):
             asset_date = asset.get("acquisition.date")
-            if re.fullmatch(missing_rxp, asset_date):
+            if re.fullmatch(MISSING_RXP, asset_date):
                 errs.append(errortypes.MissingDataError(asset.fqdn + ".yaml", ["tags.uw"], "asset with no purchase date lacks UW tag"))
                 continue
 
