@@ -1,0 +1,25 @@
+acquisition:
+  po: ""
+  date: ""
+  reason: ""
+  owner: ""
+  fabrication: false
+hardware:
+  model: ""
+  serial_number: ""
+  service_tag: ""
+  purpose: ""
+  swap_reason: ""
+  notes: ""
+  condo_chassis:
+    identifier: ""
+    model: ""
+location:
+  rack: ""
+  elevation: ""
+  room: ""
+  building: ""
+tags:
+  csl: ""
+  uw: ""
+  morgridge: ""
