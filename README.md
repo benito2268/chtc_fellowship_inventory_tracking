@@ -2,6 +2,8 @@
 
 This repo holds a project I worked on during the 2024 Fellowship Program at the Center for High Throughput Computing at UW-Madison.
 
+**Note: This repo represents work that was done solely as part of the 2024 fellowship. The project was archived in the state it existed in upon completion of the fellowship**
+
 The project consists of a set of tools designed to manage and manipulate inventory records for CHTC's technical assets (mostly servers). This repository holds the scripts that make up said tools, as well as sample data and other products of the fellowship.
 
 This repo:
