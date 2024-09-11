@@ -7,8 +7,8 @@ swapped_path: "retired_assets/"
 
 # a list of who will recieve error emails
 error_email_list:
-  - "chtc-admin@cs.wisc.edu"
+  - "someone@example.com"
 
 # a list of who will recieve weeky summaries
 summary_email_list:
-  - "chtc-admin@cs.wisc.edu"
+  - "group@example.com"

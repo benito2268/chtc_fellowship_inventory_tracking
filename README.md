@@ -1,10 +1,8 @@
-# asset_data
-Infrastructure Inventory Data and Scripts
+# chtc_inventory
 
-This is CHTC Infrastructure Services' Production Asset Inventory System. 
-It's an "informal" clone of Ben Staehle's 2024 Fellowship Project, originally here:  https://github.com/benito2268/chtc_fellowship_inventory_tracking/tree/main
-Cloning in this method was necessary since production CHTC Asset data and the scripts he authored co-habitate. The data isn't sensitive but doesn't make sense to make public intentionally.
-Original Data population was accomplished by reading CHTC's manually edited Inventory Google Sheet into this repo.
+This repo holds a project I worked on during the 2024 Fellowship Program at the Center for High Throughput Computing at UW-Madison.
+
+The project consists of a set of tools designed to manage and manipulate inventory records for CHTC's technical assets (mostly servers). This repository holds the scripts that make up said tools, as well as sample data and other products of the fellowship.
 
 This repo:
 1) Is THE place to store asset data in YAML form 
@@ -20,40 +18,7 @@ This repo:
     - Automation is accompilshed via a Github Action
        - For better or worse, the Github Action must have some access to the "secret" that allows updating of the sheet
 
-# Getting Started
-### From a fresh (data free) repository
-1) Clone [this repository](https://github.com/CHTC/asset_data) on your local machine
-    - This repository is designed to hold both data and the scripts that operate on it
-2) Generate YAML data from the CHTC inventory spreadsheet
-    1) Download the spreadsheet as a CSV file
-    2) Change `yaml_path` in `config.yaml` if you would like a different name. `csv2yaml.py` will automatically create this directory if it doesn't already exist
-	3) Clone `puppet_data` to your local machine (if you don't already have it) - the import script gets asset's locations from `puppet_data`, so you'll need a copy of it.
-    3) Run `scripts/csv2yaml/csv2yaml.py` with the path to the downloaded spreadsheet and `puppet_data` as it's arguments (example: `./scripts/csv2yaml/csv2yaml.py inventory.csv /path/to/puppet_data/`)
-        - Optionally, you can also use the `-o` / `--output` flag to specify an output directory (ignoring the config)
-        - `csv2yaml.py` will run a data integrity check as the data is imported
-3) `git add`, `commit`, and `push` the newly generated data
-    - The GitHub action will likely fail at this point, this is expected!
-4) Create a Google Cloud Platform project for Google Sheets functionality
-    1) See: [this document](https://docs.google.com/document/d/1JuVlONnLhN6gZdvoE59eWAW-lfh9Wma_RNhhh6flS0Q/edit) for instructions on setting up a project
-        - Once finished you should have a `.json` file containing the service account's private key
-
-5) Create a Fresh Google Sheet
-    1) For this step, you will need a copy of the API key file downloaded locally. Note: `*.json` is included in `.gitignore` to avoid key related accidents.
-    2) Run the sheet create script. Example: `./scripts/sheets/sheet_create.py email_addr --keypath /path/to/json/key`
-        - The service account will share the Google Sheet with the specified email address, and give you a link to the newly created sheet.
-        - `--keypath` is an optional argument, if it's missing, the script will assume the key is in `./key.json`
-
-
-6) Create a GitHub repository secret to hold the Google API Key
-    - A Note: The `.json` key file contains more than one peice of information needed by the service account. To maintain the structure of the file while allowing it to live in a repository secret the file can be converted to a `base64` encoded string
-    1) `base64` encode the file (example: `cat my_key.json | base64`)
-    2) On GitHub, navigate to Settings > Secrets and variables > Actions
-    3) Create a "New repository secret" titled `GOOGLE_API_KEY` and make its value the base64 encoded string.
-        - Each time the key is needed, the GitHub action will decode it and feed the resulting json to the scripts.
-
-7) That's it! See the "More Details" section below for more detailed information on how the scripts work and how to use them.
-
-# More Details
+# Details
 This section contains a more deatailed breakdown of each script, how to use it, and how it works.
 ### `csv2yaml.py`
 `scripts/csv2yaml/csv2yaml.py`
